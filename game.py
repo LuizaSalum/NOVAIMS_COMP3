@@ -197,7 +197,7 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
         diva_defiance.rect.x = random.choice([285, 466, 643, 825])
         diva_defiance.rect.y = random.randint(-1500, -100)
         diva_defiance_base_speed = 3
-        diva_defiance_duration = 5
+        diva_defiance_duration = 60
         diva_defiance_timer = 0
         diva_defiance_active = False
         diva_defiance_cooldown = 20
@@ -207,7 +207,7 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
         frosty_frenzy.rect.x = random.choice([285, 466, 643, 825])
         frosty_frenzy.rect.y = random.randint(-1500, -100)
         frosty_frenzy_base_speed = 3
-        frosty_frenzy_duration = 15
+        frosty_frenzy_duration = 60
         frosty_frenzy_timer = 0
         frosty_frenzy_active = False
         frosty_frenzy_cooldown = 15
@@ -426,23 +426,7 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                     car.rect.y = random.randint(-2200, -800)
                     car.rect.x = random.choice([285, 466, 643, 825])
 
-                #  increasing the speed of the cars over time
-                car.add_speed(0.001)
-
-                #  increasing the speed of the cars when the score reaches a multiple of 1000
-                if score % 1000 == 0:
-                    car.add_speed(1)
-
-                # adding more cars as the score increases
-                if score % 3000 == 0 and obstacle_counter < 8:
-                    obstacle_counter += 1
-                    random_car = random.choice(cars_images_left)
-                    new_car = TrafficCar(random_car[0], random_car[1], random_car[2], random_car[3], random_car[4])
-                    new_car.rect.x = random.choice([285, 466, 643, 825])
-                    new_car.rect.y = random.randint(-2200, -800)
-                    new_car.add_speed(random.randint(-1, 3))
-                    left_incoming_cars.add(new_car)
-                    all_sprites_list.add(new_car)
+        print(car.speed)
 
         if difficulty == 'hard':
 
@@ -455,13 +439,6 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                     car.rect.y = random.randint(-2200, -800)
                     car.rect.x = random.choice([285, 466])
 
-                #  increasing the speed of the cars over time
-                car.add_speed(0.002)
-
-                #  increasing the speed of the cars when the score reaches a multiple of 1000
-                if score % 1000 == 0:
-                    car.add_speed(1.1)
-
             for car in right_incoming_cars:
                 car.move_down(15)
                 if car.rect.y > 950:
@@ -470,34 +447,6 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                     car.add_speed(random.randint(-1, 3))
                     car.rect.y = random.randint(-2200, -800)
                     car.rect.x = random.choice([643, 825])
-
-                #  increasing the speed of the cars over time
-                car.add_speed(0.002)
-
-                #  increasing the speed of the cars when the score reaches a multiple of 1000
-                if score % 1000 == 0:
-                    car.add_speed(1.1)
-
-                # adding more cars as the score increases
-                if score % 3000 == 0 and obstacle_counter < 8:  # over time, more cars will be added
-                    obstacle_counter += 1
-                    random_number = random.randint(1, 2)  # choosing weather to add a car on the left or right side
-                    if random_number == 1:
-                        random_car = random.choice(cars_images_left)
-                        new_car = TrafficCar(random_car[0], random_car[1], random_car[2], random_car[3], random_car[4])
-                        new_car.rect.x = random.choice([285, 466])
-                        new_car.rect.y = random.randint(-2200, -800)
-                        new_car.add_speed(random.randint(-1, 3))
-                        left_incoming_cars.add(new_car)
-                        all_sprites_list.add(new_car)
-                    elif random_number == 2:
-                        random_car = random.choice(cars_images_right)
-                        new_car = TrafficCar(random_car[0], random_car[1], random_car[2], random_car[3], random_car[4])
-                        new_car.rect.x = random.choice([643, 825])
-                        new_car.rect.y = random.randint(-2200, -800)
-                        new_car.add_speed(random.randint(-1, 3))
-                        right_incoming_cars.add(new_car)
-                        all_sprites_list.add(new_car)
 
         ''' Collision Detection '''
 
@@ -512,6 +461,7 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                         else:
                             car_1.add_speed(0)
             for car_1 in left_incoming_cars:
+                print(car_1.speed)
                 if pygame.sprite.collide_rect(LollyCar, car_1):
                     car_1.rect.y = random.randint(-2200, -800)
                     car_1.rect.x = random.choice([285, 466, 643, 825])
@@ -547,7 +497,8 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                         car_1.rect.x = random.choice([285, 466, 643, 825])
                     elif BestieCar.health == 1:
                         BestieCar.add_health(-1)
-                        BestieCar.kill()
+                        BestieCar.rect.x = -500
+                        BestieCar.rect.y = -500
                         if LollyCar.health == 0:
                             game_over()
 
@@ -586,7 +537,8 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                         car_1.kill()
                     elif BestieCar.health == 1:
                         BestieCar.add_health(-1)
-                        BestieCar.kill()
+                        BestieCar.rect.x = -2500
+                        BestieCar.rect.y = -2500
                         if LollyCar.health == 0:
                             game_over()
 
@@ -609,7 +561,8 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                         car_1.kill()
                     elif LollyCar.health == 1:
                         LollyCar.add_health(-1)
-                        LollyCar.kill()
+                        LoLollyCar.rect.x = -2500
+                        LollyCar.rect.y = -2500
                         if BestieCar.health == 0:
                             game_over()
 
@@ -623,15 +576,41 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                         car_1.kill()
                     elif BestieCar.health == 1:
                         BestieCar.add_health(-1)
-                        BestieCar.kill()
+                        BestieCar.rect.x = -500
+                        BestieCar.rect.y = -500
                         if LollyCar.health == 0:
                             game_over()
 
-        all_sprites_list.update()
+       
 
         ''' Besties in Harmony '''
 
         ''' Diva Defiance '''
+
+        diva_defiance.move_down(diva_defiance_base_speed)
+
+        if diva_defiance.rect.y > 950:
+            # if the power up is off the screen, it is removed and enters cooldown
+            diva_defiance.kill()
+            diva_defiance_cooldown = 20
+        
+        if pygame.sprite.collide_rect(LollyCar, diva_defiance) or pygame.sprite.collide_rect(BestieCar, diva_defiance):
+            # if the power up is collected, it is removed and enters cooldown
+            diva_defiance.kill()
+            diva_defiance_cooldown = 20
+            diva_defiance_active = True
+
+        if diva_defiance_active:
+            diva_defiance_timer += 1
+
+
+            if diva_defiance_timer == diva_defiance_duration:
+                diva_defiance_active = False
+                diva_defiance_timer = 0
+                diva_defiance_cooldown = 20
+                diva_defiance.kill()
+
+
 
         ''' Frosty Frenzy '''
 
@@ -651,12 +630,14 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
         if frosty_frenzy_active:
             frosty_frenzy_timer += 1
             for car in left_incoming_cars:
-                car.add_speed(0)
+                car.speed = -5
             if frosty_frenzy_timer == frosty_frenzy_duration:
                 frosty_frenzy_active = False
                 frosty_frenzy_timer = 0
                 frosty_frenzy_cooldown = 15
                 frosty_frenzy.kill()
+                for car in left_incoming_cars:
+                    car.speed = 0
 
         if frosty_frenzy_cooldown > 0:
             frosty_frenzy_cooldown -= 1
@@ -676,7 +657,7 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
         ''' Toy Transforminator '''
 
         ''' Drawing Everything '''
-
+        all_sprites_list.update()
         all_sprites_list.draw(screen)
         pygame.display.flip()
         clock.tick(60)
