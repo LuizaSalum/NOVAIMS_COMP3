@@ -30,3 +30,5 @@ class PowerUp(pygame.sprite.Sprite):
 
     def add_cooldown(self, cooldown):
         self.cooldown += cooldown
+
+    def oi
