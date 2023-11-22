@@ -298,7 +298,7 @@ def multi_customisation_screen():
 
                 # if the user clicks on the start button
                 if buttons_positions[1][0] <= user_input.pos[0] <= buttons_positions[1][1] and buttons_positions[1][2] <= user_input.pos[1] <= buttons_positions[1][3]:
-                    multi_game('easy', 'car1', 'car2', ['diva_defiance', 'frosty_frenzy'])
+                    multi_game('easy', 'car1', 'car2', ['diva_defiance', 'frosty_frenzy', 'gal_pal_rebirth', 'girly dash', 'glamorous_growth', 'sissy_that_walk', 'toy_transforminator'])
 
                 # if the user clicks on the lolly button
                 if buttons_positions[2][0] <= user_input.pos[0] <= buttons_positions[2][1] and buttons_positions[2][2] <= user_input.pos[1] <= buttons_positions[2][3]:
