@@ -581,8 +581,7 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                         if LollyCar.health == 0:
                             game_over()
 
-       
-
+        ''' Power Ups '''
         ''' Besties in Harmony '''
 
         ''' Diva Defiance '''
