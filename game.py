@@ -212,15 +212,17 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
         frosty_frenzy_active = False
         frosty_frenzy_cooldown = 15
 
-    ''' TO BE IMPLEMENTED
-    
     if 'gal_pal_rebirth' in power_ups:
         if player_eliminated:
             gal_pal_rebirth = PowerUp(image_gal_pal_rebirth, 80, 80)
             gal_pal_rebirth.rect.x = random.randint(285, 466, 643, 825)
             gal_pal_rebirth.rect.y = random.randint(-1500, -100)
             gal_pal_rebirth_base_speed = 3
-            # other variables
+            gal_pal_rebirth_active = False
+            gal_pal_rebirth_cooldown = 30
+
+    
+    ''' TO BE IMPLEMENTED
             
     if 'girly_dash' in power_ups:
         girly_dash = PowerUp(image_girly_dash, 80, 80)
@@ -277,16 +279,16 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
     if difficulty == 'hard':
         all_sprites_list.add(right_incoming_cars)
 
-    '''
     if 'besties_in_harmony' in power_ups:
         all_sprites_list.add(besties_in_harmony)
+
+    if 'gal_pal_rebirth' in power_ups:
+        all_sprites_list.add(gal_pal_rebirth)
     '''
     if 'diva_defiance' in power_ups:
         all_sprites_list.add(diva_defiance)
     if 'frosty_frenzy' in power_ups:
         all_sprites_list.add(frosty_frenzy)
-    if 'gal_pal_rebirth' in power_ups:
-        all_sprites_list.add(gal_pal_rebirth)
     '''
     if 'girly_dash' in power_ups:
         all_sprites_list.add(girly_dash)
@@ -295,6 +297,7 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
     '''
     if 'sissy_that_walk' in power_ups:
         all_sprites_list.add(sissy_that_walk)
+    '''
     '''
     if 'toy_transforminator' in power_ups:
         all_sprites_list.add(toy_transforminator)
@@ -337,6 +340,8 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
 
     frosty_frenzy.add_duration(power_ups_duration_buffer)
     frosty_frenzy.add_cooldown(power_ups_cooldown_nerfer)
+
+    gal_pal_rebirth.cooldown(power_ups_cooldown_nerfer)
 
     carryOn = True
 
@@ -413,7 +418,7 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
 
         ''' Incoming Cars '''
 
-        if difficulty == 'easy' or difficulty == 'normal':
+        if difficulty != 'hard':
 
             for car in left_incoming_cars:
                 car.move_down(15)
@@ -423,8 +428,6 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                     car.add_speed(random.randint(-1, 3))
                     car.rect.y = random.randint(-2200, -800)
                     car.rect.x = random.choice([285, 466, 643, 825])
-
-        print(car.speed)
 
         if difficulty == 'hard':
 
@@ -448,7 +451,7 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
 
         ''' Collision Detection '''
 
-        if difficulty == 'easy' or difficulty == 'normal':
+        if difficulty != 'hard':
 
             for car_1 in left_incoming_cars:
                 for car_2 in left_incoming_cars:
@@ -459,7 +462,6 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                         else:
                             car_1.add_speed(0)
             for car_1 in left_incoming_cars:
-                print(car_1.speed)
                 if pygame.sprite.collide_rect(LollyCar, car_1):
                     car_1.rect.y = random.randint(-2200, -800)
                     car_1.rect.x = random.choice([285, 466, 643, 825])
@@ -599,15 +601,13 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
 
         if diva_defiance_active:
             diva_defiance_timer += 1
-
+            #FALTA ACABAR
 
             if diva_defiance_timer == diva_defiance_duration:
                 diva_defiance_active = False
                 diva_defiance_timer = 0
                 diva_defiance_cooldown = 20
                 diva_defiance.kill()
-
-
 
         ''' Frosty Frenzy '''
 
@@ -644,6 +644,38 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                 all_sprites_list.add(frosty_frenzy)
 
         ''' Gal Pal Rebirth '''
+
+        gal_pal_rebirth.move_down(gal_pal_rebirth_base_speed)
+
+        if BestieCar.health == 0 or LollyCar.health == 0:
+            player_eliminated = True
+        else:
+            player_eliminated = False
+
+        if gal_pal_rebirth.rect.y > 950:
+            # if the power up is off the screen, it is removed and enters cooldown
+            gal_pal_rebirth.kill()
+            gal_pal_rebirth_cooldown = 30
+
+        if pygame.sprite.collide_rect(LollyCar, gal_pal_rebirth) or pygame.sprite.collide_rect(BestieCar, gal_pal_rebirth):
+            # if the power up is collected, it is removed and enters cooldown
+            gal_pal_rebirth.kill()
+            gal_pal_rebirth_cooldown = 30
+            gal_pal_rebirth_active = True
+
+        if player_eliminated:
+            if gal_pal_rebirth_active:
+                gal_pal_rebirth_active = False
+                gal_pal_rebirth_cooldown = 30
+                gal_pal_rebirth.kill()
+                if LollyCar.health == 0:
+                    LollyCar.health = 1
+                    LollyCar.rect.x = 466
+                    LollyCar.rect.y = 800
+                elif BestieCar.health == 0:
+                    BestieCar.health = 1
+                    BestieCar.rect.x = 285
+                    BestieCar.rect.y = 800
 
         ''' Girly Dash '''
 
