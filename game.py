@@ -448,7 +448,7 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
 
         ''' Collision Detection '''
 
-        if difficulty == 'easy' or difficulty == 'normal':
+        if difficulty != 'hard':
 
             for car_1 in left_incoming_cars:
                 for car_2 in left_incoming_cars:
