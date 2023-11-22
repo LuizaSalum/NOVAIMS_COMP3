@@ -219,6 +219,8 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
         gal_pal_rebirth_base_speed = 3
         gal_pal_rebirth_active = False
         gal_pal_rebirth_cooldown = 30
+        gal_pal_rebirth_timer = 0
+        gal_pal_rebirth_duration = 0
 
     
     ''' TO BE IMPLEMENTED
@@ -455,8 +457,8 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                             car_1.rect.y = random.randint(-2200, -800)
                             car_1.rect.x = random.choice([285, 466, 643, 825])
                         else:
-                            car_1.add_speed(0)
-            for car_1 in left_incoming_cars:
+                            car_2.speed = 0
+
                 if pygame.sprite.collide_rect(LollyCar, car_1):
                     car_1.rect.y = random.randint(-2200, -800)
                     car_1.rect.x = random.choice([285, 466, 643, 825])
@@ -506,7 +508,7 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                             car_1.rect.y = random.randint(-2200, -800)
                             car_1.rect.x = random.choice([285, 466])
                         else:
-                            car_1.add_speed(-car_2.speed)
+                            car_1.speed = 0
 
                 if pygame.sprite.collide_rect(LollyCar, car_1):
                     car_1.rect.y = random.randint(-2200, -800)
@@ -544,7 +546,7 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                             car_1.rect.y = random.randint(-2200, -800)
                             car_1.rect.x = random.choice([643, 825])
                         else:
-                            car_1.add_speed(-car_2.speed)
+                            car_1.speed = 0
 
                 if pygame.sprite.collide_rect(LollyCar, car_1):
                     car_1.rect.y = random.randint(-2200, -800)
@@ -640,39 +642,34 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
 
         ''' Gal Pal Rebirth '''
 
-        gal_pal_rebirth.move_down(gal_pal_rebirth_base_speed)
-
-        if gal_pal_rebirth.rect.y > 950:
-            # if the power up is off the screen, it is removed and enters cooldown
-            gal_pal_rebirth.kill()
-            gal_pal_rebirth_cooldown = 30
-
-        if pygame.sprite.collide_rect(LollyCar, gal_pal_rebirth) or pygame.sprite.collide_rect(BestieCar, gal_pal_rebirth):
-            # if the power up is collected, it is removed and enters cooldown
-            gal_pal_rebirth.kill()
-            gal_pal_rebirth_cooldown = 30
-            gal_pal_rebirth_active = True
 
         if BestieCar.health == 0 or LollyCar.health == 0:
             player_eliminated = True
         else:
             player_eliminated = False
 
-        if player_eliminated:
-            if gal_pal_rebirth_active:
-                gal_pal_rebirth_active = False
-                gal_pal_rebirth_cooldown = 30
-                gal_pal_rebirth.kill()
-                if LollyCar.health == 0:
-                    LollyCar.health = 1
-                    LollyCar.rect.x = 466
-                    LollyCar.rect.y = 800
-                elif BestieCar.health == 0:
-                    BestieCar.health = 1
-                    BestieCar.rect.x = 285
-                    BestieCar.rect.y = 800
+        if player_eliminated and not (LollyCar.health > 0 and BestieCar.health > 0):
+            # Spawn the power-up only when at least one player is eliminated and not both players are back to life
+            gal_pal_rebirth.move_down(gal_pal_rebirth_base_speed)
 
-            
+            if gal_pal_rebirth.rect.y > 950:
+                # if the power-up is off the screen, it is removed and enters cooldown
+                gal_pal_rebirth.kill()
+                player_eliminated = False
+
+            if pygame.sprite.collide_rect(LollyCar, gal_pal_rebirth):
+                BestieCar.health = 1
+                BestieCar.rect.x = 285
+                BestieCar.rect.y = 800
+                gal_pal_rebirth.kill()
+                player_eliminated = False
+
+            elif pygame.sprite.collide_rect(BestieCar, gal_pal_rebirth):
+                LollyCar.health = 1
+                LollyCar.rect.x = 466
+                LollyCar.rect.y = 800
+                gal_pal_rebirth.kill()
+                player_eliminated = False
 
         ''' Girly Dash '''
 
