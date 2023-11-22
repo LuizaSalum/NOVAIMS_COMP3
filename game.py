@@ -212,15 +212,18 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
         frosty_frenzy_active = False
         frosty_frenzy_cooldown = 15
 
-    ''' TO BE IMPLEMENTED
-    
     if 'gal_pal_rebirth' in power_ups:
-        if player_eliminated:
-            gal_pal_rebirth = PowerUp(image_gal_pal_rebirth, 80, 80)
-            gal_pal_rebirth.rect.x = random.randint(285, 466, 643, 825)
-            gal_pal_rebirth.rect.y = random.randint(-1500, -100)
-            gal_pal_rebirth_base_speed = 3
-            # other variables
+        gal_pal_rebirth = PowerUp(image_gal_pal_rebirth, 80, 80)
+        gal_pal_rebirth.rect.x = random.choice([285, 466, 643, 825])
+        gal_pal_rebirth.rect.y = random.randint(-1500, -100)
+        gal_pal_rebirth_base_speed = 3
+        gal_pal_rebirth_active = False
+        gal_pal_rebirth_cooldown = 30
+        gal_pal_rebirth_timer = 0
+        gal_pal_rebirth_duration = 0
+
+    
+    ''' TO BE IMPLEMENTED
             
     if 'girly_dash' in power_ups:
         girly_dash = PowerUp(image_girly_dash, 80, 80)
@@ -242,7 +245,6 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
         glamorous_growth_active = False
         glamorous_growth_cooldown = 15
         
-    '''
 
     if 'sissy_that_walk' in power_ups:
         sissy_that_walk = PowerUp(image_sissy_that_walk, 80, 80)
@@ -253,8 +255,7 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
         sissy_that_walk_timer = 0
         sissy_that_walk_active = False
         sissy_that_walk_cooldown = 15
-
-    ''' TO BE IMPLEMENTED
+        
         
     if 'toy_transforminator' in power_ups:
         toy_transforminator = PowerUp(image_toy_transforminator, 80, 80)
@@ -277,27 +278,29 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
     if difficulty == 'hard':
         all_sprites_list.add(right_incoming_cars)
 
-    '''
+    ''' TO BE IMPLEMENTED
     if 'besties_in_harmony' in power_ups:
         all_sprites_list.add(besties_in_harmony)
+
     '''
+        
+    if 'gal_pal_rebirth' in power_ups:
+        all_sprites_list.add(gal_pal_rebirth)
     if 'diva_defiance' in power_ups:
         all_sprites_list.add(diva_defiance)
     if 'frosty_frenzy' in power_ups:
         all_sprites_list.add(frosty_frenzy)
-    if 'gal_pal_rebirth' in power_ups:
-        all_sprites_list.add(gal_pal_rebirth)
-    '''
+
+    ''' TO BE IMPLEMENTED
     if 'girly_dash' in power_ups:
         all_sprites_list.add(girly_dash)
     if 'glamorous_growth' in power_ups:
         all_sprites_list.add(glamorous_growth)
-    '''
     if 'sissy_that_walk' in power_ups:
         all_sprites_list.add(sissy_that_walk)
-    '''
     if 'toy_transforminator' in power_ups:
         all_sprites_list.add(toy_transforminator)
+    
     '''
 
     ''' Setting Up Variables '''
@@ -329,14 +332,13 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
     BestieCar.add_speed(speed_buffer)
     LollyCar.add_health(HP_buffer)
     BestieCar.add_health(HP_buffer)
-    for car in left_incoming_cars:
-        car.add_speed(traffic_speed_buffer)
-
+    gal_pal_rebirth.add_cooldown(power_ups_cooldown_nerfer)
     diva_defiance.add_duration(power_ups_duration_buffer)
     diva_defiance.add_cooldown(power_ups_cooldown_nerfer)
-
     frosty_frenzy.add_duration(power_ups_duration_buffer)
     frosty_frenzy.add_cooldown(power_ups_cooldown_nerfer)
+    for car in left_incoming_cars:
+        car.add_speed(traffic_speed_buffer)
 
     carryOn = True
 
@@ -358,49 +360,53 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
             carryOn = False
 
         ''' Lolly controls '''
-
-        if keys[pygame.K_a]:
-            LollyCar.move_left(20)
-            if 0 < LollyCar.rect.x < 230:
-                LollyCar.rect.x = 230
-        if keys[pygame.K_d]:
-            LollyCar.move_right(20)
-            if LollyCar.rect.x > 900:
-                LollyCar.rect.x = 900
-        if keys[pygame.K_w]:
-            LollyCar.move_up(20)
-            if LollyCar.rect.y < 0:
-                LollyCar.rect.y = 0
-        if keys[pygame.K_s]:
-            LollyCar.move_down(20)
-            if LollyCar.rect.y > 800:
-                LollyCar.rect.y = 800
+        if LollyCar.health > 0: # if the player is alive, they can move
+            if keys[pygame.K_a]:
+                LollyCar.move_left(20)
+                if 0 < LollyCar.rect.x < 230:
+                    LollyCar.rect.x = 230
+            if keys[pygame.K_d]:
+                LollyCar.move_right(20)
+                if LollyCar.rect.x > 900:
+                    LollyCar.rect.x = 900
+            if keys[pygame.K_w]:
+                LollyCar.move_up(20)
+                if LollyCar.rect.y < 0:
+                    LollyCar.rect.y = 0
+            if keys[pygame.K_s]:
+                LollyCar.move_down(20)
+                if LollyCar.rect.y > 800:
+                    LollyCar.rect.y = 800
+        else:
+            pass
 
         ''' Bestie controls '''
-
-        if keys[pygame.K_LEFT]:
-            BestieCar.move_left(20)
-            if 0 < BestieCar.rect.x < 230:
-                BestieCar.rect.x = 230
-        if keys[pygame.K_RIGHT]:
-            BestieCar.move_right(20)
-            if BestieCar.rect.x > 900:
-                BestieCar.rect.x = 900
-        if keys[pygame.K_UP]:
-            BestieCar.move_up(20)
-            if BestieCar.rect.y < 0:
-                BestieCar.rect.y = 0
-        if keys[pygame.K_DOWN]:
-            BestieCar.move_down(20)
-            if BestieCar.rect.y > 800:
-                BestieCar.rect.y = 800
+        if BestieCar.health > 0:
+            if keys[pygame.K_LEFT]:
+                BestieCar.move_left(20)
+                if 0 < BestieCar.rect.x < 230:
+                    BestieCar.rect.x = 230
+            if keys[pygame.K_RIGHT]:
+                BestieCar.move_right(20)
+                if BestieCar.rect.x > 900:
+                    BestieCar.rect.x = 900
+            if keys[pygame.K_UP]:
+                BestieCar.move_up(20)
+                if BestieCar.rect.y < 0:
+                    BestieCar.rect.y = 0
+            if keys[pygame.K_DOWN]:
+                BestieCar.move_down(20)
+                if BestieCar.rect.y > 800:
+                    BestieCar.rect.y = 800
+        else:
+            pass
 
         all_sprites_list.update()
 
         ''' Scrolling the road '''
 
         # Scrolling the road
-        scroll_speed = 1000
+        scroll_speed = 3000
         dt = clock.tick(60) / 1000.0
         road_y += scroll_speed * dt
 
@@ -413,7 +419,7 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
 
         ''' Incoming Cars '''
 
-        if difficulty == 'easy' or difficulty == 'normal':
+        if difficulty != 'hard':
 
             for car in left_incoming_cars:
                 car.move_down(15)
@@ -423,8 +429,6 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                     car.add_speed(random.randint(-1, 3))
                     car.rect.y = random.randint(-2200, -800)
                     car.rect.x = random.choice([285, 466, 643, 825])
-
-        print(car.speed)
 
         if difficulty == 'hard':
 
@@ -446,6 +450,16 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                     car.rect.y = random.randint(-2200, -800)
                     car.rect.x = random.choice([643, 825])
 
+        ''' Collision Between Players'''
+        if pygame.sprite.collide_rect(LollyCar, BestieCar):
+            if LollyCar.rect.x < BestieCar.rect.x:
+                LollyCar.rect.x -= 20
+                BestieCar.rect.x += 20
+            else:
+                LollyCar.rect.x += 20
+                BestieCar.rect.x -= 20
+            
+
         ''' Collision Detection '''
 
         if difficulty != 'hard':
@@ -457,9 +471,8 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                             car_1.rect.y = random.randint(-2200, -800)
                             car_1.rect.x = random.choice([285, 466, 643, 825])
                         else:
-                            car_1.add_speed(0)
-            for car_1 in left_incoming_cars:
-                print(car_1.speed)
+                            car_2.speed = 0
+
                 if pygame.sprite.collide_rect(LollyCar, car_1):
                     car_1.rect.y = random.randint(-2200, -800)
                     car_1.rect.x = random.choice([285, 466, 643, 825])
@@ -509,7 +522,7 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                             car_1.rect.y = random.randint(-2200, -800)
                             car_1.rect.x = random.choice([285, 466])
                         else:
-                            car_1.add_speed(-car_2.speed)
+                            car_1.speed = 0
 
                 if pygame.sprite.collide_rect(LollyCar, car_1):
                     car_1.rect.y = random.randint(-2200, -800)
@@ -547,7 +560,7 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                             car_1.rect.y = random.randint(-2200, -800)
                             car_1.rect.x = random.choice([643, 825])
                         else:
-                            car_1.add_speed(-car_2.speed)
+                            car_1.speed = 0
 
                 if pygame.sprite.collide_rect(LollyCar, car_1):
                     car_1.rect.y = random.randint(-2200, -800)
@@ -599,15 +612,18 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
 
         if diva_defiance_active:
             diva_defiance_timer += 1
-
-
             if diva_defiance_timer == diva_defiance_duration:
                 diva_defiance_active = False
                 diva_defiance_timer = 0
                 diva_defiance_cooldown = 20
                 diva_defiance.kill()
-
-
+        
+        if diva_defiance_cooldown > 0:
+            diva_defiance_cooldown -= 1
+            if diva_defiance_cooldown == 0:
+                diva_defiance.rect.x = random.choice([285, 466, 643, 825])
+                diva_defiance.rect.y = random.randint(-1500, -100)
+                all_sprites_list.add(diva_defiance)
 
         ''' Frosty Frenzy '''
 
@@ -627,14 +643,14 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
         if frosty_frenzy_active:
             frosty_frenzy_timer += 1
             for car in left_incoming_cars:
-                car.speed = -5
+                car.speed = -6
             if frosty_frenzy_timer == frosty_frenzy_duration:
                 frosty_frenzy_active = False
                 frosty_frenzy_timer = 0
                 frosty_frenzy_cooldown = 15
                 frosty_frenzy.kill()
                 for car in left_incoming_cars:
-                    car.speed = 0
+                    car.speed = random.randint(-1, 2)
 
         if frosty_frenzy_cooldown > 0:
             frosty_frenzy_cooldown -= 1
@@ -644,7 +660,33 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                 all_sprites_list.add(frosty_frenzy)
 
         ''' Gal Pal Rebirth '''
+        if BestieCar.health == 0 or LollyCar.health == 0:
+            player_eliminated = True
+        else:
+            player_eliminated = False
 
+        if player_eliminated and not (LollyCar.health > 0 and BestieCar.health > 0):
+            # Spawn the power-up only when at least one player is eliminated and not both players are back to life
+            gal_pal_rebirth.move_down(gal_pal_rebirth_base_speed)
+
+            if gal_pal_rebirth.rect.y > 950:
+                # if the power-up is off the screen, it is removed and enters cooldown
+                gal_pal_rebirth.kill()
+                player_eliminated = False
+
+            if pygame.sprite.collide_rect(LollyCar, gal_pal_rebirth):
+                BestieCar.health = 1
+                BestieCar.rect.x = 285
+                BestieCar.rect.y = 800
+                gal_pal_rebirth.kill()
+                player_eliminated = False
+
+            elif pygame.sprite.collide_rect(BestieCar, gal_pal_rebirth):
+                LollyCar.health = 1
+                LollyCar.rect.x = 466
+                LollyCar.rect.y = 800
+                gal_pal_rebirth.kill()
+                player_eliminated = False
         ''' Girly Dash '''
 
         ''' Glamorous Growth '''
