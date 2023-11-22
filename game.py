@@ -281,27 +281,26 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
 
     if 'besties_in_harmony' in power_ups:
         all_sprites_list.add(besties_in_harmony)
-
+        
     if 'gal_pal_rebirth' in power_ups:
         all_sprites_list.add(gal_pal_rebirth)
-    '''
+        gal_pal_rebirth.cooldown(power_ups_cooldown_nerfer)
     if 'diva_defiance' in power_ups:
         all_sprites_list.add(diva_defiance)
+        diva_defiance.add_duration(power_ups_duration_buffer)
+        diva_defiance.add_cooldown(power_ups_cooldown_nerfer)
     if 'frosty_frenzy' in power_ups:
         all_sprites_list.add(frosty_frenzy)
-    '''
+        frosty_frenzy.add_duration(power_ups_duration_buffer)
+        frosty_frenzy.add_cooldown(power_ups_cooldown_nerfer)
     if 'girly_dash' in power_ups:
         all_sprites_list.add(girly_dash)
     if 'glamorous_growth' in power_ups:
         all_sprites_list.add(glamorous_growth)
-    '''
     if 'sissy_that_walk' in power_ups:
         all_sprites_list.add(sissy_that_walk)
-    '''
-    '''
     if 'toy_transforminator' in power_ups:
         all_sprites_list.add(toy_transforminator)
-    '''
 
     ''' Setting Up Variables '''
 
@@ -334,14 +333,6 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
     BestieCar.add_health(HP_buffer)
     for car in left_incoming_cars:
         car.add_speed(traffic_speed_buffer)
-
-    diva_defiance.add_duration(power_ups_duration_buffer)
-    diva_defiance.add_cooldown(power_ups_cooldown_nerfer)
-
-    frosty_frenzy.add_duration(power_ups_duration_buffer)
-    frosty_frenzy.add_cooldown(power_ups_cooldown_nerfer)
-
-    gal_pal_rebirth.cooldown(power_ups_cooldown_nerfer)
 
     carryOn = True
 
@@ -676,6 +667,8 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                     BestieCar.health = 1
                     BestieCar.rect.x = 285
                     BestieCar.rect.y = 800
+
+            
 
         ''' Girly Dash '''
 
