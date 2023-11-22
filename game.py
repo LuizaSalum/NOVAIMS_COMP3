@@ -360,42 +360,46 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
             carryOn = False
 
         ''' Lolly controls '''
-
-        if keys[pygame.K_a]:
-            LollyCar.move_left(20)
-            if 0 < LollyCar.rect.x < 230:
-                LollyCar.rect.x = 230
-        if keys[pygame.K_d]:
-            LollyCar.move_right(20)
-            if LollyCar.rect.x > 900:
-                LollyCar.rect.x = 900
-        if keys[pygame.K_w]:
-            LollyCar.move_up(20)
-            if LollyCar.rect.y < 0:
-                LollyCar.rect.y = 0
-        if keys[pygame.K_s]:
-            LollyCar.move_down(20)
-            if LollyCar.rect.y > 800:
-                LollyCar.rect.y = 800
+        if LollyCar.health > 0: # if the player is alive, they can move
+            if keys[pygame.K_a]:
+                LollyCar.move_left(20)
+                if 0 < LollyCar.rect.x < 230:
+                    LollyCar.rect.x = 230
+            if keys[pygame.K_d]:
+                LollyCar.move_right(20)
+                if LollyCar.rect.x > 900:
+                    LollyCar.rect.x = 900
+            if keys[pygame.K_w]:
+                LollyCar.move_up(20)
+                if LollyCar.rect.y < 0:
+                    LollyCar.rect.y = 0
+            if keys[pygame.K_s]:
+                LollyCar.move_down(20)
+                if LollyCar.rect.y > 800:
+                    LollyCar.rect.y = 800
+        else:
+            pass
 
         ''' Bestie controls '''
-
-        if keys[pygame.K_LEFT]:
-            BestieCar.move_left(20)
-            if 0 < BestieCar.rect.x < 230:
-                BestieCar.rect.x = 230
-        if keys[pygame.K_RIGHT]:
-            BestieCar.move_right(20)
-            if BestieCar.rect.x > 900:
-                BestieCar.rect.x = 900
-        if keys[pygame.K_UP]:
-            BestieCar.move_up(20)
-            if BestieCar.rect.y < 0:
-                BestieCar.rect.y = 0
-        if keys[pygame.K_DOWN]:
-            BestieCar.move_down(20)
-            if BestieCar.rect.y > 800:
-                BestieCar.rect.y = 800
+        if BestieCar.health > 0:
+            if keys[pygame.K_LEFT]:
+                BestieCar.move_left(20)
+                if 0 < BestieCar.rect.x < 230:
+                    BestieCar.rect.x = 230
+            if keys[pygame.K_RIGHT]:
+                BestieCar.move_right(20)
+                if BestieCar.rect.x > 900:
+                    BestieCar.rect.x = 900
+            if keys[pygame.K_UP]:
+                BestieCar.move_up(20)
+                if BestieCar.rect.y < 0:
+                    BestieCar.rect.y = 0
+            if keys[pygame.K_DOWN]:
+                BestieCar.move_down(20)
+                if BestieCar.rect.y > 800:
+                    BestieCar.rect.y = 800
+        else:
+            pass
 
         all_sprites_list.update()
 
@@ -445,6 +449,16 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                     car.add_speed(random.randint(-1, 3))
                     car.rect.y = random.randint(-2200, -800)
                     car.rect.x = random.choice([643, 825])
+
+        ''' Collision Between Players'''
+        if pygame.sprite.collide_rect(LollyCar, BestieCar):
+            if LollyCar.rect.x < BestieCar.rect.x:
+                LollyCar.rect.x -= 20
+                BestieCar.rect.x += 20
+            else:
+                LollyCar.rect.x += 20
+                BestieCar.rect.x -= 20
+            
 
         ''' Collision Detection '''
 
@@ -598,13 +612,18 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
 
         if diva_defiance_active:
             diva_defiance_timer += 1
-            #FALTA ACABAR
-
             if diva_defiance_timer == diva_defiance_duration:
                 diva_defiance_active = False
                 diva_defiance_timer = 0
                 diva_defiance_cooldown = 20
                 diva_defiance.kill()
+        
+        if diva_defiance_cooldown > 0:
+            diva_defiance_cooldown -= 1
+            if diva_defiance_cooldown == 0:
+                diva_defiance.rect.x = random.choice([285, 466, 643, 825])
+                diva_defiance.rect.y = random.randint(-1500, -100)
+                all_sprites_list.add(diva_defiance)
 
         ''' Frosty Frenzy '''
 
@@ -624,14 +643,14 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
         if frosty_frenzy_active:
             frosty_frenzy_timer += 1
             for car in left_incoming_cars:
-                car.speed = -5
+                car.speed = -6
             if frosty_frenzy_timer == frosty_frenzy_duration:
                 frosty_frenzy_active = False
                 frosty_frenzy_timer = 0
                 frosty_frenzy_cooldown = 15
                 frosty_frenzy.kill()
                 for car in left_incoming_cars:
-                    car.speed = 0
+                    car.speed = random.randint(-1, 2)
 
         if frosty_frenzy_cooldown > 0:
             frosty_frenzy_cooldown -= 1
@@ -641,8 +660,6 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                 all_sprites_list.add(frosty_frenzy)
 
         ''' Gal Pal Rebirth '''
-
-
         if BestieCar.health == 0 or LollyCar.health == 0:
             player_eliminated = True
         else:
@@ -670,7 +687,6 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
                 LollyCar.rect.y = 800
                 gal_pal_rebirth.kill()
                 player_eliminated = False
-
         ''' Girly Dash '''
 
         ''' Glamorous Growth '''
