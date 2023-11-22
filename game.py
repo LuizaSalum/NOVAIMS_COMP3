@@ -338,8 +338,6 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
     frosty_frenzy.add_duration(power_ups_duration_buffer)
     frosty_frenzy.add_cooldown(power_ups_cooldown_nerfer)
 
-
-
     carryOn = True
 
     # starting the clock
