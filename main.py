@@ -3,7 +3,9 @@ from interface import start_screen
 
 def main():
 
-    start_screen()
+    while True:
+
+        start_screen()
 
 
 if __name__ == "__main__":
