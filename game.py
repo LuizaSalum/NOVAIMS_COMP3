@@ -197,7 +197,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         diva_defiance.rect.x = random.choice([285, 466, 643, 825])
         diva_defiance.rect.y = random.randint(-1500, -100)
         diva_defiance_base_speed = 3
-        diva_defiance_duration = 60
+        diva_defiance_duration = 80
         diva_defiance_timer = 0
         diva_defiance_active = False
         diva_defiance_cooldown = 20
@@ -207,7 +207,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         frosty_frenzy.rect.x = random.choice([285, 466, 643, 825])
         frosty_frenzy.rect.y = random.randint(-1500, -100)
         frosty_frenzy_base_speed = 3
-        frosty_frenzy_duration = 60
+        frosty_frenzy_duration = 80
         frosty_frenzy_timer = 0
         frosty_frenzy_active = False
         frosty_frenzy_cooldown = 15
@@ -218,9 +218,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         gal_pal_rebirth.rect.y = random.randint(-1500, -100)
         gal_pal_rebirth_base_speed = 3
         gal_pal_rebirth_active = False
-        gal_pal_rebirth_cooldown = 30
-        gal_pal_rebirth_timer = 0
-        gal_pal_rebirth_duration = 0
 
     
     ''' TO BE IMPLEMENTED
@@ -363,12 +360,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         if LollyCar.health > 0: # if the player is alive, they can move
             if keys[pygame.K_a]:
                 LollyCar.move_left(20)
-                if 0 < LollyCar.rect.x < 230:
-                    LollyCar.rect.x = 230
             if keys[pygame.K_d]:
                 LollyCar.move_right(20)
-                if LollyCar.rect.x > 900:
-                    LollyCar.rect.x = 900
             if keys[pygame.K_w]:
                 LollyCar.move_up(20)
                 if LollyCar.rect.y < 0:
@@ -384,12 +377,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         if BestieCar.health > 0:
             if keys[pygame.K_LEFT]:
                 BestieCar.move_left(20)
-                if 0 < BestieCar.rect.x < 230:
-                    BestieCar.rect.x = 230
             if keys[pygame.K_RIGHT]:
                 BestieCar.move_right(20)
-                if BestieCar.rect.x > 900:
-                    BestieCar.rect.x = 900
             if keys[pygame.K_UP]:
                 BestieCar.move_up(20)
                 if BestieCar.rect.y < 0:
@@ -402,6 +391,18 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             pass
 
         all_sprites_list.update()
+
+        ''' Prevent the cars from going off the street'''
+
+        if LollyCar.rect.x < 230:
+            LollyCar.rect.x = 230
+        if LollyCar.rect.x > 900:
+            LollyCar.rect.x = 900
+
+        if BestieCar.rect.x < 230:
+            BestieCar.rect.x = 230
+        if BestieCar.rect.x > 900:
+            BestieCar.rect.x = 900
 
         ''' Scrolling the road '''
 
@@ -489,7 +490,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                         LollyCar.add_health(-1)
                         car_1.rect.y = random.randint(-2200, -800)
                         car_1.rect.x = random.choice([285, 466, 643, 825])
-                        LollyCar.rect.x = -500
+                        LollyCar.rect.x = 0
                         LollyCar.rect.y = -500
                         # this will hide the car from the screen, so it will look like it was eliminated
                         # if both players are eliminated, the game ends
@@ -508,7 +509,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                         car_1.rect.x = random.choice([285, 466, 643, 825])
                     elif BestieCar.health == 1:
                         BestieCar.add_health(-1)
-                        BestieCar.rect.x = -500
+                        BestieCar.rect.x = 0
                         BestieCar.rect.y = -500
                         if LollyCar.health == 0:
                             game_over()
@@ -548,7 +549,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                         car_1.kill()
                     elif BestieCar.health == 1:
                         BestieCar.add_health(-1)
-                        BestieCar.rect.x = -2500
+                        BestieCar.rect.x = 0
                         BestieCar.rect.y = -2500
                         if LollyCar.health == 0:
                             game_over()
@@ -572,7 +573,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                         car_1.kill()
                     elif LollyCar.health == 1:
                         LollyCar.add_health(-1)
-                        LoLollyCar.rect.x = -2500
+                        LollyCar.rect.x = 0
                         LollyCar.rect.y = -2500
                         if BestieCar.health == 0:
                             game_over()
@@ -587,7 +588,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                         car_1.kill()
                     elif BestieCar.health == 1:
                         BestieCar.add_health(-1)
-                        BestieCar.rect.x = -500
+                        BestieCar.rect.x = 0
                         BestieCar.rect.y = -500
                         if LollyCar.health == 0:
                             game_over()
@@ -614,7 +615,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             diva_defiance_timer += 1
             if diva_defiance_timer == diva_defiance_duration:
                 diva_defiance_active = False
-                diva_defiance_timer = 0
+                diva_defiance_timer = 0 
                 diva_defiance_cooldown = 20
                 diva_defiance.kill()
         
@@ -660,33 +661,34 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 all_sprites_list.add(frosty_frenzy)
 
         ''' Gal Pal Rebirth '''
+        # Define a variable to track the power-up state
         if BestieCar.health == 0 or LollyCar.health == 0:
             player_eliminated = True
+            gal_pal_rebirth_active = True
         else:
             player_eliminated = False
+            gal_pal_rebirth_active = False	
 
         if player_eliminated and not (LollyCar.health > 0 and BestieCar.health > 0):
-            # Spawn the power-up only when at least one player is eliminated and not both players are back to life
+            # Spawn the power-up only when at least one player is eliminated and the power-up is not active
             gal_pal_rebirth.move_down(gal_pal_rebirth_base_speed)
 
             if gal_pal_rebirth.rect.y > 950:
-                # if the power-up is off the screen, it is removed and enters cooldown
-                gal_pal_rebirth.kill()
-                player_eliminated = False
+                # If the power-up is off the screen, remove it and update the power-up state
+                gal_pal_rebirth.kill()            
 
             if pygame.sprite.collide_rect(LollyCar, gal_pal_rebirth):
                 BestieCar.health = 1
                 BestieCar.rect.x = 285
                 BestieCar.rect.y = 800
                 gal_pal_rebirth.kill()
-                player_eliminated = False
 
-            elif pygame.sprite.collide_rect(BestieCar, gal_pal_rebirth):
+            if pygame.sprite.collide_rect(BestieCar, gal_pal_rebirth):
                 LollyCar.health = 1
                 LollyCar.rect.x = 466
                 LollyCar.rect.y = 800
                 gal_pal_rebirth.kill()
-                player_eliminated = False
+
         ''' Girly Dash '''
 
         ''' Glamorous Growth '''
