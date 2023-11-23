@@ -217,7 +217,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         gal_pal_rebirth.rect.x = random.choice([285, 466, 643, 825])
         gal_pal_rebirth.rect.y = random.randint(-1500, -100)
         gal_pal_rebirth_base_speed = 3
-        gal_pal_rebirth_active = False
 
     
     ''' TO BE IMPLEMENTED
@@ -664,10 +663,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         # Define a variable to track the power-up state
         if BestieCar.health == 0 or LollyCar.health == 0:
             player_eliminated = True
-            gal_pal_rebirth_active = True
         else:
             player_eliminated = False
-            gal_pal_rebirth_active = False	
 
         if player_eliminated and not (LollyCar.health > 0 and BestieCar.health > 0):
             # Spawn the power-up only when at least one player is eliminated and the power-up is not active
@@ -682,12 +679,14 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 BestieCar.rect.x = 285
                 BestieCar.rect.y = 800
                 gal_pal_rebirth.kill()
+                player_eliminated = False
 
             if pygame.sprite.collide_rect(BestieCar, gal_pal_rebirth):
                 LollyCar.health = 1
                 LollyCar.rect.x = 466
                 LollyCar.rect.y = 800
                 gal_pal_rebirth.kill()
+                player_eliminated = False
 
         ''' Girly Dash '''
 
