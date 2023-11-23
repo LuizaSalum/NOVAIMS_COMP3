@@ -16,7 +16,7 @@ PINK = (255, 192, 203)
 SKY_BLUE = (135, 206, 235)
 
 
-def multi_game(difficulty, lolly_car, bestie_car, power_ups):
+def multi_game(difficulty, lolly, bestie, power_ups):
     pygame.init()
 
     size = (1250, 950)
@@ -146,32 +146,32 @@ def multi_game(difficulty, lolly_car, bestie_car, power_ups):
 
     # players cars (Lolly and Bestie)
     
-    if lolly_car == 'car1':
+    if lolly == 'car1':
         LollyCar = Car1(car_1[0], car_1[1], car_1[2], car_1[3], car_1[4])
         LollyCar.rect.x = 466
         LollyCar.rect.y = 800
         
-    if lolly_car == 'car2':
+    if lolly == 'car2':
         LollyCar = Car2(car_2[0], car_2[1], car_2[2], car_2[3], car_2[4])
         LollyCar.rect.x = 466
         LollyCar.rect.y = 800
     
-    if lolly_car == 'car3':
+    if lolly == 'car3':
         LollyCar = Car3(car_3[0], car_3[1], car_3[2], car_3[3], car_3[4])
         LollyCar.rect.x = 466
         LollyCar.rect.y = 800
         
-    if bestie_car == 'car1':
+    if bestie == 'car1':
         BestieCar = Car1(car_1[0], car_1[1], car_1[2], car_1[3], car_1[4])
         BestieCar.rect.x = 285
         BestieCar.rect.y = 800
         
-    if bestie_car == 'car2':
+    if bestie == 'car2':
         BestieCar = Car2(car_2[0], car_2[1], car_2[2], car_2[3], car_2[4])
         BestieCar.rect.x = 285
         BestieCar.rect.y = 800
         
-    if bestie_car == 'car3':
+    if bestie == 'car3':
         BestieCar = Car3(car_3[0], car_3[1], car_3[2], car_3[3], car_3[4])
         BestieCar.rect.x = 285
         BestieCar.rect.y = 800
