@@ -223,6 +223,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         girly_dash_timer = 0
         girly_dash_active = False
         girly_dash_cooldown = 15
+        girly_dash_lolly_ready = False
+        girly_dash_bestie_ready = False
         
     if 'glamorous_growth' in power_ups:
         glamorous_growth = PowerUp(image_glamorous_growth, 80, 80)
@@ -231,6 +233,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         glamorous_growth_base_speed = 3
         glamorous_growth_active = False
         glamorous_growth_cooldown = 15
+        glamorous_growth_timer = 0
+        glamorous_growth_duration = 5
         
 
     if 'sissy_that_walk' in power_ups:
@@ -406,6 +410,9 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         screen.blit(road, (0, road_y - 950))
 
         ''' Incoming Cars '''
+
+        Base_LollyCar = LollyCar
+        Base_BestieCar = BestieCar
 
         if difficulty != 'hard':
 
@@ -722,7 +729,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         if girly_dash_active:
             girly_dash_timer += 1
             if pygame.sprite.collide_rect(LollyCar, girly_dash):
-                if keys[pygame.K_SPACE]:
+                girly_dash_lolly_ready = True
+                if keys[pygame.K_SPACE] and girly_dash_lolly_ready:
                     # Check the direction the player is currently moving
                     if keys[pygame.K_a]:
                         LollyCar.move_left(100)
@@ -732,9 +740,10 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                         LollyCar.move_up(100)
                     elif keys[pygame.K_s]:
                         LollyCar.move_down(100)
-            
+                    girly_dash_lolly_ready = False
             if pygame.sprite.collide_rect(BestieCar, girly_dash):
-                if keys[pygame.K_m]:
+                girly_dash_bestie_ready = True
+                if keys[pygame.K_m] and girly_dash_bestie_ready:
                     # Check the direction the player is currently moving
                     if keys[pygame.K_LEFT]:
                         BestieCar.move_left(100)
@@ -744,6 +753,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                         BestieCar.move_up(100)
                     elif keys[pygame.K_DOWN]:
                         BestieCar.move_down(100)
+                    girly_dash_bestie_ready = False
             if girly_dash_timer == girly_dash_duration:
                 girly_dash_active = False
                 girly_dash_timer = 0
@@ -775,15 +785,22 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         if glamorous_growth_active:
             if pygame.sprite.collide_rect(LollyCar, glamorous_growth):
                 LollyCar.add_health(1)
-                for car in left_incoming_cars:
-                    car.resize(0.95, 0.95)
+                LollyCar.resize(1.05, 1.05)
             if pygame.sprite.collide_rect(BestieCar, glamorous_growth):
                 BestieCar.add_health(1)
-                for car in left_incoming_cars:
-                    car.resize(0.95, 0.95)
+                BestieCar.resize(1.05, 1.05)
             glamorous_growth_active = False
             glamorous_growth_cooldown = 15
             glamorous_growth.kill()
+            if glamorous_growth_timer == glamorous_growth_duration:
+                LollyCar.width = Base_LollyCar.width
+                LollyCar.height = Base_LollyCar.height
+                BestieCar.width = Base_BestieCar.width
+                BestieCar.height = Base_BestieCar.height
+                glamorous_growth_active = False
+                glamorous_growth_timer = 0
+                glamorous_growth_cooldown = 15
+                glamorous_growth.kill()
 
         if glamorous_growth_cooldown > 0:
             glamorous_growth_cooldown -= 1
@@ -815,6 +832,9 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 BestieCar.add_speed(2)
             if sissy_that_walk_timer == sissy_that_walk_duration:
                 sissy_that_walk_active = False
+                LollyCar.add_speed(-2)
+                BestieCar.add_speed(-2)
+
                 sissy_that_walk_timer = 0
                 sissy_that_walk_cooldown = 15
                 sissy_that_walk.kill()
@@ -843,16 +863,14 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
         if toy_transforminator_active:
             toy_transforminator_timer += 1
-            if pygame.sprite.collide_rect(LollyCar, toy_transforminator):
-                LollyCar.resize(0.95, 0.95)
-
-            if pygame.sprite.collide_rect(BestieCar, toy_transforminator):
-                BestieCar.resize(0.95, 0.95)
+            for car in left_incoming_cars:
+                car.resize(0.95, 0.95)
             if toy_transforminator_timer == toy_transforminator_duration:
                 toy_transforminator_active = False
-                toy_transforminator_timer = 0
                 toy_transforminator_cooldown = 15
                 toy_transforminator.kill()
+                for car in left_incoming_cars:
+                    car.resize(1.05, 1.05)
 
         if toy_transforminator_cooldown > 0:
             toy_transforminator_cooldown -= 1

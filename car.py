@@ -29,10 +29,12 @@ class Car(pygame.sprite.Sprite):  # a sprite is a thing that moves around the sc
         self.health += health
 
     def resize(self, multiplier_x, multiplier_y):
+        old_center = self.rect.center  # Save the current center of the rect
         self.width *= multiplier_x
         self.height *= multiplier_y
         self.image = pygame.transform.scale(self.image, [self.width, self.height])
         self.rect = self.image.get_rect()
+        self.rect.center = old_center  # Put the rect back in place
 
     def change_image(self, car_image, width, height, x_box, y_box):
         new_image = pygame.image.load(car_image).convert_alpha()
