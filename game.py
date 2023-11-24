@@ -180,7 +180,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
     
     if 'besties_in_harmony' in power_ups:
         besties_in_harmony = PowerUp(image_besties_in_harmony, 80, 80)
-        besties_in_harmony.rect.x = random.randint(285, 466, 643, 825)
+        besties_in_harmony.rect.x = random.choice([285, 466, 643, 825])
         besties_in_harmony.rect.y = random.randint(-1500, -100)
         besties_in_harmony_base_speed = 3
         besties_in_harmony_duration = 10
@@ -216,7 +216,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             
     if 'girly_dash' in power_ups:
         girly_dash = PowerUp(image_girly_dash, 80, 80)
-        girly_dash.rect.x = random.randint(285, 466, 643, 825)
+        girly_dash.rect.x = random.choice([285, 466, 643, 825])
         girly_dash.rect.y = random.randint(-1500, -100)
         girly_dash_base_speed = 3
         girly_dash_duration = 5
@@ -226,7 +226,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         
     if 'glamorous_growth' in power_ups:
         glamorous_growth = PowerUp(image_glamorous_growth, 80, 80)
-        glamorous_growth.rect.x = random.randint(285, 466, 643, 825)
+        glamorous_growth.rect.x = random.choice([285, 466, 643, 825])
         glamorous_growth.rect.y = random.randint(-1500, -100)
         glamorous_growth_base_speed = 3
         glamorous_growth_duration = 5
@@ -237,7 +237,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
     if 'sissy_that_walk' in power_ups:
         sissy_that_walk = PowerUp(image_sissy_that_walk, 80, 80)
-        sissy_that_walk.rect.x = random.randint(285, 466, 643, 825)
+        sissy_that_walk.rect.x = random.choice([285, 466, 643, 825])
         sissy_that_walk.rect.y = random.randint(-1500, -100)
         sissy_that_walk_base_speed = 3
         sissy_that_walk_duration = 5
@@ -248,7 +248,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         
     if 'toy_transforminator' in power_ups:
         toy_transforminator = PowerUp(image_toy_transforminator, 80, 80)
-        toy_transforminator.rect.x = random.randint(285, 466, 643, 825)
+        toy_transforminator.rect.x = random.choice([285, 466, 643, 825])
         toy_transforminator.rect.y = random.randint(-1500, -100)
         toy_transforminator_base_speed = 3
         toy_transforminator_duration = 5
@@ -266,13 +266,13 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         all_sprites_list.add(right_incoming_cars)
 
     if 'besties_in_harmony' in power_ups:
-        all_sprites_list.add(besties_in_harmony) 
-    if 'gal_pal_rebirth' in power_ups:
-        all_sprites_list.add(gal_pal_rebirth)
+        all_sprites_list.add(besties_in_harmony)
     if 'diva_defiance' in power_ups:
         all_sprites_list.add(diva_defiance)
     if 'frosty_frenzy' in power_ups:
         all_sprites_list.add(frosty_frenzy)
+    if 'gal_pal_rebirth' in power_ups:
+        all_sprites_list.add(gal_pal_rebirth)
     if 'girly_dash' in power_ups:
         all_sprites_list.add(girly_dash)
     if 'glamorous_growth' in power_ups:
@@ -316,6 +316,13 @@ def multi_game(difficulty, lolly, bestie, power_ups):
     diva_defiance.add_cooldown(power_ups_cooldown_nerfer)
     frosty_frenzy.add_duration(power_ups_duration_buffer)
     frosty_frenzy.add_cooldown(power_ups_cooldown_nerfer)
+    glamorous_growth.add_duration(power_ups_duration_buffer)
+    glamorous_growth.add_cooldown(power_ups_cooldown_nerfer)
+    sissy_that_walk.add_duration(power_ups_duration_buffer)
+    sissy_that_walk.add_cooldown(power_ups_cooldown_nerfer)
+    toy_transforminator.add_duration(power_ups_duration_buffer)
+    toy_transforminator.add_cooldown(power_ups_cooldown_nerfer)
+
     for car in left_incoming_cars:
         car.add_speed(traffic_speed_buffer)
 
