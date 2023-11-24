@@ -229,8 +229,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         glamorous_growth.rect.x = random.choice([285, 466, 643, 825])
         glamorous_growth.rect.y = random.randint(-1500, -100)
         glamorous_growth_base_speed = 3
-        glamorous_growth_duration = 5
-        glamorous_growth_timer = 0
         glamorous_growth_active = False
         glamorous_growth_cooldown = 15
         
@@ -585,6 +583,34 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         ''' Power Ups '''
         ''' Besties in Harmony '''
 
+        besties_in_harmony.move_down(besties_in_harmony_base_speed)
+
+        if besties_in_harmony.rect.y > 950:
+            # if the power up is off the screen, it is removed and enters cooldown
+            besties_in_harmony.kill()
+            besties_in_harmony_cooldown = 30
+
+        if pygame.sprite.collide_rect(LollyCar, besties_in_harmony) or pygame.sprite.collide_rect(BestieCar, besties_in_harmony):
+            # if the power up is collected, it is removed and enters cooldown
+            besties_in_harmony.kill()
+            besties_in_harmony_cooldown = 30
+            besties_in_harmony_active = True
+
+        if besties_in_harmony_active:
+            besties_in_harmony_timer += 1
+            if besties_in_harmony_timer == besties_in_harmony_duration:
+                besties_in_harmony_active = False
+                besties_in_harmony_timer = 0
+                besties_in_harmony_cooldown = 30
+                besties_in_harmony.kill()
+        
+        if besties_in_harmony_cooldown > 0:
+            besties_in_harmony_cooldown -= 1
+            if besties_in_harmony_cooldown == 0:
+                besties_in_harmony.rect.x = random.choice([285, 466, 643, 825])
+                besties_in_harmony.rect.y = random.randint(-1500, -100)
+                all_sprites_list.add(besties_in_harmony)
+
         ''' Diva Defiance '''
 
         diva_defiance.move_down(diva_defiance_base_speed)
@@ -698,10 +724,26 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             if pygame.sprite.collide_rect(LollyCar, girly_dash):
                 if keys[pygame.K_SPACE]:
                     # Check the direction the player is currently moving
-                    if keys[pygame.K_A]:
-                        LollyCar.move_left(60)
-                    elif keys[pygame.K_D]:
-                        LollyCar.move_right(60) 
+                    if keys[pygame.K_a]:
+                        LollyCar.move_left(100)
+                    elif keys[pygame.K_d]:
+                        LollyCar.move_right(100) 
+                    elif keys[pygame.K_w]:
+                        LollyCar.move_up(100)
+                    elif keys[pygame.K_s]:
+                        LollyCar.move_down(100)
+            
+            if pygame.sprite.collide_rect(BestieCar, girly_dash):
+                if keys[pygame.K_m]:
+                    # Check the direction the player is currently moving
+                    if keys[pygame.K_LEFT]:
+                        BestieCar.move_left(100)
+                    elif keys[pygame.K_RIGHT]:
+                        BestieCar.move_right(100) 
+                    elif keys[pygame.K_UP]:
+                        BestieCar.move_up(100)
+                    elif keys[pygame.K_DOWN]:
+                        BestieCar.move_down(100)
             if girly_dash_timer == girly_dash_duration:
                 girly_dash_active = False
                 girly_dash_timer = 0
@@ -715,13 +757,109 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 girly_dash.rect.y = random.randint(-1500, -100)
                 all_sprites_list.add(girly_dash)
         
-
-
         ''' Glamorous Growth '''
+
+        glamorous_growth.move_down(glamorous_growth_base_speed)
+
+        if glamorous_growth.rect.y > 950:
+            # if the power up is off the screen, it is removed and enters cooldown
+            glamorous_growth.kill()
+            glamorous_growth_cooldown = 15
+        
+        if pygame.sprite.collide_rect(LollyCar, glamorous_growth) or pygame.sprite.collide_rect(BestieCar, glamorous_growth):
+            # if the power up is collected, it is removed and enters cooldown
+            glamorous_growth.kill()
+            glamorous_growth_cooldown = 15
+            glamorous_growth_active = True
+
+        if glamorous_growth_active:
+            if pygame.sprite.collide_rect(LollyCar, glamorous_growth):
+                LollyCar.add_health(1)
+                for car in left_incoming_cars:
+                    car.resize(0.95, 0.95)
+            if pygame.sprite.collide_rect(BestieCar, glamorous_growth):
+                BestieCar.add_health(1)
+                for car in left_incoming_cars:
+                    car.resize(0.95, 0.95)
+            glamorous_growth_active = False
+            glamorous_growth_cooldown = 15
+            glamorous_growth.kill()
+
+        if glamorous_growth_cooldown > 0:
+            glamorous_growth_cooldown -= 1
+            if glamorous_growth_cooldown == 0:
+                glamorous_growth.rect.x = random.choice([285, 466, 643, 825])
+                glamorous_growth.rect.y = random.randint(-1500, -100)
+                all_sprites_list.add(glamorous_growth)
 
         ''' Sissy That Walk '''
 
+        sissy_that_walk.move_down(sissy_that_walk_base_speed)
+
+        if sissy_that_walk.rect.y > 950:
+            # if the power up is off the screen, it is removed and enters cooldown
+            sissy_that_walk.kill()
+            sissy_that_walk_cooldown = 15
+
+        if pygame.sprite.collide_rect(LollyCar, sissy_that_walk) or pygame.sprite.collide_rect(BestieCar, sissy_that_walk):
+            # if the power up is collected, it is removed and enters cooldown
+            sissy_that_walk.kill()
+            sissy_that_walk_cooldown = 15
+            sissy_that_walk_active = True
+        
+        if sissy_that_walk_active:
+            sissy_that_walk_timer += 1
+            if pygame.sprite.collide_rect(LollyCar, sissy_that_walk):
+                LollyCar.add_speed(2)
+            if pygame.sprite.collide_rect(BestieCar, sissy_that_walk):
+                BestieCar.add_speed(2)
+            if sissy_that_walk_timer == sissy_that_walk_duration:
+                sissy_that_walk_active = False
+                sissy_that_walk_timer = 0
+                sissy_that_walk_cooldown = 15
+                sissy_that_walk.kill()
+            
+        if sissy_that_walk_cooldown > 0:
+            sissy_that_walk_cooldown -= 1
+            if sissy_that_walk_cooldown == 0:
+                sissy_that_walk.rect.x = random.choice([285, 466, 643, 825])
+                sissy_that_walk.rect.y = random.randint(-1500, -100)
+                all_sprites_list.add(sissy_that_walk)
+
         ''' Toy Transforminator '''
+
+        toy_transforminator.move_down(toy_transforminator_base_speed)
+
+        if toy_transforminator.rect.y > 950:
+            # if the power up is off the screen, it is removed and enters cooldown
+            toy_transforminator.kill()
+            toy_transforminator_cooldown = 15
+
+        if pygame.sprite.collide_rect(LollyCar, toy_transforminator) or pygame.sprite.collide_rect(BestieCar, toy_transforminator):
+            # if the power up is collected, it is removed and enters cooldown
+            toy_transforminator.kill()
+            toy_transforminator_cooldown = 15
+            toy_transforminator_active = True
+
+        if toy_transforminator_active:
+            toy_transforminator_timer += 1
+            if pygame.sprite.collide_rect(LollyCar, toy_transforminator):
+                LollyCar.resize(0.95, 0.95)
+
+            if pygame.sprite.collide_rect(BestieCar, toy_transforminator):
+                BestieCar.resize(0.95, 0.95)
+            if toy_transforminator_timer == toy_transforminator_duration:
+                toy_transforminator_active = False
+                toy_transforminator_timer = 0
+                toy_transforminator_cooldown = 15
+                toy_transforminator.kill()
+
+        if toy_transforminator_cooldown > 0:
+            toy_transforminator_cooldown -= 1
+            if toy_transforminator_cooldown == 0:
+                toy_transforminator.rect.x = random.choice([285, 466, 643, 825])
+                toy_transforminator.rect.y = random.randint(-1500, -100)
+                all_sprites_list.add(toy_transforminator)
 
         ''' Drawing Everything '''
         all_sprites_list.update()
