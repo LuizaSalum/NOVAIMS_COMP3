@@ -2,7 +2,6 @@ from interface import start_screen
 
 
 def main():
-
     while True:
 
         start_screen()

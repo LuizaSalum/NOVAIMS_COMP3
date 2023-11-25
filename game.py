@@ -177,20 +177,16 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         BestieCar.rect.y = 800
 
     ''' Positioning Power Ups '''
-
-    ''' TO BE IMPLEMENTED
     
     if 'besties_in_harmony' in power_ups:
         besties_in_harmony = PowerUp(image_besties_in_harmony, 80, 80)
-        besties_in_harmony.rect.x = random.randint(285, 466, 643, 825)
+        besties_in_harmony.rect.x = random.choice([285, 466, 643, 825])
         besties_in_harmony.rect.y = random.randint(-1500, -100)
         besties_in_harmony_base_speed = 3
         besties_in_harmony_duration = 10
         besties_in_harmony_timer = 0
         besties_in_harmony_active = False
         besties_in_harmony_cooldown = 30
-        
-    '''
 
     if 'diva_defiance' in power_ups:
         diva_defiance = PowerUp(image_diva_defiance, 80, 80)
@@ -217,35 +213,35 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         gal_pal_rebirth.rect.x = random.choice([285, 466, 643, 825])
         gal_pal_rebirth.rect.y = random.randint(-1500, -100)
         gal_pal_rebirth_base_speed = 3
-        gal_pal_rebirth_active = False
-
-    
-    ''' TO BE IMPLEMENTED
             
     if 'girly_dash' in power_ups:
         girly_dash = PowerUp(image_girly_dash, 80, 80)
-        girly_dash.rect.x = random.randint(285, 466, 643, 825)
+        girly_dash.rect.x = random.choice([285, 466, 643, 825])
         girly_dash.rect.y = random.randint(-1500, -100)
         girly_dash_base_speed = 3
         girly_dash_duration = 5
         girly_dash_timer = 0
         girly_dash_active = False
         girly_dash_cooldown = 15
+        girly_dash_lolly_ready = False
+        girly_dash_bestie_ready = False
         
     if 'glamorous_growth' in power_ups:
         glamorous_growth = PowerUp(image_glamorous_growth, 80, 80)
-        glamorous_growth.rect.x = random.randint(285, 466, 643, 825)
+        glamorous_growth.rect.x = random.choice([285, 466, 643, 825])
         glamorous_growth.rect.y = random.randint(-1500, -100)
         glamorous_growth_base_speed = 3
-        glamorous_growth_duration = 5
-        glamorous_growth_timer = 0
         glamorous_growth_active = False
         glamorous_growth_cooldown = 15
+        glamorous_growth_timer = 0
+        glamorous_growth_duration = 5
+        glamorous_growth_lolly_time = 1
+        glamorous_growth_bestie_time = 1
         
 
     if 'sissy_that_walk' in power_ups:
         sissy_that_walk = PowerUp(image_sissy_that_walk, 80, 80)
-        sissy_that_walk.rect.x = random.randint(285, 466, 643, 825)
+        sissy_that_walk.rect.x = random.choice([285, 466, 643, 825])
         sissy_that_walk.rect.y = random.randint(-1500, -100)
         sissy_that_walk_base_speed = 3
         sissy_that_walk_duration = 5
@@ -256,15 +252,13 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         
     if 'toy_transforminator' in power_ups:
         toy_transforminator = PowerUp(image_toy_transforminator, 80, 80)
-        toy_transforminator.rect.x = random.randint(285, 466, 643, 825)
+        toy_transforminator.rect.x = random.choice([285, 466, 643, 825])
         toy_transforminator.rect.y = random.randint(-1500, -100)
         toy_transforminator_base_speed = 3
         toy_transforminator_duration = 5
         toy_transforminator_timer = 0
         toy_transforminator_active = False
         toy_transforminator_cooldown = 15
-        
-    '''
 
     ''' Adding Sprites to Group '''
 
@@ -275,20 +269,14 @@ def multi_game(difficulty, lolly, bestie, power_ups):
     if difficulty == 'hard':
         all_sprites_list.add(right_incoming_cars)
 
-    ''' TO BE IMPLEMENTED
     if 'besties_in_harmony' in power_ups:
         all_sprites_list.add(besties_in_harmony)
-
-    '''
-        
-    if 'gal_pal_rebirth' in power_ups:
-        all_sprites_list.add(gal_pal_rebirth)
     if 'diva_defiance' in power_ups:
         all_sprites_list.add(diva_defiance)
     if 'frosty_frenzy' in power_ups:
         all_sprites_list.add(frosty_frenzy)
-
-    ''' TO BE IMPLEMENTED
+    if 'gal_pal_rebirth' in power_ups:
+        all_sprites_list.add(gal_pal_rebirth)
     if 'girly_dash' in power_ups:
         all_sprites_list.add(girly_dash)
     if 'glamorous_growth' in power_ups:
@@ -297,8 +285,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         all_sprites_list.add(sissy_that_walk)
     if 'toy_transforminator' in power_ups:
         all_sprites_list.add(toy_transforminator)
-    
-    '''
 
     ''' Setting Up Variables '''
 
@@ -334,6 +320,13 @@ def multi_game(difficulty, lolly, bestie, power_ups):
     diva_defiance.add_cooldown(power_ups_cooldown_nerfer)
     frosty_frenzy.add_duration(power_ups_duration_buffer)
     frosty_frenzy.add_cooldown(power_ups_cooldown_nerfer)
+    glamorous_growth.add_duration(power_ups_duration_buffer)
+    glamorous_growth.add_cooldown(power_ups_cooldown_nerfer)
+    sissy_that_walk.add_duration(power_ups_duration_buffer)
+    sissy_that_walk.add_cooldown(power_ups_cooldown_nerfer)
+    toy_transforminator.add_duration(power_ups_duration_buffer)
+    toy_transforminator.add_cooldown(power_ups_cooldown_nerfer)
+
     for car in left_incoming_cars:
         car.add_speed(traffic_speed_buffer)
 
@@ -419,6 +412,9 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         screen.blit(road, (0, road_y - 950))
 
         ''' Incoming Cars '''
+
+        Base_LollyCar = LollyCar
+        Base_BestieCar = BestieCar
 
         if difficulty != 'hard':
 
@@ -596,6 +592,34 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         ''' Power Ups '''
         ''' Besties in Harmony '''
 
+        besties_in_harmony.move_down(besties_in_harmony_base_speed)
+
+        if besties_in_harmony.rect.y > 950:
+            # if the power up is off the screen, it is removed and enters cooldown
+            besties_in_harmony.kill()
+            besties_in_harmony_cooldown = 30
+
+        if pygame.sprite.collide_rect(LollyCar, besties_in_harmony) or pygame.sprite.collide_rect(BestieCar, besties_in_harmony):
+            # if the power up is collected, it is removed and enters cooldown
+            besties_in_harmony.kill()
+            besties_in_harmony_cooldown = 30
+            besties_in_harmony_active = True
+
+        if besties_in_harmony_active:
+            besties_in_harmony_timer += 1
+            if besties_in_harmony_timer == besties_in_harmony_duration:
+                besties_in_harmony_active = False
+                besties_in_harmony_timer = 0
+                besties_in_harmony_cooldown = 30
+                besties_in_harmony.kill()
+        
+        if besties_in_harmony_cooldown > 0:
+            besties_in_harmony_cooldown -= 1
+            if besties_in_harmony_cooldown == 0:
+                besties_in_harmony.rect.x = random.choice([285, 466, 643, 825])
+                besties_in_harmony.rect.y = random.randint(-1500, -100)
+                all_sprites_list.add(besties_in_harmony)
+
         ''' Diva Defiance '''
 
         diva_defiance.move_down(diva_defiance_base_speed)
@@ -664,10 +688,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         # Define a variable to track the power-up state
         if BestieCar.health == 0 or LollyCar.health == 0:
             player_eliminated = True
-            gal_pal_rebirth_active = True
         else:
             player_eliminated = False
-            gal_pal_rebirth_active = False	
 
         if player_eliminated and not (LollyCar.health > 0 and BestieCar.health > 0):
             # Spawn the power-up only when at least one player is eliminated and the power-up is not active
@@ -682,20 +704,182 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 BestieCar.rect.x = 285
                 BestieCar.rect.y = 800
                 gal_pal_rebirth.kill()
+                player_eliminated = False
 
             if pygame.sprite.collide_rect(BestieCar, gal_pal_rebirth):
                 LollyCar.health = 1
                 LollyCar.rect.x = 466
                 LollyCar.rect.y = 800
                 gal_pal_rebirth.kill()
+                player_eliminated = False
 
         ''' Girly Dash '''
 
+        girly_dash.move_down(girly_dash_base_speed)
+        
+        if girly_dash.rect.y > 950:
+            # if the power up is off the screen, it is removed and enters cooldown
+            girly_dash.kill()
+            girly_dash_cooldown = 15
+
+        if pygame.sprite.collide_rect(LollyCar, girly_dash) or pygame.sprite.collide_rect(BestieCar, girly_dash):
+            # if the power up is collected, it is removed and enters cooldown
+            girly_dash.kill()
+            girly_dash_cooldown = 15
+            girly_dash_active = True
+
+        if girly_dash_active:
+            girly_dash_timer += 1
+            if pygame.sprite.collide_rect(LollyCar, girly_dash):
+                girly_dash_lolly_ready = True
+                if keys[pygame.K_SPACE] and girly_dash_lolly_ready:
+                    # Check the direction the player is currently moving
+                    if keys[pygame.K_a]:
+                        LollyCar.move_left(100)
+                    elif keys[pygame.K_d]:
+                        LollyCar.move_right(100) 
+                    elif keys[pygame.K_w]:
+                        LollyCar.move_up(100)
+                    elif keys[pygame.K_s]:
+                        LollyCar.move_down(100)
+                    girly_dash_lolly_ready = False
+            if pygame.sprite.collide_rect(BestieCar, girly_dash):
+                girly_dash_bestie_ready = True
+                if keys[pygame.K_m] and girly_dash_bestie_ready:
+                    # Check the direction the player is currently moving
+                    if keys[pygame.K_LEFT]:
+                        BestieCar.move_left(100)
+                    elif keys[pygame.K_RIGHT]:
+                        BestieCar.move_right(100) 
+                    elif keys[pygame.K_UP]:
+                        BestieCar.move_up(100)
+                    elif keys[pygame.K_DOWN]:
+                        BestieCar.move_down(100)
+                    girly_dash_bestie_ready = False
+            if girly_dash_timer == girly_dash_duration:
+                girly_dash_active = False
+                girly_dash_timer = 0
+                girly_dash_cooldown = 15
+                girly_dash.kill()
+
+        if girly_dash_cooldown > 0:
+            girly_dash_cooldown -= 1
+            if girly_dash_cooldown == 0:
+                girly_dash.rect.x = random.choice([285, 466, 643, 825])
+                girly_dash.rect.y = random.randint(-1500, -100)
+                all_sprites_list.add(girly_dash)
+        
         ''' Glamorous Growth '''
+
+        glamorous_growth.move_down(glamorous_growth_base_speed)
+
+        if glamorous_growth.rect.y > 950:
+            # if the power up is off the screen, it is removed and enters cooldown
+            glamorous_growth.kill()
+            glamorous_growth_cooldown = 15
+        
+        if pygame.sprite.collide_rect(LollyCar, glamorous_growth) or pygame.sprite.collide_rect(BestieCar, glamorous_growth):
+            # if the power up is collected, it is removed and enters cooldown
+            glamorous_growth.kill()
+            glamorous_growth_cooldown = 15
+            glamorous_growth_lolly_time = 1
+
+            if pygame.sprite.collide_rect(LollyCar, glamorous_growth):
+                LollyCar.add_health(1)
+            if pygame.sprite.collide_rect(BestieCar, glamorous_growth):
+                BestieCar.add_health(1)
+
+        if glamorous_growth_lolly_time < 0:
+            glamorous_growth_lolly_time += 1 
+            if pygame.sprite.collide_rect(LollyCar, glamorous_growth):
+                BestieCar.resize(1.05, 1.05)
+            if pygame.sprite.collide_rect(BestieCar, glamorous_growth):
+                LollyCar.resize(1.05, 1.05)
+            if glamorous_growth_lolly_time == 1:
+                LollyCar.width = Base_LollyCar.width
+                LollyCar.height = Base_LollyCar.height
+                BestieCar.width = Base_BestieCar.width
+                BestieCar.height = Base_BestieCar.height
+                glamorous_growth_cooldown = 15
+                glamorous_growth.kill()
+
+        if glamorous_growth_cooldown > 0:
+            glamorous_growth_cooldown -= 1
+            if glamorous_growth_cooldown == 0:
+                glamorous_growth.rect.x = random.choice([285, 466, 643, 825])
+                glamorous_growth.rect.y = random.randint(-1500, -100)
+                all_sprites_list.add(glamorous_growth)
 
         ''' Sissy That Walk '''
 
+        sissy_that_walk.move_down(sissy_that_walk_base_speed)
+
+        if sissy_that_walk.rect.y > 950:
+            # if the power up is off the screen, it is removed and enters cooldown
+            sissy_that_walk.kill()
+            sissy_that_walk_cooldown = 15
+
+        if pygame.sprite.collide_rect(LollyCar, sissy_that_walk) or pygame.sprite.collide_rect(BestieCar, sissy_that_walk):
+            # if the power up is collected, it is removed and enters cooldown
+            sissy_that_walk.kill()
+            sissy_that_walk_cooldown = 15
+            sissy_that_walk_active = True
+        
+        if sissy_that_walk_active:
+            sissy_that_walk_timer += 1
+            if pygame.sprite.collide_rect(LollyCar, sissy_that_walk):
+                LollyCar.speed = 7
+            if pygame.sprite.collide_rect(BestieCar, sissy_that_walk):
+                BestieCar.speed = 7
+            if sissy_that_walk_timer == sissy_that_walk_duration:
+                sissy_that_walk_active = False
+                LollyCar.speed = 5
+                BestieCar.speed = 5
+
+                sissy_that_walk_timer = 0
+                sissy_that_walk_cooldown = 15
+                sissy_that_walk.kill()
+            
+        if sissy_that_walk_cooldown > 0:
+            sissy_that_walk_cooldown -= 1
+            if sissy_that_walk_cooldown == 0:
+                sissy_that_walk.rect.x = random.choice([285, 466, 643, 825])
+                sissy_that_walk.rect.y = random.randint(-1500, -100)
+                all_sprites_list.add(sissy_that_walk)
+
         ''' Toy Transforminator '''
+
+        toy_transforminator.move_down(toy_transforminator_base_speed)
+
+        if toy_transforminator.rect.y > 950:
+            # if the power up is off the screen, it is removed and enters cooldown
+            toy_transforminator.kill()
+            toy_transforminator_cooldown = 15
+
+        if pygame.sprite.collide_rect(LollyCar, toy_transforminator) or pygame.sprite.collide_rect(BestieCar, toy_transforminator):
+            # if the power up is collected, it is removed and enters cooldown
+            toy_transforminator.kill()
+            toy_transforminator_cooldown = 15
+            toy_transforminator_active = True
+
+        if toy_transforminator_active:
+            toy_transforminator_timer += 1
+            for car in left_incoming_cars:
+                car.width = 80
+                car.height = 80
+            if toy_transforminator_timer == toy_transforminator_duration:
+                toy_transforminator_active = False
+                toy_transforminator_cooldown = 15
+                toy_transforminator.kill()
+                for car in left_incoming_cars:
+                    car.resize(1.05, 1.05)
+
+        if toy_transforminator_cooldown > 0:
+            toy_transforminator_cooldown -= 1
+            if toy_transforminator_cooldown == 0:
+                toy_transforminator.rect.x = random.choice([285, 466, 643, 825])
+                toy_transforminator.rect.y = random.randint(-1500, -100)
+                all_sprites_list.add(toy_transforminator)
 
         ''' Drawing Everything '''
         all_sprites_list.update()

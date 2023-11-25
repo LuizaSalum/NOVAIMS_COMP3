@@ -56,7 +56,7 @@ def start_screen():
     pygame.display.flip()
 
     single_power_ups = ['diva_defiance', 'frosty_frenzy', 'girly dash', 'glamorous_growth', 'sissy_that_walk', 'toy_transforminator']
-    multi_power_ups = ['besties_in_harmony', 'diva_defiance', 'frosty_frenzy', 'gal_pal_rebirth', 'girly dash', 'glamorous_growth', 'sissy_that_walk', 'toy_transforminator']
+    multi_power_ups = ['besties_in_harmony', 'diva_defiance', 'frosty_frenzy', 'gal_pal_rebirth', 'girly_dash', 'glamorous_growth', 'sissy_that_walk', 'toy_transforminator']
 
     while True:
 
