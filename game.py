@@ -15,13 +15,14 @@ ORANGE = (255, 165, 0)
 PINK = (255, 192, 203)
 SKY_BLUE = (135, 206, 235)
 
+score = 0
 
 def multi_game(difficulty, lolly, bestie, power_ups):
     pygame.init()
+    pygame.font.init()
 
     size = (1250, 950)
-    screen = pygame.display.set_mode(size)
-    pygame.display.set_caption("Lolly Locket's Dog Chase")
+    screen = pygame.display.set_mode(size)  
 
     ''' Importing images'''
 
@@ -337,8 +338,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
     while carryOn:
 
-        score += 1
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 carryOn = False
@@ -403,6 +402,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         scroll_speed = 3000
         dt = clock.tick(60) / 1000.0
         road_y += scroll_speed * dt
+        score_font =  pygame.font.Font(pygame.font.get_default_font(), 36)
 
         # Wrap the road texture when it goes off the screen
         if road_y >= 950:
@@ -789,19 +789,21 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             if pygame.sprite.collide_rect(BestieCar, glamorous_growth):
                 BestieCar.add_health(1)
 
-        if glamorous_growth_lolly_time < 0:
-            glamorous_growth_lolly_time += 1 
+        if glamorous_growth_lolly_time == 1:
             if pygame.sprite.collide_rect(LollyCar, glamorous_growth):
                 BestieCar.resize(1.05, 1.05)
             if pygame.sprite.collide_rect(BestieCar, glamorous_growth):
                 LollyCar.resize(1.05, 1.05)
-            if glamorous_growth_lolly_time == 1:
-                LollyCar.width = Base_LollyCar.width
-                LollyCar.height = Base_LollyCar.height
-                BestieCar.width = Base_BestieCar.width
-                BestieCar.height = Base_BestieCar.height
-                glamorous_growth_cooldown = 15
-                glamorous_growth.kill()
+
+            LollyCar.width = Base_LollyCar.width
+            LollyCar.height = Base_LollyCar.height
+            BestieCar.width = Base_BestieCar.width
+            BestieCar.height = Base_BestieCar.height
+
+            glamorous_growth_cooldown = 15
+            glamorous_growth.kill()
+
+            glamorous_growth_lolly_time = 1
 
         if glamorous_growth_cooldown > 0:
             glamorous_growth_cooldown -= 1
@@ -835,7 +837,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 sissy_that_walk_active = False
                 LollyCar.speed = 5
                 BestieCar.speed = 5
-
                 sissy_that_walk_timer = 0
                 sissy_that_walk_cooldown = 15
                 sissy_that_walk.kill()
@@ -880,6 +881,18 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 toy_transforminator.rect.x = random.choice([285, 466, 643, 825])
                 toy_transforminator.rect.y = random.randint(-1500, -100)
                 all_sprites_list.add(toy_transforminator)
+
+
+        score += 1
+
+        # score counter
+        health_text = score_font.render(f"Health: {LollyCar.health}", True, (255, 255, 255))
+        screen.blit(health_text, (10, 50))
+        health_text = score_font.render(f"Health: {BestieCar.health}", True, (255, 255, 255))
+        screen.blit(health_text, (10, 90))
+        score_text = score_font.render(f"Score: {score}", True, (255, 255, 255))
+        screen.blit(score_text, (10, 10))
+
 
         ''' Drawing Everything '''
         all_sprites_list.update()
