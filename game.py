@@ -444,14 +444,14 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                     car.rect.x = random.choice([643, 825])
 
         ''' Collision Between Players'''
-        if pygame.sprite.collide_rect(LollyCar, BestieCar):
-            if LollyCar.rect.x < BestieCar.rect.x:
-                LollyCar.rect.x -= 20
-                BestieCar.rect.x += 20
-            else:
-                LollyCar.rect.x += 20
-                BestieCar.rect.x -= 20
-            
+        if not besties_in_harmony_active:
+            if pygame.sprite.collide_rect(LollyCar, BestieCar):
+                if LollyCar.rect.x < BestieCar.rect.x:
+                    LollyCar.rect.x -= 20
+                    BestieCar.rect.x += 20
+                else:
+                    LollyCar.rect.x += 20
+                    BestieCar.rect.x -= 20            
 
         ''' Collision Detection '''
 
@@ -707,7 +707,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             gal_pal_rebirth.move_down(gal_pal_rebirth_base_speed)
             gal_pal_text = score_font.render("Gal Pal", True, (255, 255, 255))
             screen.blit(gal_pal_text, (10, 410))
-            print(gal_pal_rebirth.rect.y)
 
             if gal_pal_rebirth.rect.y > 950:
                 # If the power-up is off the screen, remove it and update the power-up state
@@ -731,7 +730,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 player_eliminated = False
                 gal_pal_rebirth.rect.x = random.choice([285, 466, 643, 825])
                 gal_pal_rebirth.rect.y = random.randint(-1500, -100)
-
 
         '''Twist Turn'''
 
