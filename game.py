@@ -76,8 +76,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
     # the traffic slows down
     image_gal_pal_rebirth = "images/power_ups/gal_pal_rebirth.png"
     # an eliminated player is revived
-    image_girly_dash = "images/power_ups/girly_dash.png"
-    # car can dash/jump forward (space for lolly and enter for bestie)
+    image_twist_turn = "images/power_ups/twist_turn.png"
+    # reverse controls left/right
     image_glamorous_growth = "images/power_ups/glamorous_growth.png"
     # the car grows in size and gain HP
     image_sissy_that_walk = "images/power_ups/sissy_that_walk.png"
@@ -215,17 +215,15 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         gal_pal_rebirth.rect.y = random.randint(-1500, -100)
         gal_pal_rebirth_base_speed = 3
             
-    if 'girly_dash' in power_ups:
-        girly_dash = PowerUp(image_girly_dash, 80, 80)
-        girly_dash.rect.x = random.choice([285, 466, 643, 825])
-        girly_dash.rect.y = random.randint(-1500, -100)
-        girly_dash_base_speed = 3
-        girly_dash_duration = 5
-        girly_dash_timer = 0
-        girly_dash_active = False
-        girly_dash_cooldown = 15
-        girly_dash_lolly_ready = False
-        girly_dash_bestie_ready = False
+    if 'twist_turn' in power_ups:
+        twist_turn = PowerUp(image_twist_turn, 80, 80)
+        twist_turn.rect.x = random.choice([285, 466, 643, 825])
+        twist_turn.rect.y = random.randint(-1500, -100)
+        twist_turn_base_speed = 3
+        twist_turn_duration = 5
+        twist_turn_timer = 0
+        twist_turn_active = False
+        twist_turn_cooldown = 15
         
     if 'glamorous_growth' in power_ups:
         glamorous_growth = PowerUp(image_glamorous_growth, 80, 80)
@@ -274,8 +272,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         all_sprites_list.add(frosty_frenzy)
     if 'gal_pal_rebirth' in power_ups:
         all_sprites_list.add(gal_pal_rebirth)
-    if 'girly_dash' in power_ups:
-        all_sprites_list.add(girly_dash)
+    if 'twist_turn' in power_ups:
+        all_sprites_list.add(twist_turn)
     if 'glamorous_growth' in power_ups:
         all_sprites_list.add(glamorous_growth)
     if 'sissy_that_walk' in power_ups:
@@ -725,66 +723,50 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 gal_pal_rebirth.rect.x = 400
                 gal_pal_rebirth.rect.y = -40000
 
-        ''' Girly Dash '''
+        '''Twist Turn'''
 
-        girly_dash.move_down(girly_dash_base_speed)
-        
-        if girly_dash.rect.y > 950:
-            # if the power up is off the screen, it is removed and enters cooldown
-            girly_dash.kill()
-            girly_dash_cooldown = 15
+        if twist_turn_active:
+            twist_turn_timer += 1
+            twist_turn_text = score_font.render("Twist Turn", True, (255, 255, 255))
+            screen.blit(twist_turn_text, (10, 250))
 
-        if pygame.sprite.collide_rect(LollyCar, girly_dash) or pygame.sprite.collide_rect(BestieCar, girly_dash):
-            # if the power up is collected, it is removed and enters cooldown
-            girly_dash.kill()
-            girly_dash_cooldown = 15
-            girly_dash_active = True
-            girly_dash.rect.x = 400
-            girly_dash.rect.y = -40000
+            # Check for collisions with player cars
+            if pygame.sprite.collide_rect(LollyCar, twist_turn):
+                if keys[pygame.K_d]:
+                    LollyCar.move_left(20)
+                if keys[pygame.K_a]:
+                    LollyCar.move_right(20)
 
-        if girly_dash_active:
-            girly_dash_timer += 1
-            girly_text = score_font.render("Girly", True, (255, 255, 255))
-            screen.blit(girly_text, (10, 250))
-            if pygame.sprite.collide_rect(LollyCar, girly_dash):
-                girly_dash_lolly_ready = True
-                if keys[pygame.K_SPACE] and girly_dash_lolly_ready:
-                    # Check the direction the player is currently moving
-                    if keys[pygame.K_a]:
-                        LollyCar.move_left(100)
-                    elif keys[pygame.K_d]:
-                        LollyCar.move_right(100) 
-                    elif keys[pygame.K_w]:
-                        LollyCar.move_up(100)
-                    elif keys[pygame.K_s]:
-                        LollyCar.move_down(100)
-                    girly_dash_lolly_ready = False
-            if pygame.sprite.collide_rect(BestieCar, girly_dash):
-                girly_dash_bestie_ready = True
-                if keys[pygame.K_m] and girly_dash_bestie_ready:
-                    # Check the direction the player is currently moving
-                    if keys[pygame.K_LEFT]:
-                        BestieCar.move_left(100)
-                    elif keys[pygame.K_RIGHT]:
-                        BestieCar.move_right(100) 
-                    elif keys[pygame.K_UP]:
-                        BestieCar.move_up(100)
-                    elif keys[pygame.K_DOWN]:
-                        BestieCar.move_down(100)
-                    girly_dash_bestie_ready = False
-            if girly_dash_timer == girly_dash_duration:
-                girly_dash_active = False
-                girly_dash_timer = 0
-                girly_dash_cooldown = 15
-                girly_dash.kill()
+            if pygame.sprite.collide_rect(BestieCar, twist_turn):
+                if keys[pygame.K_RIGHT]:
+                    BestieCar.move_left(20)
+                if keys[pygame.K_LEFT]:
+                    BestieCar.move_right(20)
 
-        if girly_dash_cooldown > 0:
-            girly_dash_cooldown -= 1
-            if girly_dash_cooldown == 0:
-                girly_dash.rect.x = random.choice([285, 466, 643, 825])
-                girly_dash.rect.y = random.randint(-1500, -100)
-                all_sprites_list.add(girly_dash)
-        
+            if twist_turn_timer == twist_turn_duration:
+                # Deactivate the power-up and reset timer
+                twist_turn_active = False
+                twist_turn_timer = 0
+                twist_turn_cooldown = 15
+                twist_turn.kill()
+                if keys[pygame.K_a]:
+                    LollyCar.move_left(20)
+                if keys[pygame.K_d]:
+                    LollyCar.move_right(20)
+                if keys[pygame.K_LEFT]:
+                    BestieCar.move_left(20)
+                if keys[pygame.K_RIGHT]:
+                    BestieCar.move_right(20)
+
+        # Check for cooldown and reactivation
+        if twist_turn_cooldown > 0:
+            twist_turn_cooldown -= 1
+            if twist_turn_cooldown == 0:
+                # Reactivate the power-up at a random position
+                twist_turn.rect.x = random.choice([285, 466, 643, 825])
+                twist_turn.rect.y = random.randint(-1500, -100)
+                all_sprites_list.add(twist_turn)
+                
         ''' Glamorous Growth '''
 
         glamorous_growth.move_down(glamorous_growth_base_speed)
