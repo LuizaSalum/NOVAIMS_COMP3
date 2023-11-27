@@ -194,7 +194,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         diva_defiance.rect.x = random.choice([285, 466, 643, 825])
         diva_defiance.rect.y = random.randint(-1500, -100)
         diva_defiance_base_speed = 3
-        diva_defiance_duration = 80
+        diva_defiance_duration = 400
         diva_defiance_timer = 0
         diva_defiance_active = False
         diva_defiance_cooldown = 20
@@ -234,11 +234,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         glamorous_growth_base_speed = 3
         glamorous_growth_active = False
         glamorous_growth_cooldown = 15
-        glamorous_growth_timer = 0
         glamorous_growth_duration = 5
-        glamorous_growth_lolly_time = 1
-        glamorous_growth_bestie_time = 1
-        
+        glamorous_growth_timer = 0    
 
     if 'sissy_that_walk' in power_ups:
         sissy_that_walk = PowerUp(image_sissy_that_walk, 80, 80)
@@ -249,7 +246,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         sissy_that_walk_timer = 0
         sissy_that_walk_active = False
         sissy_that_walk_cooldown = 15
-        
         
     if 'toy_transforminator' in power_ups:
         toy_transforminator = PowerUp(image_toy_transforminator, 80, 80)
@@ -604,9 +600,13 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             besties_in_harmony.kill()
             besties_in_harmony_cooldown = 30
             besties_in_harmony_active = True
+            besties_in_harmony.rect.x = 400
+            besties_in_harmony.rect.y = -40000
 
         if besties_in_harmony_active:
             besties_in_harmony_timer += 1
+            besties_text = score_font.render("Besties", True, (255, 255, 255))
+            screen.blit(besties_text, (10, 130))
             if besties_in_harmony_timer == besties_in_harmony_duration:
                 besties_in_harmony_active = False
                 besties_in_harmony_timer = 0
@@ -634,9 +634,13 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             diva_defiance.kill()
             diva_defiance_cooldown = 20
             diva_defiance_active = True
+            diva_defiance.rect.x = 400
+            diva_defiance.rect.y = -40000
 
         if diva_defiance_active:
             diva_defiance_timer += 1
+            diva_text = score_font.render("Diva", True, (255, 255, 255))
+            screen.blit(diva_text, (10, 310))
             if diva_defiance_timer == diva_defiance_duration:
                 diva_defiance_active = False
                 diva_defiance_timer = 0 
@@ -664,9 +668,13 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             frosty_frenzy.kill()
             frosty_frenzy_cooldown = 15
             frosty_frenzy_active = True
+            frosty_frenzy.rect.x = 400
+            frosty_frenzy.rect.y = -40000
 
         if frosty_frenzy_active:
             frosty_frenzy_timer += 1
+            frosty_text = score_font.render("Frosty", True, (255, 255, 255))
+            screen.blit(frosty_text, (10, 290))
             for car in left_incoming_cars:
                 car.speed = -6
             if frosty_frenzy_timer == frosty_frenzy_duration:
@@ -705,6 +713,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 BestieCar.rect.y = 800
                 gal_pal_rebirth.kill()
                 player_eliminated = False
+                gal_pal_rebirth.rect.x = 400
+                gal_pal_rebirth.rect.y = -40000
 
             if pygame.sprite.collide_rect(BestieCar, gal_pal_rebirth):
                 LollyCar.health = 1
@@ -712,6 +722,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 LollyCar.rect.y = 800
                 gal_pal_rebirth.kill()
                 player_eliminated = False
+                gal_pal_rebirth.rect.x = 400
+                gal_pal_rebirth.rect.y = -40000
 
         ''' Girly Dash '''
 
@@ -727,9 +739,13 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             girly_dash.kill()
             girly_dash_cooldown = 15
             girly_dash_active = True
+            girly_dash.rect.x = 400
+            girly_dash.rect.y = -40000
 
         if girly_dash_active:
             girly_dash_timer += 1
+            girly_text = score_font.render("Girly", True, (255, 255, 255))
+            screen.blit(girly_text, (10, 250))
             if pygame.sprite.collide_rect(LollyCar, girly_dash):
                 girly_dash_lolly_ready = True
                 if keys[pygame.K_SPACE] and girly_dash_lolly_ready:
@@ -780,30 +796,32 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         
         if pygame.sprite.collide_rect(LollyCar, glamorous_growth) or pygame.sprite.collide_rect(BestieCar, glamorous_growth):
             # if the power up is collected, it is removed and enters cooldown
-            glamorous_growth.kill()
-            glamorous_growth_cooldown = 15
-            glamorous_growth_lolly_time = 1
-
             if pygame.sprite.collide_rect(LollyCar, glamorous_growth):
                 LollyCar.add_health(1)
             if pygame.sprite.collide_rect(BestieCar, glamorous_growth):
                 BestieCar.add_health(1)
-
-        if glamorous_growth_lolly_time == 1:
-            if pygame.sprite.collide_rect(LollyCar, glamorous_growth):
-                BestieCar.resize(1.05, 1.05)
-            if pygame.sprite.collide_rect(BestieCar, glamorous_growth):
-                LollyCar.resize(1.05, 1.05)
-
-            LollyCar.width = Base_LollyCar.width
-            LollyCar.height = Base_LollyCar.height
-            BestieCar.width = Base_BestieCar.width
-            BestieCar.height = Base_BestieCar.height
-
-            glamorous_growth_cooldown = 15
             glamorous_growth.kill()
+            glamorous_growth_active = True
+            glamorous_growth.rect.x = 400
+            glamorous_growth.rect.y = -40000
 
-            glamorous_growth_lolly_time = 1
+        if glamorous_growth_active:
+            glamorous_growth_timer += 1
+            glamorous_text = score_font.render("Glamorous", True, (255, 255, 255))
+            screen.blit(glamorous_text, (10, 210))
+            if pygame.sprite.collide_rect(LollyCar, glamorous_growth):
+                LollyCar.resize(1.05, 1.05)
+            if pygame.sprite.collide_rect(BestieCar, glamorous_growth):
+                BestieCar.resize(1.05, 1.05)    
+            if glamorous_growth_timer == glamorous_growth_duration:
+                glamorous_growth_active = False
+                glamorous_growth_timer = 0
+                glamorous_growth_cooldown = 15
+                glamorous_growth.kill()
+                LollyCar.width = Base_LollyCar.width
+                LollyCar.height = Base_LollyCar.height
+                BestieCar.width = Base_BestieCar.width
+                BestieCar.height = Base_BestieCar.height
 
         if glamorous_growth_cooldown > 0:
             glamorous_growth_cooldown -= 1
@@ -826,13 +844,14 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             sissy_that_walk.kill()
             sissy_that_walk_cooldown = 15
             sissy_that_walk_active = True
+            sissy_that_walk.rect.x = 400
+            sissy_that_walk.rect.y = -40000
         
         if sissy_that_walk_active:
             sissy_that_walk_timer += 1
-            if pygame.sprite.collide_rect(LollyCar, sissy_that_walk):
-                LollyCar.speed = 7
-            if pygame.sprite.collide_rect(BestieCar, sissy_that_walk):
-                BestieCar.speed = 7
+            sissy_text = score_font.render("Sissy", True, (255, 255, 255))
+            screen.blit(sissy_text, (10, 170))
+            LollyCar.speed = 10
             if sissy_that_walk_timer == sissy_that_walk_duration:
                 sissy_that_walk_active = False
                 LollyCar.speed = 5
@@ -845,7 +864,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             sissy_that_walk_cooldown -= 1
             if sissy_that_walk_cooldown == 0:
                 sissy_that_walk.rect.x = random.choice([285, 466, 643, 825])
-                sissy_that_walk.rect.y = random.randint(-1500, -100)
+                sissy_that_walk.rect.y = random.randint(-2500, -100)
                 all_sprites_list.add(sissy_that_walk)
 
         ''' Toy Transforminator '''
@@ -862,26 +881,35 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             toy_transforminator.kill()
             toy_transforminator_cooldown = 15
             toy_transforminator_active = True
+            toy_transforminator.rect.x = 400
+            toy_transforminator.rect.y = -40000
 
         if toy_transforminator_active:
             toy_transforminator_timer += 1
             for car in left_incoming_cars:
-                car.width = 80
-                car.height = 80
+                car.resize(0.95, 0.95)
+            toy_text = score_font.render("TOY", True, (255, 255, 255))
+            screen.blit(toy_text, (10, 130))
             if toy_transforminator_timer == toy_transforminator_duration:
                 toy_transforminator_active = False
                 toy_transforminator_cooldown = 15
                 toy_transforminator.kill()
+                toy_transforminator_timer = 0
                 for car in left_incoming_cars:
-                    car.resize(1.05, 1.05)
-
+                    car.move_down(15)
+                    if car.rect.y > 950:
+                        new_car = random.choice(cars_images_left)
+                        car.change_image(new_car[0], new_car[1], new_car[2], new_car[3], new_car[4])
+                        car.add_speed(random.randint(-1, 3))
+                        car.rect.y = random.randint(-2200, -800)
+                        car.rect.x = random.choice([285, 466, 643, 825])
+                    
         if toy_transforminator_cooldown > 0:
             toy_transforminator_cooldown -= 1
             if toy_transforminator_cooldown == 0:
                 toy_transforminator.rect.x = random.choice([285, 466, 643, 825])
                 toy_transforminator.rect.y = random.randint(-1500, -100)
                 all_sprites_list.add(toy_transforminator)
-
 
         score += 1
 
