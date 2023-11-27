@@ -184,7 +184,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         besties_in_harmony.rect.x = random.choice([285, 466, 643, 825])
         besties_in_harmony.rect.y = random.randint(-1500, -100)
         besties_in_harmony_base_speed = 3
-        besties_in_harmony_duration = 10
+        besties_in_harmony_duration = 120
         besties_in_harmony_timer = 0
         besties_in_harmony_active = False
         besties_in_harmony_cooldown = 30
@@ -444,15 +444,17 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                     car.rect.x = random.choice([643, 825])
 
         ''' Collision Between Players'''
-        if not besties_in_harmony_active:
+        if besties_in_harmony_active:
+            if pygame.sprite.collide_rect(LollyCar, BestieCar):
+                pass
+        else:
             if pygame.sprite.collide_rect(LollyCar, BestieCar):
                 if LollyCar.rect.x < BestieCar.rect.x:
                     LollyCar.rect.x -= 20
                     BestieCar.rect.x += 20
                 else:
                     LollyCar.rect.x += 20
-                    BestieCar.rect.x -= 20            
-
+                    BestieCar.rect.x -= 20 
         ''' Collision Detection '''
 
         if difficulty != 'hard':
