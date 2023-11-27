@@ -220,7 +220,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         twist_turn.rect.x = random.choice([285, 466, 643, 825])
         twist_turn.rect.y = random.randint(-1500, -100)
         twist_turn_base_speed = 3
-        twist_turn_duration = 120
+        twist_turn_duration = 60
         twist_turn_timer = 0
         twist_turn_active = False
         twist_turn_cooldown = 15
@@ -232,7 +232,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         glamorous_growth_base_speed = 3
         glamorous_growth_active = False
         glamorous_growth_cooldown = 15
-        glamorous_growth_duration = 5
+        glamorous_growth_duration = 60
         glamorous_growth_timer = 0    
 
     if 'sissy_that_walk' in power_ups:
@@ -818,10 +818,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 glamorous_growth_timer = 0
                 glamorous_growth_cooldown = 15
                 glamorous_growth.kill()
-                LollyCar.width = Base_LollyCar.width
-                LollyCar.height = Base_LollyCar.height
-                BestieCar.width = Base_BestieCar.width
-                BestieCar.height = Base_BestieCar.height
+                LollyCar.resize(0.95, 0.95)
+                BestieCar.resize(0.95, 0.95)
 
         if glamorous_growth_cooldown > 0:
             glamorous_growth_cooldown -= 1
@@ -833,6 +831,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         ''' Sissy That Walk '''
 
         sissy_that_walk.move_down(sissy_that_walk_base_speed)
+        print(LollyCar.speed)
 
         if sissy_that_walk.rect.y > 950:
             # if the power up is off the screen, it is removed and enters cooldown
@@ -846,10 +845,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             sissy_that_walk_active = True
             sissy_that_walk.rect.x = 400
             sissy_that_walk.rect.y = -40000
-            if pygame.sprite.collide_rect(LollyCar, sissy_that_walk):
-                LollyCar.speed = 10
-            if pygame.sprite.collide_rect(BestieCar, sissy_that_walk):
-                BestieCar.speed = 10
+            LollyCar.speed = 10
+            BestieCar.speed = 10
         
         if sissy_that_walk_active:
             sissy_that_walk_timer += 1
