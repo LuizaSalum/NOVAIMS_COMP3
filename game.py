@@ -1,7 +1,7 @@
 import pygame
 import random
 from car import TrafficCar, Car1, Car2, Car3
-from power_up import PowerUp
+from power_up import *
 
 # GREY = (197, 197, 197)
 # BLACK = (0, 0, 0)
@@ -185,14 +185,9 @@ def multi_game(difficulty, lolly, bestie, power_ups):
     ''' Positioning Power Ups '''
     
     if 'besties_in_harmony' in power_ups:
-        besties_in_harmony = PowerUp(image_besties_in_harmony, 80, 80)
+        besties_in_harmony = BestiesInHarmony()
         besties_in_harmony.rect.x = random.choice([285, 466, 643, 825])
         besties_in_harmony.rect.y = random.randint(-1500, -100)
-        besties_in_harmony_base_speed = 3
-        besties_in_harmony_duration = 120
-        besties_in_harmony_timer = 0
-        besties_in_harmony_active = False
-        besties_in_harmony_cooldown = 30
 
     if 'diva_defiance' in power_ups:
         diva_defiance = PowerUp(image_diva_defiance, 80, 80)
@@ -218,6 +213,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         gal_pal_rebirth = PowerUp(image_gal_pal_rebirth, 80, 80)
         gal_pal_rebirth.rect.x = random.choice([285, 466, 643, 825])
         gal_pal_rebirth.rect.y = random.randint(-1500, -100)
+
         gal_pal_rebirth_base_speed = 3
             
     if 'twist_turn' in power_ups:
