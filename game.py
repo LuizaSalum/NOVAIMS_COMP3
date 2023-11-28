@@ -955,6 +955,9 @@ def game_over(road, difficulty, lolly, bestie, power_ups):
     restart_button_coor = 445, 295, 905, 400
     back_button_coor = 450, 430, 770, 520
 
+    clock = pygame.time.Clock()
+    road_y = 0
+
     carry_on = True
 
     while carry_on:
