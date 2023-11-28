@@ -29,9 +29,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
     # road
     road = pygame.image.load("images/road.png").convert()
 
-    # game_over
-    game_over_image = pygame.image.load("images/game_over.png").convert_alpha()
-
     # hearts
     heart1 = pygame.image.load("images/hearts/heart1.png").convert_alpha()
     heart2 = pygame.image.load("images/hearts/heart2.png").convert_alpha()
@@ -940,9 +937,16 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
 def game_over(road, difficulty, lolly, bestie, power_ups):
 
+
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
+
+    ''' Loading Images '''
+
+    game_over_image = pygame.image.load("images/interface/game_over.png").convert_alpha()
+    game_over_restart_image = pygame.image.load("images/interface/game_over_restart.png").convert_alpha()
+    game_over_back_image = pygame.image.load("images/interface/game_over_back.png").convert_alpha()
 
     center_game_over_coord = ((1250 - 792) // 2, (950 - 792) // 2)
     pygame.display.flip()
