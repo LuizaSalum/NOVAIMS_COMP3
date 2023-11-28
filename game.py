@@ -32,6 +32,11 @@ def multi_game(difficulty, lolly, bestie, power_ups):
     # game_over
     game_over_image = pygame.image.load("images/game_over.png").convert_alpha()
 
+    # hearts
+    heart1 = pygame.image.load("images/hearts/heart1.png").convert_alpha()
+    heart2 = pygame.image.load("images/hearts/heart2.png").convert_alpha()
+    heart3 = pygame.image.load("images/hearts/heart3.png").convert_alpha()
+
     # incoming cars
 
     cars_dimensions = [
