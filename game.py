@@ -952,12 +952,8 @@ def game_over(road, difficulty, lolly, bestie, power_ups):
     pygame.display.flip()
     #(445, 295), (905, 400)] this are coordinates for a button called retry
     #[(450, 430), (770, 520)] this are coordinates for a button called exit
-    buttons = { 
-        'game_over':[
-            ('restart', 445, 295, 905, 400),
-            ('back', 450, 430, 770, 520)
-            ]
-    }
+    restart_button_coor = 445, 295, 905, 400
+    back_button_coor = 450, 430, 770, 520
 
     carry_on = True
 
@@ -967,6 +963,15 @@ def game_over(road, difficulty, lolly, bestie, power_ups):
                 carry_on = False
 
         screen.blit(road, (0, 0))
+        scroll_speed = 3000
+        dt = clock.tick(60) / 1000.0
+        road_y += scroll_speed * dt
+
+        if road_y >= 950:
+            road_y = 0
+
+        screen.blit(road, (0, road_y))
+        screen.blit(road, (0, road_y - 950))
 
         keys = pygame.key.get_pressed()
         mouse = pygame.mouse.get_pos()
@@ -977,19 +982,19 @@ def game_over(road, difficulty, lolly, bestie, power_ups):
         if keys[pygame.K_BACKSPACE]:
             carry_on = False
 
-        if restart[0] <= mouse[0] <= restart[2] and restart[1] < mouse[1] < restart[3]:
-            screen.blit(game_over_restart, center_game_over_coord)
+        if restart_button_coor[0] <= mouse[0] <= restart_button_coor[2] and restart_button_coor[1] < mouse[1] < restart_button_coor[3]:
+            screen.blit(game_over_restart_image, center_game_over_coord)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 carry_on = False
                 multi_game(difficulty, lolly, bestie, power_ups)
-        elif back[0] <= mouse[0] <= back[2] and back[1] < mouse[1] < back[3]:
-            screen.blit(game_over_back, center_game_over_coord)
+        elif back_button_coor[0] <= mouse[0] <= back_button_coor[2] and back_button_coor[1] < mouse[1] < back_button_coor[3]:
+            screen.blit(game_over_back_image, center_game_over_coord)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 carry_on = False
                 pygame.quit()
         
         else:
-            screen.blit(game_over_screen, center_game_over_coord)
+            screen.blit(game_over_image, center_game_over_coord)
 
         pygame.display.flip()
 
