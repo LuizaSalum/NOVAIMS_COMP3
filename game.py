@@ -58,9 +58,9 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
     players_cars = []
 
-    car_1 = [f"images/players_cars/car1.png", 144, 222, 98, 202]
-    car_2 = [f"images/players_cars/car2.png", 122, 245, 122, 245]
-    car_3 = [f"images/players_cars/car3.png", 132, 229, 132, 228]
+    car_1 = [f"images/players_cars/car1.png", 116, 178, 116, 178]  # image, width, height, x_box, y_box
+    car_2 = [f"images/players_cars/car2.png", 101, 202, 101, 202]
+    car_3 = [f"images/players_cars/car3.png", 108, 189, 108, 189]
 
     players_cars.append(car_1)
     players_cars.append(car_2)
