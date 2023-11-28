@@ -940,9 +940,9 @@ def game_over(road, difficulty, lolly, bestie, power_ups):
 
     ''' Loading Images '''
 
-    game_over_image = pygame.image.load("images/interface/game_over.png").convert_alpha()
-    game_over_restart_image = pygame.image.load("images/interface/game_over_restart.png").convert_alpha()
-    game_over_back_image = pygame.image.load("images/interface/game_over_back.png").convert_alpha()
+    game_over_image = pygame.image.load("images/game_over/game_over.png").convert_alpha()
+    game_over_restart_image = pygame.image.load("images/game_over/game_over_restart.png").convert_alpha()
+    game_over_exit_image = pygame.image.load("images/game_over/game_over_exit.png").convert_alpha()
 
     center_game_over_coord = ((1250 - 792) // 2, (950 - 792) // 2)
     pygame.display.flip()
