@@ -29,6 +29,9 @@ def multi_game(difficulty, lolly, bestie, power_ups):
     # road
     road = pygame.image.load("images/road.png").convert()
 
+    # game_over
+    game_over_image = pygame.image.load("images/game_over.png").convert_alpha()
+
     # incoming cars
 
     cars_dimensions = [
@@ -489,7 +492,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                         # this will hide the car from the screen, so it will look like it was eliminated
                         # if both players are eliminated, the game ends
                         if BestieCar.health == 0:
-                            game_over(difficulty, lolly, bestie, power_ups)
+                            game_over(road, difficulty, lolly, bestie, power_ups)
 
                 if pygame.sprite.collide_rect(BestieCar, car_1):
                     car_1.rect.y = random.randint(-2200, -800)
@@ -508,7 +511,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                         BestieCar.rect.x = 0
                         BestieCar.rect.y = -50000
                         if LollyCar.health == 0:
-                            game_over(difficulty, lolly, bestie, power_ups)
+                            game_over(road, difficulty, lolly, bestie, power_ups)
 
         if difficulty == 'hard':
 
@@ -534,7 +537,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                         LollyCar.rect.x = 0
                         LollyCar.rect.y = -50000
                         if BestieCar.health == 0:
-                            game_over(difficulty, lolly, bestie, power_ups)
+                            game_over(road, difficulty, lolly, bestie, power_ups)
 
                 if pygame.sprite.collide_rect(BestieCar, car_1):
                     car_1.rect.y = random.randint(-2200, -800)
@@ -549,7 +552,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                         BestieCar.rect.x = 0
                         BestieCar.rect.y = -50000
                         if LollyCar.health == 0:
-                            game_over(difficulty, lolly, bestie, power_ups)
+                            game_over(road, difficulty, lolly, bestie, power_ups)
 
             for car_1 in right_incoming_cars:
                 for car_2 in right_incoming_cars:
@@ -573,7 +576,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                         LollyCar.rect.x = 0
                         LollyCar.rect.y = -50000
                         if BestieCar.health == 0:
-                            game_over(difficulty, lolly, bestie, power_ups)
+                            game_over(road, difficulty, lolly, bestie, power_ups)
 
                 if pygame.sprite.collide_rect(BestieCar, car_1):
                     car_1.rect.y = random.randint(-2200, -800)
@@ -588,7 +591,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                         BestieCar.rect.x = 0
                         BestieCar.rect.y = -50000 
                         if LollyCar.health == 0:
-                            game_over(difficulty, lolly, bestie, power_ups)
+                            game_over(road, difficulty, lolly, bestie, power_ups)
 
         ''' Power Ups '''
         ''' Besties in Harmony '''
@@ -930,15 +933,12 @@ def multi_game(difficulty, lolly, bestie, power_ups):
     pygame.quit()
 
 
-def game_over(difficulty, lolly, bestie, power_ups):
+def game_over(road, difficulty, lolly, bestie, power_ups):
 
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
 
-    # load the game over screen on top of the game
-    road = pygame.image.load("images/road.png").convert()
-    game_over_screen = pygame.image.load("images/interface/game_over.png").convert()
     center_game_over_coord = ((1250 - 792) // 2, (950 - 792) // 2)
     pygame.display.flip()
     #(445, 295), (905, 400)] this are coordinates for a button called retry
