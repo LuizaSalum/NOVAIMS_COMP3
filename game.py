@@ -831,7 +831,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         ''' Sissy That Walk '''
 
         sissy_that_walk.move_down(sissy_that_walk_base_speed)
-        print(LollyCar.speed)
 
         if sissy_that_walk.rect.y > 950:
             # if the power up is off the screen, it is removed and enters cooldown
@@ -938,9 +937,18 @@ def game_over(difficulty, lolly, bestie, power_ups):
     screen = pygame.display.set_mode(size)
 
     # load the game over screen on top of the game
-    game_over_screen = pygame.image.load("images/game_over.png").convert()
-    screen.blit(game_over_screen, (0, 0))
+    road = pygame.image.load("images/road.png").convert()
+    game_over_screen = pygame.image.load("images/interface/game_over.png").convert()
+    center_game_over_coord = ((1250 - 792) // 2, (950 - 792) // 2)
     pygame.display.flip()
+    #(445, 295), (905, 400)] this are coordinates for a button called retry
+    #[(450, 430), (770, 520)] this are coordinates for a button called exit
+    buttons = { 
+        'game_over':[
+            ('restart', 445, 295, 905, 400),
+            ('back', 450, 430, 770, 520)
+            ]
+    }
 
     # i forgot to register the button postions, so i'll temporarily use keys to go back to the start screen and to restart the game
     # backspace will go back to the start screen and enter will restart the game
@@ -948,18 +956,50 @@ def game_over(difficulty, lolly, bestie, power_ups):
     carryOn = True
 
     while carryOn:
-            
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    carryOn = False
-    
-            keys = pygame.key.get_pressed()
-    
-            if keys[pygame.K_RETURN]:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                carryOn = False
+
+        screen.blit(road, (0, 0))
+
+        screen.blit(game_over_screen, center_game_over_coord)
+
+        keys = pygame.key.get_pressed()
+        mouse = pygame.mouse.get_pos()
+
+        if keys[pygame.K_RETURN]:
+            carryOn = False
+
+        if keys[pygame.K_BACKSPACE]:
+            carryOn = False
+
+        if buttons['game_over'][0][1] <= mouse[0] <= buttons['game_over'][0][3] and buttons['game_over'][0][2] < mouse[1] < buttons['game_over'][0][4]:
+            game_over_screen = pygame.image.load(f"images/interface/game_over_restart.png").convert()
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 carryOn = False
                 multi_game(difficulty, lolly, bestie, power_ups)
-    
-            if keys[pygame.K_BACKSPACE]:
+
+        if buttons['game_over'][1][1] <= mouse[0] <= buttons['game_over'][1][3] and buttons['game_over'][1][2] < mouse[1] < buttons['game_over'][1][4]:
+            game_over_screen = pygame.image.load(f"images/interface/game_over_back.png").convert()
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 carryOn = False
+
+        else:
+            game_over_screen = pygame.image.load("images/interface/game_over.png").convert()
+
+        if game_over_screen == pygame.image.load(f"images/interface/game_over_restart.png").convert():
+            screen.blit(game_over_screen, center_game_over_coord)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                carryOn = False
+                multi_game(difficulty, lolly, bestie, power_ups)
+
+        if game_over_screen == pygame.image.load(f"images/interface/game_over_back.png").convert():
+            screen.blit(game_over_screen, center_game_over_coord)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                carryOn = False
+        
+        screen.blit(game_over_screen, center_game_over_coord)
+
+    pygame.display.flip()
 
     return True
