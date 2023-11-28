@@ -94,6 +94,24 @@ class GalPalPower(PowerUp): # Player gets revived
         if bestie.health == 0:
             bestie.health = 1
 
+class TangledTwist(PowerUp): # The player gets the other player's controls
+    def __init__(self):
+        super().__init__("images/powerups/tangled_twist.png", 80, 80, 3, 120, 120)
+
+    def affect_player(self, lolly, bestie):
+
+        pass
+
+class GlamorousGrowth(PowerUp): # The player gets bigger
+    def __init__(self):
+        super().__init__("images/powerups/glamorous_growth.png", 80, 80, 3, 120, 120)
+
+    def affect_player(self, player):
+        player.width = 100
+        player.height = 100
+        player.image = pygame.image.load("images/cars/glamorous_growth.png").convert_alpha()
+        player.image = pygame.transform.scale(player.image, (player.width, player.height))
+
 class SissyThatWalk(PowerUp): # The player can pass through traffic cars
     def __init__(self):
         super().__init__("images/powerups/sissy_that_walk.png", 80, 80, 3, 120, 120)
