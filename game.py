@@ -186,57 +186,49 @@ def multi_game(difficulty, lolly, bestie, power_ups):
     
     if 'besties_in_harmony' in power_ups:
         besties_in_harmony = BestiesInHarmony()
-        besties_in_harmony.rect.x = random.choice([285, 466, 643, 825])
-        besties_in_harmony.rect.y = random.randint(-1500, -100)
+        besties_in_harmony.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100)) # starting pos of the power ups
         besties_in_harmony.active = False
         besties_in_harmony.base_speed = 3
 
     if 'diva_defiance' in power_ups:
         diva_defiance = DivaDefiance()
-        diva_defiance.rect.x = random.choice([285, 466, 643, 825])
-        diva_defiance.rect.y = random.randint(-1500, -100)
+        diva_defiance.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
         diva_defiance.active = False
         diva_defiance.base_speed = 3
 
     if 'frosty_frenzy' in power_ups:
         frosty_frenzy = FrostyFrenzy()
-        frosty_frenzy.rect.x = random.choice([285, 466, 643, 825])
-        frosty_frenzy.rect.y = random.randint(-1500, -100)
+        frosty_frenzy.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
         frosty_frenzy.active = False
         frosty_frenzy.base_speed = 3
 
     if 'gal_pal_rebirth' in power_ups:
         gal_pal_rebirth = GalPalRebirth()
-        gal_pal_rebirth.rect.x = random.choice([285, 466, 643, 825])
-        gal_pal_rebirth.rect.y = random.randint(-1500, -100)
+        gal_pal_rebirth.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
         gal_pal_rebirth.active = False
         gal_pal_rebirth.base_speed = 3
             
     if 'tangled_twist' in power_ups:
         tangled_twist = TangledTwist()
-        tangled_twist.rect.x = random.choice([285, 466, 643, 825])
-        tangled_twist.rect.y = random.randint(-1500, -100)
+        tangled_twist.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
         tangled_twist.active = False
         tangled_twist.base_speed = 3
    
     if 'glamorous_growth' in power_ups:
         glamorous_growth = GlamorousGrowth()
-        glamorous_growth.rect.x = random.choice([285, 466, 643, 825])
-        glamorous_growth.rect.y = random.randint(-1500, -100)
+        glamorous_growth.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
         glamorous_growth.active = False
         glamorous_growth.base_speed = 3
 
     if 'sissy_that_walk' in power_ups:
         sissy_that_walk = SissyThatWalk()
-        sissy_that_walk.rect.x = random.choice([285, 466, 643, 825])
-        sissy_that_walk.rect.y = random.randint(-1500, -100)
+        sissy_that_walk.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
         sissy_that_walk.active = False
         sissy_that_walk.base_speed = 3
         
     if 'toy_transforminator' in power_ups:
         toy_transforminator = ToyTransforminator()
-        toy_transforminator.rect.x = random.choice([285, 466, 643, 825])
-        toy_transforminator.rect.y = random.randint(-1500, -100)
+        toy_transforminator.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
         toy_transforminator.active = False
         toy_transforminator.base_speed = 3
 
@@ -855,11 +847,11 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             toy_transforminator.remove_from_screen()
             toy_transforminator.cooldown = 15
             toy_transforminator.active = True
+            for car in left_incoming_cars:
+                car.resize(0.95, 0.95)
 
         if toy_transforminator.active:
             toy_transforminator.timer += 1
-            for car in left_incoming_cars:
-                car.resize(0.95, 0.95)
             toy_text = score_font.render("TOY", True, (255, 255, 255))
             screen.blit(toy_text, (10, 310))
             if toy_transforminator.timer == toy_transforminator.duration:
