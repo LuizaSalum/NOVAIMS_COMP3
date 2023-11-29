@@ -261,7 +261,7 @@ def multi_customisation_screen(lolly, bestie, difficulty, power_ups):
                             lolly = 'car1'
                             bestie = 'car2'
                             difficulty = 'normal'
-                            power_ups = ['besties_in_harmony', 'diva_defiance', 'frosty_frenzy', 'gal_pal_rebirth', 'tangled_twist', 'glamorous_growth', 'sissy_that_walk', 'toy_transforminator']
+                            power_ups = ['sissy_that_walk', 'toy_transforminator']
 
 
 def dog_customisation_screen(lolly, mode, difficulty, power_ups, bestie=None):

@@ -20,8 +20,12 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (self.width, self.height))
         self.rect = self.image.get_rect()
 
-        self.rect.x = 0  # Set the initial x-coordinate
-        self.rect.y = 0  # Set the initial y-coordinate
+        self.rect.x = random.choice([285, 466, 643, 825])
+        self.rect.y = random.randint(-1500, -100)
+
+    def set_position(self, x, y):
+        self.rect.x = x
+        self.rect.y = y 
 
     def deactivate(self):
         self.active = False
@@ -39,6 +43,11 @@ class PowerUp(ABC, pygame.sprite.Sprite):
                 self.rect.x = random.choice([285, 466, 643, 825])
                 self.rect.y = random.randint(-1500, -100)
                 all_sprites_list.add(self)
+
+    def remove_from_screen(self):
+        self.kill()
+        self.rect.x = 400
+        self.rect.y = -40000
     
     def move_down(self, pixels):
         pixels = self.base_speed + pixels
