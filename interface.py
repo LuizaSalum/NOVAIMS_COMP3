@@ -3,7 +3,7 @@ from game import multi_game
 
 
 # buttons is a dictionary with the screen name as key and the buttons lists as values
-# each button is in the format (name, min_x, max_x,mix_y, max_y) and the list has several of these tuples
+# each button is in the format (name, min_x, max_x, mix_y, max_y) and the list has several of these tuples
 
 buttons = {
     'start': [
@@ -46,7 +46,13 @@ buttons = {
     'power_ups_list': [
         ('back', 77, 207, 859, 912),
         ('return', 230, 359, 859, 912)
-    ]
+        ],
+    'menu': [
+        ('done', 543, 708, 251, 320),
+        ('credits', 500, 750, 375, 445),
+        ('back', 508, 738, 503, 575),
+        ('exit', 528, 722, 626, 696)
+        ]
     }
 
 def start_screen():
@@ -69,6 +75,10 @@ def start_screen():
             if user_input.type == pygame.QUIT:
                 pygame.quit()
                 exit()
+
+            if user_input.type == pygame.KEYDOWN:
+                if user_input.key == pygame.K_ESCAPE:
+                    menu(screen_image=start_image)
 
             # if the user hovers over the buttons
 
@@ -126,6 +136,10 @@ def credits_screen():
                 pygame.quit()
                 exit()
 
+            if user_input.type == pygame.KEYDOWN:
+                if user_input.key == pygame.K_ESCAPE:
+                    menu(screen_image=credits_image)
+
             # if the user hovers over the back button
 
             mouse = pygame.mouse.get_pos()
@@ -164,6 +178,10 @@ def single_customisation_screen(lolly, difficulty, power_ups):
             if user_input.type == pygame.QUIT:
                 pygame.quit()
                 exit()
+
+            if user_input.type == pygame.KEYDOWN:
+                if user_input.key == pygame.K_ESCAPE:
+                    menu(screen_image=single_customisation_image)
 
             # if the user hovers over the buttons
 
@@ -223,6 +241,10 @@ def multi_customisation_screen(lolly, bestie, difficulty, power_ups):
             if user_input.type == pygame.QUIT:
                 pygame.quit()
                 exit()
+
+            if user_input.type == pygame.KEYDOWN:
+                if user_input.key == pygame.K_ESCAPE:
+                    menu(screen_image=multi_customisation_image)
 
             # if the user hovers over the buttons
 
@@ -285,6 +307,10 @@ def dog_customisation_screen(lolly, mode, difficulty, power_ups, bestie=None):
             if user_input.type == pygame.QUIT:
                 pygame.quit()
                 exit()
+
+            if user_input.type == pygame.KEYDOWN:
+                if user_input.key == pygame.K_ESCAPE:
+                    menu(screen_image=dog_customisation_image)
 
             # if the user hovers over the buttons
 
@@ -363,6 +389,10 @@ def lolly_customisation_screen(mode, lolly, difficulty, power_ups, bestie=None):
             if user_input.type == pygame.QUIT:
                 pygame.quit()
                 exit()
+
+            if user_input.type == pygame.KEYDOWN:
+                if user_input.key == pygame.K_ESCAPE:
+                    menu(screen_image=lolly_customisation_image)
 
             # if the user hovers over the buttons
 
@@ -464,6 +494,10 @@ def bestie_customisation_screen(lolly, bestie, difficulty, power_ups):
                 if user_input.type == pygame.QUIT:
                     pygame.quit()
                     exit()
+
+                if user_input.type == pygame.KEYDOWN:
+                    if user_input.key == pygame.K_ESCAPE:
+                        menu(screen_image=bestie_customisation_image)
     
                 # if the user hovers over the buttons
     
@@ -579,6 +613,10 @@ def power_ups_list_screen(mode, lolly, difficulty, power_ups, bestie=None):
                 pygame.quit()
                 exit()
 
+            if user_input.type == pygame.KEYDOWN:
+                if user_input.key == pygame.K_ESCAPE:
+                    menu(screen_image=power_ups_list_image)
+
             # if the user hovers over the buttons
 
             mouse = pygame.mouse.get_pos()  # getting the mouse position
@@ -622,3 +660,69 @@ def power_ups_list_screen(mode, lolly, difficulty, power_ups, bestie=None):
                                 single_customisation_screen(lolly=lolly, difficulty=difficulty, power_ups=power_ups)
                             else:
                                 multi_customisation_screen(lolly=lolly, bestie=bestie, difficulty=difficulty, power_ups=power_ups)
+
+
+def menu(screen_image):
+
+    menu_position = (451, 799, 201, 749)  # (min_x, max_x, mix_y, max_y)
+
+    pygame.init()
+    size = (1250, 950)
+    screen = pygame.display.set_mode(size)
+
+    # display the background image (screen_image) and the menu on top of it, in the menu position
+
+    screen.blit(screen_image, (0, 0))
+    menu_image = pygame.image.load("images/interface/menu.png").convert_alpha()
+    screen.blit(menu_image, (menu_position[0], menu_position[2]))
+    pygame.display.flip()
+
+    while True:
+
+        for user_input in pygame.event.get():
+
+            if user_input.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+
+            # if the user hovers over the buttons
+
+            mouse = pygame.mouse.get_pos()  # getting the mouse position
+
+            for number in range(len(buttons['menu'])):
+                if buttons['menu'][number][1] <= mouse[0] <= buttons['menu'][number][2] and buttons['menu'][number][3] <= mouse[1] <= buttons['menu'][number][4]:
+                    button = buttons['menu'][number][0]
+                    break
+            else:
+                button = None
+
+            if button == None:
+                menu_image = pygame.image.load("images/interface/menu.png").convert_alpha()
+            else:
+                menu_image = pygame.image.load(f"images/interface/menu_{button}.png").convert_alpha()
+
+            screen.blit(screen_image, (0, 0))
+            screen.blit(menu_image, (menu_position[0], menu_position[2]))
+            pygame.display.flip()
+
+            # if the user clicks on the buttons
+
+            if user_input.type == pygame.MOUSEBUTTONDOWN:
+
+                for number in range(len(buttons['menu'])):
+
+                    if buttons['menu'][number][1] <= user_input.pos[0] <= buttons['menu'][number][2] and buttons['menu'][number][3] <= user_input.pos[1] <= buttons['menu'][number][4]:
+
+                        if buttons['menu'][number][0] == 'done':  # if the user clicks on the done button, we'll close the menu and return to the previous screen
+                            return
+
+                        elif buttons['menu'][number][0] == 'credits':
+                            credits_screen()
+
+                        elif buttons['menu'][number][0] == 'back':
+                            start_screen()
+                            return
+
+                        elif buttons['menu'][number][0] == 'exit':
+                            pygame.quit()
+                            exit()
