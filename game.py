@@ -433,11 +433,9 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         ''' Collision Between Players'''
         if besties_in_harmony.active:
             if pygame.sprite.collide_rect(LollyCar, BestieCar):
-                print("Collision Detected - Active Power-Up")
                 pass
         else:
             if pygame.sprite.collide_rect(LollyCar, BestieCar):
-                print("Collision Detected - Resolving Collision")
                 if LollyCar.rect.x < BestieCar.rect.x:
                     LollyCar.rect.x -= 20
                     BestieCar.rect.x += 20
@@ -678,6 +676,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 all_sprites_list.add(frosty_frenzy)
 
         ''' Gal Pal Rebirth '''
+        
         # Define a variable to track the power-up state
         if BestieCar.health == 0 or LollyCar.health == 0:
             player_eliminated = True
@@ -732,6 +731,33 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             tangled_twist.timer += 1
             tangled_twist_text = score_font.render("Tangle Twist", True, (255, 255, 255))
             screen.blit(tangled_twist_text, (10, 290))
+            if LollyCar.health == 0: # if the player is alive, they can move
+                if keys[pygame.K_LEFT]:
+                    BestieCar.move_left(20)
+                if keys[pygame.K_RIGHT]:
+                    BestieCar.move_right(20)
+                if keys[pygame.K_UP]:
+                    BestieCar.move_up(20)
+                    if BestieCar.rect.y < 0:
+                        BestieCar.rect.y = 0
+                if keys[pygame.K_DOWN]:
+                    BestieCar.move_down(20)
+                    if BestieCar.rect.y > 800:
+                        BestieCar.rect.y = 800
+            if BestieCar.health == 0:
+                if keys[pygame.K_a]:
+                    LollyCar.move_left(20)
+                if keys[pygame.K_d]:
+                    LollyCar.move_right(20)
+                if keys[pygame.K_w]:
+                    LollyCar.move_up(20)
+                    if LollyCar.rect.y < 0:
+                        LollyCar.rect.y = 0
+                if keys[pygame.K_s]:
+                    LollyCar.move_down(20)
+                    if LollyCar.rect.y > 800:
+                        LollyCar.rect.y = 800
+            
             if tangled_twist.timer == tangled_twist.duration:
                 # Deactivate the power-up and reset timer
                 tangled_twist.active = False
