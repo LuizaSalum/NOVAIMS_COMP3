@@ -55,8 +55,8 @@ def start_screen():
     screen.blit(start_image, (0, 0))
     pygame.display.flip()
 
-    single_power_ups = ['diva_defiance', 'frosty_frenzy', 'twist_turn', 'glamorous_growth', 'sissy_that_walk', 'toy_transforminator']
-    multi_power_ups = ['besties_in_harmony', 'diva_defiance', 'frosty_frenzy', 'gal_pal_rebirth', 'twist_turn', 'glamorous_growth', 'sissy_that_walk', 'toy_transforminator']
+    single_power_ups = ['diva_defiance', 'frosty_frenzy', 'tangled_twist', 'glamorous_growth', 'sissy_that_walk', 'toy_transforminator']
+    multi_power_ups = ['besties_in_harmony', 'diva_defiance', 'frosty_frenzy', 'gal_pal_rebirth', 'tangled_twist', 'glamorous_growth', 'sissy_that_walk', 'toy_transforminator']
 
     while True:
 
@@ -199,7 +199,7 @@ def single_customisation_screen(lolly, difficulty, power_ups):
                         elif buttons['singleplayer'][number][0] == 'reset':
                             lolly = 'car1'
                             difficulty = 'normal'
-                            power_ups = ['diva_defiance', 'frosty_frenzy', 'twist_turn', 'glamorous_growth', 'sissy_that_walk', 'toy_transforminator']
+                            power_ups = ['diva_defiance', 'frosty_frenzy', 'tangled_twist', 'glamorous_growth', 'sissy_that_walk', 'toy_transforminator']
 
 
 def multi_customisation_screen(lolly, bestie, difficulty, power_ups):
@@ -261,7 +261,7 @@ def multi_customisation_screen(lolly, bestie, difficulty, power_ups):
                             lolly = 'car1'
                             bestie = 'car2'
                             difficulty = 'normal'
-                            power_ups = ['besties_in_harmony', 'diva_defiance', 'frosty_frenzy', 'gal_pal_rebirth', 'twist_turn', 'glamorous_growth', 'sissy_that_walk', 'toy_transforminator']
+                            power_ups = ['besties_in_harmony', 'diva_defiance', 'frosty_frenzy', 'gal_pal_rebirth', 'tangled_twist', 'glamorous_growth', 'sissy_that_walk', 'toy_transforminator']
 
 
 def dog_customisation_screen(lolly, mode, difficulty, power_ups, bestie=None):
