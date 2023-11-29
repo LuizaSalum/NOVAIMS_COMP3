@@ -144,15 +144,7 @@ class TangledTwist(PowerUp): # the player gets the other player's controls
         pass
 
     def affect_both_players(self, lolly, bestie):
-        lolly.left = bestie.left
-        lolly.right = bestie.right
-        lolly.up = bestie.up
-        lolly.down = bestie.down
-
-        bestie.left = lolly.left
-        bestie.right = lolly.right
-        bestie.up = lolly.up
-        bestie.down = lolly.down
+        pass
 
 class GlamorousGrowth(PowerUp): # the player gets bigger and gains hp (+2 if it's the tank car, +1 if it's one of the others)
     def __init__(self):

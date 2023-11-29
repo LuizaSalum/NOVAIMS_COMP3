@@ -600,7 +600,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             diva_defiance.cooldown = 20
             diva_defiance.active = True
 
-
         if diva_defiance.active:
             diva_defiance.timer += 1
             diva_text = score_font.render("Diva", True, (255, 255, 255))
@@ -609,7 +608,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 diva_defiance.remove_from_screen()
                 diva_defiance.cooldown = 20
                 diva_defiance.active = False
-
 
         if diva_defiance.cooldown > 0:
             diva_defiance.cooldown -= 1
@@ -786,8 +784,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 glamorous_growth.timer = 0
                 glamorous_growth.cooldown = 15
                 glamorous_growth.remove_from_screen()
-                LollyCar.resize(0.95, 0.95)
-                BestieCar.resize(0.95, 0.95)
+                LollyCar.player_resize(LollyCar.width, LollyCar.height)
+                BestieCar.player_resize(BestieCar.width, BestieCar.height)
 
         if glamorous_growth.cooldown > 0:
             glamorous_growth.cooldown -= 1
