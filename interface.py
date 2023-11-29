@@ -42,7 +42,11 @@ buttons = {
         ('right', 945, 995, 446, 563),
         ('back', 77, 207, 859, 912),
         ('return', 230, 359, 859, 912)
-        ]
+        ],
+    'power_ups_list': [
+        ('back', 77, 207, 859, 912),
+        ('return', 230, 359, 859, 912)
+    ]
     }
 
 def start_screen():
@@ -195,7 +199,7 @@ def single_customisation_screen(lolly, difficulty, power_ups):
                         elif buttons['singleplayer'][number][0] == 'dog':
                             dog_customisation_screen(mode='single', lolly=lolly, difficulty=difficulty, power_ups=power_ups)
                         elif buttons['singleplayer'][number][0] == 'power_ups':
-                            pass  # power_ups_customisation_screen(mode='single', lolly=lolly, difficulty=difficulty, power_ups=power_ups)
+                            power_ups_list_screen(mode='single', lolly=lolly, difficulty=difficulty, power_ups=power_ups)
                         elif buttons['singleplayer'][number][0] == 'reset':
                             lolly = 'car1'
                             difficulty = 'normal'
@@ -254,7 +258,7 @@ def multi_customisation_screen(lolly, bestie, difficulty, power_ups):
                         elif buttons['multiplayer'][number][0] == 'dog':
                             dog_customisation_screen(mode='multi', lolly=lolly, bestie=bestie, difficulty=difficulty, power_ups=power_ups)
                         elif buttons['multiplayer'][number][0] == 'power_ups':
-                            pass  # power_ups_customisation_screen(mode='multi', lolly=lolly, bestie=bestie, difficulty=difficulty, power_ups=power_ups)
+                            power_ups_list_screen(mode='multi', lolly=lolly, bestie=bestie, difficulty=difficulty, power_ups=power_ups)
                         elif buttons['multiplayer'][number][0] == 'bestie':
                             bestie_customisation_screen(lolly=lolly, bestie=bestie, difficulty=difficulty, power_ups=power_ups)
                         elif buttons['multiplayer'][number][0] == 'reset':
@@ -329,9 +333,6 @@ def dog_customisation_screen(lolly, mode, difficulty, power_ups, bestie=None):
                             dog_customisation_image = pygame.image.load(f"images/interface/select_dog_{difficulty}.png").convert_alpha()
                             screen.blit(dog_customisation_image, (0, 0))
                             pygame.display.flip()
-
-                        elif buttons['select_dog'][number][0] == 'info':
-                            pass  # display info
 
                         elif buttons['select_dog'][number][0] == 'back':
                             start_screen()
@@ -554,4 +555,70 @@ def bestie_customisation_screen(lolly, bestie, difficulty, power_ups):
                                 return
                             
                             elif buttons['select_character'][number][0] == 'return':
+                                multi_customisation_screen(lolly=lolly, bestie=bestie, difficulty=difficulty, power_ups=power_ups)
+
+
+def power_ups_list_screen(mode, lolly, difficulty, power_ups, bestie=None):
+
+    pygame.init()
+    size = (1250, 950)
+    screen = pygame.display.set_mode(size)
+
+    if mode == 'single':
+        power_ups_list_image = pygame.image.load("images/interface/singleplayer_power_ups_list.png").convert_alpha()
+    else:
+        power_ups_list_image = pygame.image.load("images/interface/multiplayer_power_ups_list.png").convert_alpha()
+    screen.blit(power_ups_list_image, (0, 0))
+    pygame.display.flip()
+
+    while True:
+
+        for user_input in pygame.event.get():
+
+            if user_input.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+
+            # if the user hovers over the buttons
+
+            mouse = pygame.mouse.get_pos()  # getting the mouse position
+
+            for number in range(len(buttons['power_ups_list'])):
+                if buttons['power_ups_list'][number][1] <= mouse[0] <= buttons['power_ups_list'][number][2] and buttons['power_ups_list'][number][3] <= mouse[1] <= buttons['power_ups_list'][number][4]:
+                    button = buttons['power_ups_list'][number][0]
+                    break
+            else:
+                button = None
+
+            if mode == 'single':
+                if button == None:
+                    power_ups_list_image = pygame.image.load("images/interface/singleplayer_power_ups_list.png").convert_alpha()
+                else:
+                    power_ups_list_image = pygame.image.load(f"images/interface/singleplayer_power_ups_list_{button}.png").convert_alpha()
+
+            else:
+                if button == None:
+                    power_ups_list_image = pygame.image.load("images/interface/multiplayer_power_ups_list.png").convert_alpha()
+                else:
+                    power_ups_list_image = pygame.image.load(f"images/interface/multiplayer_power_ups_list_{button}.png").convert_alpha()
+
+            screen.blit(power_ups_list_image, (0, 0))
+            pygame.display.flip()
+
+            # if the user clicks on the buttons
+
+            if user_input.type == pygame.MOUSEBUTTONDOWN:
+
+                for number in range(len(buttons['power_ups_list'])):
+
+                    if buttons['power_ups_list'][number][1] <= user_input.pos[0] <= buttons['power_ups_list'][number][2] and buttons['power_ups_list'][number][3] <= user_input.pos[1] <= buttons['power_ups_list'][number][4]:
+
+                        if buttons['power_ups_list'][number][0] == 'back':
+                            start_screen()
+                            return
+                        
+                        elif buttons['power_ups_list'][number][0] == 'return':
+                            if mode == 'single':
+                                single_customisation_screen(lolly=lolly, difficulty=difficulty, power_ups=power_ups)
+                            else:
                                 multi_customisation_screen(lolly=lolly, bestie=bestie, difficulty=difficulty, power_ups=power_ups)
