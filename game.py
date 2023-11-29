@@ -260,6 +260,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
     ''' Setting Up Variables '''
 
+    Size_LollyCar = (LollyCar.width, LollyCar.height)
+    Size_BestieCar = (BestieCar.width, BestieCar.height)
     score = 0
     road_y = 0
     obstacle_counter = 0
@@ -309,43 +311,67 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             carryOn = False
 
         ''' Lolly controls '''
-        if LollyCar.health > 0: # if the player is alive, they can move
-            if keys[pygame.K_a]:
-                LollyCar.move_left(20)
-            if keys[pygame.K_d]:
-                LollyCar.move_right(20)
-            if keys[pygame.K_w]:
-                LollyCar.move_up(20)
-                if LollyCar.rect.y < 0:
-                    LollyCar.rect.y = 0
-            if keys[pygame.K_s]:
-                LollyCar.move_down(20)
-                if LollyCar.rect.y > 800:
-                    LollyCar.rect.y = 800
-        else:
-            pass
 
-        ''' Bestie controls '''
-        if BestieCar.health > 0:
-            if keys[pygame.K_LEFT]:
-                BestieCar.move_left(20)
-            if keys[pygame.K_RIGHT]:
-                BestieCar.move_right(20)
-            if keys[pygame.K_UP]:
-                BestieCar.move_up(20)
-                if BestieCar.rect.y < 0:
-                    BestieCar.rect.y = 0
-            if keys[pygame.K_DOWN]:
-                BestieCar.move_down(20)
-                if BestieCar.rect.y > 800:
-                    BestieCar.rect.y = 800
-        else:
-            pass
+        if tangled_twist.active: # if the tangled twist power up is active, the controls are reversed
+            if BestieCar.health > 0:
+                if keys[pygame.K_w]:
+                    BestieCar.move_down(20)
+                if keys[pygame.K_s]:
+                    BestieCar.move_up(20)
+                if keys[pygame.K_a]:
+                    BestieCar.move_left(20)
+                    if BestieCar.rect.y < 0:
+                        BestieCar.rect.y = 0
+                if keys[pygame.K_d]:
+                    BestieCar.move_right(20)
+                    if BestieCar.rect.y < 0:
+                        BestieCar.rect.y = 0
+            if LollyCar.health > 0: 
+                if keys[pygame.K_UP]:
+                    LollyCar.move_down(20)
+                if keys[pygame.K_DOWN]:
+                    LollyCar.move_up(20)
+                if keys[pygame.K_LEFT]:
+                    LollyCar.move_left(20)
+                    if LollyCar.rect.y < 0:
+                        LollyCar.rect.y = 0
+                if keys[pygame.K_RIGHT]:
+                    LollyCar.move_right(20)
+                    if LollyCar.rect.y > 800:
+                        LollyCar.rect.y = 800
+            
+        else: # if the tangled twist power up is not active, the controls are normal
+                if LollyCar.health > 0: # if the player is alive, they can move
+                    if keys[pygame.K_a]:
+                        LollyCar.move_left(20)
+                    if keys[pygame.K_d]:
+                        LollyCar.move_right(20)
+                    if keys[pygame.K_w]:
+                        LollyCar.move_up(20)
+                        if LollyCar.rect.y < 0:
+                            LollyCar.rect.y = 0
+                    if keys[pygame.K_s]:
+                        LollyCar.move_down(20)
+                        if LollyCar.rect.y > 800:
+                            LollyCar.rect.y = 800
+                if BestieCar.health > 0:
+                    if keys[pygame.K_LEFT]:
+                        BestieCar.move_left(20)
+                    if keys[pygame.K_RIGHT]:
+                        BestieCar.move_right(20)
+                    if keys[pygame.K_UP]:
+                        BestieCar.move_up(20)
+                        if BestieCar.rect.y < 0:
+                            BestieCar.rect.y = 0
+                    if keys[pygame.K_DOWN]:
+                        BestieCar.move_down(20)
+                        if BestieCar.rect.y > 800:
+                            BestieCar.rect.y = 800
 
         all_sprites_list.update(all_sprites_list)
 
         ''' Prevent the cars from going off the street'''
-
+    
         if LollyCar.rect.x < 230:
             LollyCar.rect.x = 230
         if LollyCar.rect.x > 900:
@@ -372,9 +398,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         screen.blit(road, (0, road_y - 950))
 
         ''' Incoming Cars '''
-
-        Base_LollyCar = LollyCar
-        Base_BestieCar = BestieCar
 
         if difficulty != 'hard':
 
@@ -410,16 +433,18 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         ''' Collision Between Players'''
         if besties_in_harmony.active:
             if pygame.sprite.collide_rect(LollyCar, BestieCar):
+                print("Collision Detected - Active Power-Up")
                 pass
         else:
             if pygame.sprite.collide_rect(LollyCar, BestieCar):
+                print("Collision Detected - Resolving Collision")
                 if LollyCar.rect.x < BestieCar.rect.x:
                     LollyCar.rect.x -= 20
                     BestieCar.rect.x += 20
                 else:
                     LollyCar.rect.x += 20
-                    BestieCar.rect.x -= 20 
-        ''' Collision Detection '''
+                    BestieCar.rect.x -= 20
+                ''' Collision Detection '''
 
         if difficulty != 'hard':
 
@@ -555,6 +580,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                             game_over(road, difficulty, lolly, bestie, power_ups)
 
         ''' Power Ups '''
+
         ''' Besties in Harmony '''
 
         besties_in_harmony.move_down(besties_in_harmony.base_speed)
@@ -568,6 +594,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             # if the power up is collected, it is removed and enters cooldown
             besties_in_harmony.cooldown = 30
             besties_in_harmony.remove_from_screen()
+            besties_in_harmony.active = True
 
         if besties_in_harmony.active:
             besties_in_harmony.timer += 1
@@ -705,47 +732,12 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             tangled_twist.timer += 1
             tangled_twist_text = score_font.render("Tangle Twist", True, (255, 255, 255))
             screen.blit(tangled_twist_text, (10, 290))
-            if keys[pygame.K_w]:
-                BestieCar.move_down(20)
-            if keys[pygame.K_s]:
-                BestieCar.move_up(20)
-            if keys[pygame.K_a]:
-                BestieCar.move_right(20)
-            if keys[pygame.K_d]:
-                BestieCar.move_left(20)
-            if keys[pygame.K_UP]:
-                LollyCar.move_down(20)
-            if keys[pygame.K_DOWN]:
-                LollyCar.move_up(20)
-            if keys[pygame.K_LEFT]:
-                LollyCar.move_right(20)
-            if keys[pygame.K_RIGHT]:
-                LollyCar.move_left(20)
-
             if tangled_twist.timer == tangled_twist.duration:
                 # Deactivate the power-up and reset timer
                 tangled_twist.active = False
                 tangled_twist.timer = 0
                 tangled_twist.cooldown = 15
                 tangled_twist.remove_from_screen()
-                # Reset the controls
-                if keys[pygame.K_w]:
-                    LollyCar.move_up(20)
-                if keys[pygame.K_s]:
-                    LollyCar.move_down(20)
-                if keys[pygame.K_a]:
-                    LollyCar.move_left(20)
-                if keys[pygame.K_d]:
-                    LollyCar.move_right(20)
-                if keys[pygame.K_UP]:
-                    BestieCar.move_up(20)
-                if keys[pygame.K_DOWN]:
-                    BestieCar.move_down(20)
-                if keys[pygame.K_LEFT]:
-                    BestieCar.move_left(20)
-                if keys[pygame.K_RIGHT]:
-                    BestieCar.move_right(20)
-
         # Check for cooldown and reactivation
         if tangled_twist.cooldown > 0:
             tangled_twist.cooldown -= 1
@@ -768,10 +760,10 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             # if the power up is collected, it is removed and enters cooldown
             if pygame.sprite.collide_rect(LollyCar, glamorous_growth):
                 LollyCar.add_health(1)
-                LollyCar.resize(1.05, 1.05)
+                LollyCar.resize(1.1, 1.1)
             if pygame.sprite.collide_rect(BestieCar, glamorous_growth):
                 BestieCar.add_health(1)
-                BestieCar.resize(1.05, 1.05)  
+                BestieCar.resize(1.1, 1.1)  
             glamorous_growth.remove_from_screen()
             glamorous_growth.active = True
 
@@ -780,12 +772,12 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             glamorous_text = score_font.render("Glamorous", True, (255, 255, 255))
             screen.blit(glamorous_text, (10, 330))
             if glamorous_growth.timer == glamorous_growth.duration:
+                LollyCar.player_resize()
+                BestieCar.player_resize()
                 glamorous_growth.active = False
                 glamorous_growth.timer = 0
                 glamorous_growth.cooldown = 15
                 glamorous_growth.remove_from_screen()
-                LollyCar.player_resize(LollyCar.width, LollyCar.height)
-                BestieCar.player_resize(BestieCar.width, BestieCar.height)
 
         if glamorous_growth.cooldown > 0:
             glamorous_growth.cooldown -= 1
@@ -846,7 +838,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             toy_transforminator.cooldown = 15
             toy_transforminator.active = True
             for car in left_incoming_cars:
-                car.resize(0.95, 0.95)
+                car.resize(0.85, 0.85)
 
         if toy_transforminator.active:
             toy_transforminator.timer += 1
