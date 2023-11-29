@@ -81,7 +81,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
     # the traffic slows down
     image_gal_pal_rebirth = "images/power_ups/gal_pal_rebirth.png"
     # an eliminated player is revived
-    image_twist_turn = "images/power_ups/twist_turn.png"
+    image_tangle_turn = "images/power_ups/tangle_turn.png"
     # reverse controls left/right
     image_glamorous_growth = "images/power_ups/glamorous_growth.png"
     # the car grows in size and gain HP
@@ -188,73 +188,43 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         besties_in_harmony = BestiesInHarmony()
         besties_in_harmony.rect.x = random.choice([285, 466, 643, 825])
         besties_in_harmony.rect.y = random.randint(-1500, -100)
+        all_sprites_list.add(besties_in_harmony)
 
     if 'diva_defiance' in power_ups:
-        diva_defiance = PowerUp(image_diva_defiance, 80, 80)
+        diva_defiance = DivaDefiance()
         diva_defiance.rect.x = random.choice([285, 466, 643, 825])
         diva_defiance.rect.y = random.randint(-1500, -100)
-        diva_defiance_base_speed = 3
-        diva_defiance_duration = 400
-        diva_defiance_timer = 0
-        diva_defiance_active = False
-        diva_defiance_cooldown = 20
 
     if 'frosty_frenzy' in power_ups:
-        frosty_frenzy = PowerUp(image_frosty_frenzy, 80, 80)
+        frosty_frenzy = FrostyFrenzy()
         frosty_frenzy.rect.x = random.choice([285, 466, 643, 825])
         frosty_frenzy.rect.y = random.randint(-1500, -100)
-        frosty_frenzy_base_speed = 3
-        frosty_frenzy_duration = 80
-        frosty_frenzy_timer = 0
-        frosty_frenzy_active = False
-        frosty_frenzy_cooldown = 15
 
     if 'gal_pal_rebirth' in power_ups:
-        gal_pal_rebirth = PowerUp(image_gal_pal_rebirth, 80, 80)
+        gal_pal_rebirth = GalPalRebirth()
         gal_pal_rebirth.rect.x = random.choice([285, 466, 643, 825])
         gal_pal_rebirth.rect.y = random.randint(-1500, -100)
-
-        gal_pal_rebirth_base_speed = 3
             
-    if 'twist_turn' in power_ups:
-        twist_turn = PowerUp(image_twist_turn, 80, 80)
-        twist_turn.rect.x = random.choice([285, 466, 643, 825])
-        twist_turn.rect.y = random.randint(-1500, -100)
-        twist_turn_base_speed = 3
-        twist_turn_duration = 60
-        twist_turn_timer = 0
-        twist_turn_active = False
-        twist_turn_cooldown = 15
+    if 'TangledTwist' in power_ups:
+        tangle_turn = TangledTwist()
+        tangle_turn.rect.x = random.choice([285, 466, 643, 825])
+        tangle_turn.rect.y = random.randint(-1500, -100)
         
     if 'glamorous_growth' in power_ups:
-        glamorous_growth = PowerUp(image_glamorous_growth, 80, 80)
+        glamorous_growth = GlamorousGrowth()
         glamorous_growth.rect.x = random.choice([285, 466, 643, 825])
         glamorous_growth.rect.y = random.randint(-1500, -100)
-        glamorous_growth_base_speed = 3
-        glamorous_growth_active = False
-        glamorous_growth_cooldown = 15
-        glamorous_growth_duration = 60
-        glamorous_growth_timer = 0    
 
     if 'sissy_that_walk' in power_ups:
-        sissy_that_walk = PowerUp(image_sissy_that_walk, 80, 80)
+        sissy_that_walk = SissyThatWalk()
         sissy_that_walk.rect.x = random.choice([285, 466, 643, 825])
         sissy_that_walk.rect.y = random.randint(-1500, -100)
-        sissy_that_walk_base_speed = 3
-        sissy_that_walk_duration = 130
-        sissy_that_walk_timer = 0
-        sissy_that_walk_active = False
-        sissy_that_walk_cooldown = 15
         
     if 'toy_transforminator' in power_ups:
-        toy_transforminator = PowerUp(image_toy_transforminator, 80, 80)
+        toy_transforminator = ToyTransforminator()
         toy_transforminator.rect.x = random.choice([285, 466, 643, 825])
         toy_transforminator.rect.y = random.randint(-1500, -100)
-        toy_transforminator_base_speed = 3
-        toy_transforminator_duration = 5
-        toy_transforminator_timer = 0
-        toy_transforminator_active = False
-        toy_transforminator_cooldown = 15
+
 
     ''' Adding Sprites to Group '''
 
@@ -273,8 +243,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         all_sprites_list.add(frosty_frenzy)
     if 'gal_pal_rebirth' in power_ups:
         all_sprites_list.add(gal_pal_rebirth)
-    if 'twist_turn' in power_ups:
-        all_sprites_list.add(twist_turn)
+    if 'tangle_turn' in power_ups:
+        all_sprites_list.add(tangle_turn)
     if 'glamorous_growth' in power_ups:
         all_sprites_list.add(glamorous_growth)
     if 'sissy_that_walk' in power_ups:
@@ -322,8 +292,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
     sissy_that_walk.add_cooldown(power_ups_cooldown_nerfer)
     toy_transforminator.add_duration(power_ups_duration_buffer)
     toy_transforminator.add_cooldown(power_ups_cooldown_nerfer)
-    twist_turn.add_duration(power_ups_duration_buffer)
-    twist_turn.add_cooldown(power_ups_cooldown_nerfer)
+    tangle_turn.add_duration(power_ups_duration_buffer)
+    tangle_turn.add_cooldown(power_ups_cooldown_nerfer)
 
     for car in left_incoming_cars:
         car.add_speed(traffic_speed_buffer)
@@ -736,25 +706,25 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
         '''Twist Turn'''
 
-        twist_turn.move_down(twist_turn_base_speed)
+        tangle_turn.move_down(tangle_turn_base_speed)
 
-        if twist_turn.rect.y > 950:
+        if tangle_turn.rect.y > 950:
             # if the power up is off the screen, it is removed and enters cooldown
-            twist_turn.kill()
-            twist_turn_cooldown = 15
+            tangle_turn.kill()
+            tangle_turn_cooldown = 15
 
-        if pygame.sprite.collide_rect(LollyCar, twist_turn) or pygame.sprite.collide_rect(BestieCar, twist_turn):
+        if pygame.sprite.collide_rect(LollyCar, tangle_turn) or pygame.sprite.collide_rect(BestieCar, tangle_turn):
             # if the power up is collected, it is removed and enters cooldown
-            twist_turn.kill()
-            twist_turn_cooldown = 15
-            twist_turn_active = True
-            twist_turn.rect.x = 400
-            twist_turn.rect.y = -40000    
+            tangle_turn.kill()
+            tangle_turn_cooldown = 15
+            tangle_turn_active = True
+            tangle_turn.rect.x = 400
+            tangle_turn.rect.y = -40000    
 
-        if twist_turn_active:
-            twist_turn_timer += 1
-            twist_turn_text = score_font.render("Twist Turn", True, (255, 255, 255))
-            screen.blit(twist_turn_text, (10, 250))
+        if tangle_turn_active:
+            tangle_turn_timer += 1
+            tangle_turn_text = score_font.render("Twist Turn", True, (255, 255, 255))
+            screen.blit(tangle_turn_text, (10, 250))
             if keys[pygame.K_d]:
                 LollyCar.move_left(40)
             if keys[pygame.K_a]:
@@ -764,12 +734,12 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             if keys[pygame.K_LEFT]:
                 BestieCar.move_right(40)
 
-            if twist_turn_timer == twist_turn_duration:
+            if tangle_turn_timer == tangle_turn_duration:
                 # Deactivate the power-up and reset timer
-                twist_turn_active = False
-                twist_turn_timer = 0
-                twist_turn_cooldown = 15
-                twist_turn.kill()
+                tangle_turn_active = False
+                tangle_turn_timer = 0
+                tangle_turn_cooldown = 15
+                tangle_turn.kill()
                 if keys[pygame.K_a]:
                     LollyCar.move_left(20)
                 if keys[pygame.K_d]:
@@ -780,13 +750,13 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                     BestieCar.move_right(20)
 
         # Check for cooldown and reactivation
-        if twist_turn_cooldown > 0:
-            twist_turn_cooldown -= 1
-            if twist_turn_cooldown == 0:
+        if tangle_turn_cooldown > 0:
+            tangle_turn_cooldown -= 1
+            if tangle_turn_cooldown == 0:
                 # Reactivate the power-up at a random position
-                twist_turn.rect.x = random.choice([285, 466, 643, 825])
-                twist_turn.rect.y = random.randint(-1500, -100)
-                all_sprites_list.add(twist_turn)
+                tangle_turn.rect.x = random.choice([285, 466, 643, 825])
+                tangle_turn.rect.y = random.randint(-1500, -100)
+                all_sprites_list.add(tangle_turn)
                 
         ''' Glamorous Growth '''
 
@@ -987,7 +957,7 @@ def game_over(road, difficulty, lolly, bestie, power_ups):
                 carry_on = False
                 multi_game(difficulty, lolly, bestie, power_ups)
         elif back_button_coor[0] <= mouse[0] <= back_button_coor[2] and back_button_coor[1] < mouse[1] < back_button_coor[3]:
-            screen.blit(game_over_back_image, center_game_over_coord)
+            screen.blit(game_over_exit_image, center_game_over_coord)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 carry_on = False
                 pygame.quit()
