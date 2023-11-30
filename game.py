@@ -657,12 +657,12 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         if frosty_frenzy.rect.y > 950:
             # if the power up is off the screen, it is removed and enters cooldown
             frosty_frenzy.remove_from_screen()
-            frosty_frenzy.cooldown = 15
+            frosty_frenzy.cooldown = 30
 
         if pygame.sprite.collide_rect(LollyCar, frosty_frenzy) or pygame.sprite.collide_rect(BestieCar, frosty_frenzy):
             # if the power up is collected, it is removed and enters cooldown
             frosty_frenzy.remove_from_screen()
-            frosty_frenzy.cooldown = 15
+            frosty_frenzy.cooldown = 30
             frosty_frenzy.active = True
             road = pygame.image.load("images/power_ups_visuals/frosty_frenzy/road_snow.png")
             snow_sky = pygame.image.load("images/power_ups_visuals/frosty_frenzy/snow_sky.png")
@@ -671,9 +671,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         if frosty_frenzy.active:
             frosty_frenzy.timer += 1
             frosty_text = score_font.render("Frosty", True, (255, 255, 255))
-            screen.blit(frosty_text, (10, 210))
-            screen.blit(snow_sky, (0, 0))
-            screen.blit(snow_flakes, (0, 0))
 
             for car in left_incoming_cars:
                 car.speed = -6
@@ -689,7 +686,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         if frosty_frenzy.cooldown > 0:
             frosty_frenzy.cooldown -= 1
             if frosty_frenzy.cooldown == 0:
-                frosty_frenzy.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+                frosty_frenzy.set_position(random.choice([285, 466, 643, 825]), random.randint(-3000, -1000))
                 all_sprites_list.add(frosty_frenzy)
 
         ''' Gal Pal Rebirth '''
@@ -859,21 +856,20 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             screen.blit(pygame.image.load(current_image), (0, 0))
             sissy_text = score_font.render("Sissy", True, (255, 255, 255))
             screen.blit(sissy_text, (10, 370))
-            speed_effect_index = (speed_effect_index + 1) % len(speed_effect)
             if sissy_that_walk.timer == sissy_that_walk.duration:
                 sissy_that_walk.affect_both_players(LollyCar, BestieCar)
                 sissy_that_walk.active = False
                 sissy_that_walk.timer = 0
                 sissy_that_walk.cooldown = 15
                 sissy_that_walk.remove_from_screen()
-                speed_effect_index = 0
-            
+
         if sissy_that_walk.cooldown > 0:
             sissy_that_walk.cooldown -= 1
             if sissy_that_walk.cooldown == 0:
                 sissy_that_walk.rect.x = random.choice([285, 466, 643, 825])
                 sissy_that_walk.rect.y = random.randint(-2500, -100)
                 all_sprites_list.add(sissy_that_walk)
+
 
         ''' Toy Transforminator '''
 
@@ -919,6 +915,11 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
         score += 1
 
+        ''' Drawing Everything '''
+        if frosty_frenzy.active:
+            screen.blit(frosty_text, (10, 210))
+            screen.blit(snow_sky, (0, 0))
+            screen.blit(snow_flakes, (0, 0))
         # score counter
         health_text = score_font.render(f"Health: {LollyCar.health}", True, (255, 255, 255))
         screen.blit(health_text, (10, 50))

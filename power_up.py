@@ -4,14 +4,14 @@ import random
 
 class PowerUp(ABC, pygame.sprite.Sprite):
 
-    def __init__(self, powerup_image, width, height, base_speed=0, duration=0, cooldown=0):
+    def __init__(self, powerup_image, width, height, duration=0, cooldown=0):
         super().__init__()
 
         self.width = width
         self.height = height
         self.duration = duration
         self.cooldown = cooldown
-        self.base_speed = base_speed
+        self.base_speed = random.randint(2, 4)
         self.active = False
         self.timer = 0
         self.cooldown_timer = 0
@@ -59,7 +59,7 @@ class PowerUp(ABC, pygame.sprite.Sprite):
 
 class BestiesInHarmony(PowerUp):
     def __init__(self):
-        super().__init__("images/power_ups/besties_in_harmony.png", 80, 80, 3, 120, 0)
+        super().__init__("images/power_ups/besties_in_harmony.png", 80, 80, 120, 0)
 
     def affect_player(self, player):
         player.collide_with_player = False
@@ -73,7 +73,7 @@ class BestiesInHarmony(PowerUp):
         
 class DivaDefiance(PowerUp): # The player can pass through traffic cars
     def __init__(self):
-        super().__init__("images/power_ups/diva_defiance.png", 80, 80, 3, 120, 0)
+        super().__init__("images/power_ups/diva_defiance.png", 80, 80, 120, 0)
 
     def affect_player(self, player):    
         pass 
@@ -87,7 +87,7 @@ class DivaDefiance(PowerUp): # The player can pass through traffic cars
         
 class FrostyFrenzy(PowerUp): # incoming cars get slower
     def __init__(self):
-        super().__init__("images/power_ups/frosty_frenzy.png", 80, 80, 3, 120, 0)
+        super().__init__("images/power_ups/frosty_frenzy.png", 80, 80, 120, 0)
 
     def affect_player(self, player):
         pass
@@ -101,7 +101,7 @@ class FrostyFrenzy(PowerUp): # incoming cars get slower
 
 class GalPalRebirth(PowerUp): # Player gets revived
     def __init__(self):
-        super().__init__("images/power_ups/gal_pal_rebirth.png", 80, 80, 3, 120, 0)
+        super().__init__("images/power_ups/gal_pal_rebirth.png", 80, 80, 120, 0)
     
     def affect_player(self, player):
         pass
@@ -117,7 +117,7 @@ class GalPalRebirth(PowerUp): # Player gets revived
 
 class TangledTwist(PowerUp): # the player gets the other player's controls
     def __init__(self):
-        super().__init__("images/power_ups/tangled_twist.png", 80, 80, 3, 120, 0)
+        super().__init__("images/power_ups/tangled_twist.png", 80, 80, 120, 0)
 
     def affect_player(self, player):
         pass
@@ -130,7 +130,7 @@ class TangledTwist(PowerUp): # the player gets the other player's controls
 
 class GlamorousGrowth(PowerUp): # the player gets bigger and gains hp (+2 if it's the tank car, +1 if it's one of the others)
     def __init__(self):
-        super().__init__("images/power_ups/glamorous_growth.png", 80, 80, 3, 120, 0)
+        super().__init__("images/power_ups/glamorous_growth.png", 80, 80, 120, 0)
 
     def affect_player(self, player):
         player.width = 100
@@ -146,7 +146,7 @@ class GlamorousGrowth(PowerUp): # the player gets bigger and gains hp (+2 if it'
 
 class SissyThatWalk(PowerUp): # the player gets a speed boost
     def __init__(self):
-        super().__init__("images/power_ups/sissy_that_walk.png", 80, 80, 3, 120, 0)
+        super().__init__("images/power_ups/sissy_that_walk.png", 80, 80, 120, 0)
 
     def affect_player(self, player):
         player.speed = 10        
@@ -159,7 +159,7 @@ class SissyThatWalk(PowerUp): # the player gets a speed boost
 
 class ToyTransforminator(PowerUp): # the traffic cars get smaller
     def __init__(self):
-        super().__init__("images/power_ups/toy_transforminator.png", 80, 80, 3, 120, 0)
+        super().__init__("images/power_ups/toy_transforminator.png", 80, 80, 120, 0)
 
     def affect_player(self, player):
         pass
