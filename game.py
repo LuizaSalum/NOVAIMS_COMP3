@@ -594,8 +594,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             besties_in_harmony.remove_from_screen()
             besties_in_harmony.active = True
             # Check what car does the player have and change the image so the size is the same
-            LollyCar.change_car_image(lolly, 'besties_in_harmony')
-            BestieCar.change_car_image(bestie, 'besties_in_harmony')
+            LollyCar.change_car_image(lolly, 'besties')
+            BestieCar.change_car_image(bestie, 'besties')
 
         if besties_in_harmony.active:
             besties_in_harmony.timer += 1
@@ -632,8 +632,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
         if diva_defiance.active:
             diva_defiance.timer += 1
-            LollyCar.change_car_image(lolly, 'diva_defiance')
-            BestieCar.change_car_image(bestie, 'diva_defiance')
+            LollyCar.change_car_image(lolly, 'diva')
+            BestieCar.change_car_image(bestie, 'diva')
             diva_text = score_font.render("Diva", True, (255, 255, 255))
             screen.blit(diva_text, (10, 170))
             if diva_defiance.timer == diva_defiance.duration:
@@ -743,8 +743,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             tangled_twist.active = True
             tangled_twist.rect.x = 400
             tangled_twist.rect.y = -40000    
-            LollyCar.change_car_image(lolly, 'tangled_twist')
-            BestieCar.change_car_image(bestie, 'tangled_twist')
+            LollyCar.change_car_image(lolly, 'tangled')
+            BestieCar.change_car_image(bestie, 'tangled')
 
         if tangled_twist.active:
             tangled_twist.timer += 1
