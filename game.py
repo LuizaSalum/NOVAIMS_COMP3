@@ -312,12 +312,12 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
         ''' Lolly controls '''
 
-        if tangled_twist.active: # if the tangled twist power up is active, the controls are reversed
+        if tangled_twist.active:  # if the tangled twist power up is active, the controls are reversed
             if BestieCar.health > 0:
                 if keys[pygame.K_w]:
-                    BestieCar.move_down(20)
-                if keys[pygame.K_s]:
                     BestieCar.move_up(20)
+                if keys[pygame.K_s]:
+                    BestieCar.move_down(20)
                 if keys[pygame.K_a]:
                     BestieCar.move_left(20)
                     if BestieCar.rect.y < 0:
@@ -328,9 +328,9 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                         BestieCar.rect.y = 0
             if LollyCar.health > 0: 
                 if keys[pygame.K_UP]:
-                    LollyCar.move_down(20)
-                if keys[pygame.K_DOWN]:
                     LollyCar.move_up(20)
+                if keys[pygame.K_DOWN]:
+                    LollyCar.move_down(20)
                 if keys[pygame.K_LEFT]:
                     LollyCar.move_left(20)
                     if LollyCar.rect.y < 0:
@@ -593,12 +593,17 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             besties_in_harmony.cooldown = 30
             besties_in_harmony.remove_from_screen()
             besties_in_harmony.active = True
+            # Check what car does the player have and change the image so the size is the same
+            LollyCar.change_car_image(lolly, 'besties_in_harmony')
+            BestieCar.change_car_image(bestie, 'besties_in_harmony')
 
         if besties_in_harmony.active:
             besties_in_harmony.timer += 1
             besties_text = score_font.render("Besties", True, (255, 255, 255))
             screen.blit(besties_text, (10, 130))
             if besties_in_harmony.timer == besties_in_harmony.duration:
+                LollyCar.change_car_image(lolly, 'normal')
+                BestieCar.change_car_image(bestie, 'normal')
                 besties_in_harmony.active = False
                 besties_in_harmony.timer = 0
                 besties_in_harmony.cooldown = 30
@@ -627,12 +632,17 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
         if diva_defiance.active:
             diva_defiance.timer += 1
+            LollyCar.change_car_image(lolly, 'diva_defiance')
+            BestieCar.change_car_image(bestie, 'diva_defiance')
             diva_text = score_font.render("Diva", True, (255, 255, 255))
             screen.blit(diva_text, (10, 170))
             if diva_defiance.timer == diva_defiance.duration:
                 diva_defiance.remove_from_screen()
                 diva_defiance.cooldown = 20
                 diva_defiance.active = False
+                diva_defiance.timer = 0
+                LollyCar.change_car_image(lolly, 'normal')
+                BestieCar.change_car_image(bestie, 'normal')
 
         if diva_defiance.cooldown > 0:
             diva_defiance.cooldown -= 1
@@ -726,6 +736,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             tangled_twist.active = True
             tangled_twist.rect.x = 400
             tangled_twist.rect.y = -40000    
+            LollyCar.change_car_image(lolly, 'tangled_twist')
+            BestieCar.change_car_image(bestie, 'tangled_twist')
 
         if tangled_twist.active:
             tangled_twist.timer += 1
@@ -764,6 +776,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 tangled_twist.timer = 0
                 tangled_twist.cooldown = 15
                 tangled_twist.remove_from_screen()
+                LollyCar.change_car_image(lolly, 'normal')
         # Check for cooldown and reactivation
         if tangled_twist.cooldown > 0:
             tangled_twist.cooldown -= 1

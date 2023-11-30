@@ -47,6 +47,7 @@ class Car(pygame.sprite.Sprite):  # a sprite is a thing that moves around the sc
         self.rect.center = old_center
 
     def change_image(self, car_image, width, height, x_box, y_box):
+        old_center = self.rect.center
         new_image = pygame.image.load(car_image).convert_alpha()
         new_image = pygame.transform.scale(new_image, (width, height))
         self.image = new_image
@@ -54,6 +55,42 @@ class Car(pygame.sprite.Sprite):  # a sprite is a thing that moves around the sc
         self.box = pygame.Rect(self.rect.x + x_box, self.rect.y + y_box, x_box, y_box)
         self.width = width
         self.height = height
+        self.rect.center = old_center
+
+    def change_car_image(self, player, power_up_type): # this is a generalization of the change_image function for all cars types
+        if player == 'car1':
+            car_type = 'car1'
+        elif player == 'car2':
+            car_type = 'car2'
+        elif player == 'car3':
+            car_type = 'car3'
+
+        power_up_images = {
+            'normal': {
+                'car1': 'images/players_cars/car1.png',
+                'car2': 'images/players_cars/car2.png',
+                'car3': 'images/players_cars/car3.png',
+            },
+            'besties_in_harmony': {
+                'car1': 'images/power_ups_visuals/besties_in_harmony/car1_besties.png',
+                'car2': 'images/power_ups_visuals/besties_in_harmony/car2_besties.png',
+                'car3': 'images/power_ups_visuals/besties_in_harmony/car3_besties.png',
+            },
+            'diva_defiance': {
+                'car1': 'images/power_ups_visuals/diva_defiance/car1_diva.png',
+                'car2': 'images/power_ups_visuals/diva_defiance/car2_diva.png',
+                'car3': 'images/power_ups_visuals/diva_defiance/car3_diva.png',
+            },
+            'tangled_twist': {
+                'car1': 'images/power_ups_visuals/tangled_twist/car1_tangled.png',
+                'car2': 'images/power_ups_visuals/tangled_twist/car2_tangled.png',
+                'car3': 'images/power_ups_visuals/tangled_twist/car3_tangled.png',
+            }}
+
+        image_path = power_up_images[power_up_type][car_type]
+        self.image = pygame.image.load(image_path).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (self.width, self.height))
+
 
     def check_collision(self, other):
         return self.box.colliderect(other.box)
