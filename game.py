@@ -664,11 +664,17 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             frosty_frenzy.remove_from_screen()
             frosty_frenzy.cooldown = 15
             frosty_frenzy.active = True
+            road = pygame.image.load("images/power_ups_visuals/frosty_frenzy/road_snow.png")
+            snow_sky = pygame.image.load("images/power_ups_visuals/frosty_frenzy/snow_sky.png")
+            snow_flakes = pygame.image.load("images/power_ups_visuals/frosty_frenzy/snow_snowflakes.png")
 
         if frosty_frenzy.active:
             frosty_frenzy.timer += 1
             frosty_text = score_font.render("Frosty", True, (255, 255, 255))
             screen.blit(frosty_text, (10, 210))
+            screen.blit(snow_sky, (0, 0))
+            screen.blit(snow_flakes, (0, 0))
+
             for car in left_incoming_cars:
                 car.speed = -6
             if frosty_frenzy.timer == frosty_frenzy.duration:
@@ -676,6 +682,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 frosty_frenzy.timer = 0
                 frosty_frenzy.cooldown = 15
                 frosty_frenzy.remove_from_screen()
+                road = pygame.image.load("images/road.png")
                 for car in left_incoming_cars:
                     car.speed = random.randint(-1, 2)
 
