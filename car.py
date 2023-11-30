@@ -72,20 +72,20 @@ class Car(pygame.sprite.Sprite):  # a sprite is a thing that moves around the sc
                 'car2': 'images/players_cars/car2.png',
                 'car3': 'images/players_cars/car3.png',
             },
-            'besties_in_harmony': {
-                'car1': 'images/power_ups_visuals/besties_in_harmony/car1_besties.png',
-                'car2': 'images/power_ups_visuals/besties_in_harmony/car2_besties.png',
-                'car3': 'images/power_ups_visuals/besties_in_harmony/car3_besties.png',
+            'besties': {
+                'car1': 'images/power_ups_visuals/besties/car1_besties.png',
+                'car2': 'images/power_ups_visuals/besties/car2_besties.png',
+                'car3': 'images/power_ups_visuals/besties/car3_besties.png',
             },
-            'diva_defiance': {
-                'car1': 'images/power_ups_visuals/diva_defiance/car1_diva.png',
-                'car2': 'images/power_ups_visuals/diva_defiance/car2_diva.png',
-                'car3': 'images/power_ups_visuals/diva_defiance/car3_diva.png',
+            'diva': {
+                'car1': 'images/power_ups_visuals/diva/car1_diva.png',
+                'car2': 'images/power_ups_visuals/diva/car2_diva.png',
+                'car3': 'images/power_ups_visuals/diva/car3_diva.png',
             },
-            'tangled_twist': {
-                'car1': 'images/power_ups_visuals/tangled_twist/car1_tangled.png',
-                'car2': 'images/power_ups_visuals/tangled_twist/car2_tangled.png',
-                'car3': 'images/power_ups_visuals/tangled_twist/car3_tangled.png',
+            'tangled': {
+                'car1': 'images/power_ups_visuals/tangled/car1_tangled.png',
+                'car2': 'images/power_ups_visuals/tangled/car2_tangled.png',
+                'car3': 'images/power_ups_visuals/tangled/car3_tangled.png',
             }}
 
         # this will change the image of the car to the image of the power up that is currently active
