@@ -835,6 +835,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         ''' Sissy That Walk '''
 
         sissy_that_walk.move_down(sissy_that_walk.base_speed)
+        speed_effect = ["images/power_ups_visuals/sissy_that_walk/sissy1.png", "images/power_ups_visuals/sissy_that_walk/sissy2.png", "images/power_ups_visuals/sissy_that_walk/sissy3.png"]
+        speed_effect_index = 0
 
         if sissy_that_walk.rect.y > 950:
             # if the power up is off the screen, it is removed and enters cooldown
@@ -850,17 +852,21 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             sissy_that_walk.rect.y = -40000
             LollyCar.speed = 10
             BestieCar.speed = 10
-        
+
         if sissy_that_walk.active:
             sissy_that_walk.timer += 1
+            current_image = speed_effect[speed_effect_index]
+            screen.blit(pygame.image.load(current_image), (0, 0))
             sissy_text = score_font.render("Sissy", True, (255, 255, 255))
             screen.blit(sissy_text, (10, 370))
+            speed_effect_index = (speed_effect_index + 1) % len(speed_effect)
             if sissy_that_walk.timer == sissy_that_walk.duration:
                 sissy_that_walk.affect_both_players(LollyCar, BestieCar)
                 sissy_that_walk.active = False
                 sissy_that_walk.timer = 0
                 sissy_that_walk.cooldown = 15
                 sissy_that_walk.remove_from_screen()
+                speed_effect_index = 0
             
         if sissy_that_walk.cooldown > 0:
             sissy_that_walk.cooldown -= 1
