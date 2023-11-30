@@ -45,6 +45,27 @@ class PowerUp(ABC, pygame.sprite.Sprite):
     def add_duration(self, duration):
         self.duration *= duration
 
+    def should_spawn_power_up(self, power_up_probabilities):
+        return random.random() < power_up_probabilities["power_up_probability"]
+
+    def check_off_screen(self):
+        if self.rect.y > 950:
+            self.remove_from_screen()
+            self.cooldown = cooldown
+        
+    def collision_with_player(self):
+        self.active = True
+        self.remove_from_screen()
+        self.duration = duration
+        self.cooldown = cooldown
+
+    def cooldown_reset(self, all_sprites_list):
+        if self.cooldown_timer > 0:
+            self.cooldown_timer -= 1
+            if self.cooldown_timer == 0:
+                self.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+                all_sprites_list.add(self)
+    
     @abstractmethod
     def affect_player(self, player):
         pass
@@ -77,7 +98,7 @@ class DivaDefiance(PowerUp): # The player can pass through traffic cars
 
     def affect_player(self, player):    
         pass 
-    
+
     def affect_traffic(self, traffic):
         for car in traffic:
             car.collide_with_player = False
