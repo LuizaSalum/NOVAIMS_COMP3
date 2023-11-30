@@ -44,7 +44,6 @@ class PowerUp(ABC, pygame.sprite.Sprite):
     
     def add_duration(self, duration):
         self.duration *= duration
-    
 
     @abstractmethod
     def affect_player(self, player):
