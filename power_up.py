@@ -22,6 +22,10 @@ class PowerUp(ABC, pygame.sprite.Sprite):
 
         self.rect.x = random.choice([285, 466, 643, 825])
         self.rect.y = random.randint(-1500, -100)
+
+    def change_image(self, image_path):
+        self.image = pygame.image.load(image_path).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (self.width, self.height))
     
     def move_down(self, pixels):
         pixels = self.base_speed + pixels
@@ -119,6 +123,8 @@ class GalPalRebirth(PowerUp): # Player gets revived
     def affect_both_players(self, lolly, bestie):
         if lolly.health == 0:
             lolly.health = 1
+            
+
         if bestie.health == 0:
             bestie.health = 1
 
@@ -140,6 +146,7 @@ class GlamorousGrowth(PowerUp): # the player gets bigger and gains hp (+2 if it'
         super().__init__("images/power_ups/glamorous_growth.png", 80, 80, 60,0)
 
     def affect_player(self, player):
+        player.health += 1
         player.width = 100
         player.height = 100
         player.image = pygame.image.load("images/cars/glamorous_growth.png").convert_alpha()
@@ -176,8 +183,6 @@ class ToyTransforminator(PowerUp): # the traffic cars get smaller
         for car in traffic:
             car.width = 50
             car.height = 50
-            car.image = pygame.image.load("images/cars/toy_car.png").convert_alpha()
-            car.image = pygame.transform.scale(car.image, (car.width, car.height))
 
     def affect_both_players(self, lolly, bestie):
         pass

@@ -688,19 +688,18 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
         if pygame.sprite.collide_rect(LollyCar, glamorous_growth) or pygame.sprite.collide_rect(BestieCar, glamorous_growth):
             if pygame.sprite.collide_rect(LollyCar, glamorous_growth):
-                LollyCar.add_health(1)
-                LollyCar.resize(1.1, 1.1)
+                GlamorousGrowth.affect_player(LollyCar)
             if pygame.sprite.collide_rect(BestieCar, glamorous_growth):
-                BestieCar.add_health(1)
-                BestieCar.resize(1.1, 1.1)
+                GlamorousGrowth.affect_player(BestieCar)
             glamorous_growth.collision_with_player()
 
         if pygame.sprite.collide_rect(LollyCar, sissy_that_walk) or pygame.sprite.collide_rect(BestieCar, sissy_that_walk):
+            SissyThatWalk.affect_both_players(LollyCar, BestieCar, 15)
             sissy_that_walk.collision_with_player()
 
         if pygame.sprite.collide_rect(LollyCar, toy_transforminator) or pygame.sprite.collide_rect(BestieCar, toy_transforminator):
             for car in left_incoming_cars:
-                car.resize(0.85, 0.85)
+                car.resize(0.8, 0.8)
             toy_transforminator.collision_with_player()
         
         ''' Changes after collision with power ups and reset after duration '''
@@ -720,17 +719,16 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         if player_eliminated: # if at least one player is eliminated, the gal pal rebirth power up is spawned)
             gal_pal_text = score_font.render("Gal Pal", True, (255, 255, 255))
             screen.blit(gal_pal_text, (10, 250))
+            diva_defiance.timer += 1
             if gal_pal_rebirth.active:
                 gal_pal_rebirth.timer += 1
                 if gal_pal_rebirth.timer == gal_pal_rebirth.duration:
-                    gal_pal_rebirth.timer = 0
                     gal_pal_rebirth.timer = 0
                     gal_pal_rebirth.active = False
                     gal_pal_rebirth.remove_from_screen()
                     gal_pal_rebirth.add_cooldown(15)
 
         if diva_defiance.active: # if the diva defiance power up is active, the players dont take damage from cars
-            diva_defiance.timer += 1
             LollyCar.change_car_image(lolly, 'diva')
             BestieCar.change_car_image(bestie, 'diva')
             diva_text = score_font.render("Diva", True, (255, 255, 255))
@@ -909,15 +907,18 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 toy_transforminator.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
                 toy_transforminator.move_down(0)
 
-        speed_effect = ["images/power_ups_visuals/sissy_that_walk/sissy1.png", "images/power_ups_visuals/sissy_that_walk/sissy2.png", "images/power_ups_visuals/sissy_that_walk/sissy3.png"]
+        speed_effect = ["images/power_ups_visuals/sissy/sissy1.png", "images/power_ups_visuals/sissy/sissy2.png", "images/power_ups_visuals/sissy/sissy3.png"]
+        if sissy_that_walk.active:
+            screen.blit(pygame.image.load(random.choice(speed_effect)), (0, 0))
+
+        ''' Score '''
 
         score += 1
 
         ''' Drawing Everything '''
         if frosty_frenzy.active:
-            screen.blit(frosty_text, (10, 210))
-            
-            
+            road = pygame.image.load("images/power_ups_visuals/frosty/road_snow.png")
+
         # score counter
         health_text = score_font.render(f"Health: {LollyCar.health}", True, (255, 255, 255))
         screen.blit(health_text, (10, 50))
