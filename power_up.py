@@ -11,7 +11,7 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         self.height = height
         self.duration = duration
         self.cooldown = cooldown
-        self.base_speed = random.randint(2, 4)
+        self.base_speed = 3
         self.active = False
         self.timer = 0
         self.cooldown_timer = 0
@@ -31,22 +31,18 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         self.base_speed += speed
     
     def add_cooldown(self, cooldown):
-        self.cooldown *= cooldown
+        self.cooldown += cooldown
     
     def add_duration(self, duration):
-        self.duration *= duration
+        self.duration += duration
 
     def set_position(self, x, y):
         self.rect.x = x
         self.rect.y = y 
    
     def remove_from_screen(self):
-        self.kill()
         self.rect.x = 400
         self.rect.y = -40000
-
-    def check_off_screen(self):
-        self.remove_from_screen()
         
     def collision_with_player(self):
         self.active = True
