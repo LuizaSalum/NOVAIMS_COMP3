@@ -68,21 +68,22 @@ class PowerUp(ABC, pygame.sprite.Sprite):
     def affect_both_players(self, lolly, bestie):
         pass
 
+''' The following classes are the power ups that are available in the game. '''
 class BestiesInHarmony(PowerUp):
     def __init__(self):
         super().__init__("images/power_ups/besties_in_harmony.png", 80, 80, 60,0)
 
     def affect_player(self, player):
-        player.collide_with_player = False
+        pass
 
     def affect_traffic(self, traffic):
-        pass  # BestiesInHarmony doesn't affect traffic, so this method can be empty
+        pass 
 
     def affect_both_players(self, lolly, bestie):
         lolly.collide_with_player = False
         bestie.collide_with_player = False
         
-class DivaDefiance(PowerUp): # The player can pass through traffic cars
+class DivaDefiance(PowerUp):
     def __init__(self):
         super().__init__("images/power_ups/diva_defiance.png", 80, 80, 60,0)
 
@@ -90,11 +91,12 @@ class DivaDefiance(PowerUp): # The player can pass through traffic cars
         pass 
 
     def affect_traffic(self, traffic):
-        for car in traffic:
-            car.collide_with_player = False
+        pass
 
     def affect_both_players(self, lolly, bestie):
-        pass
+        lolly.collide_with_traffic = False
+        bestie.collide_with_traffic = False
+        
         
 class FrostyFrenzy(PowerUp): # incoming cars get slower
     def __init__(self):
@@ -105,7 +107,7 @@ class FrostyFrenzy(PowerUp): # incoming cars get slower
 
     def affect_traffic(self, traffic):
         for car in traffic:
-            car.speed = 1
+            car.speed = -6
     
     def affect_both_players(self, lolly, bestie):
         pass
@@ -123,10 +125,15 @@ class GalPalRebirth(PowerUp): # Player gets revived
     def affect_both_players(self, lolly, bestie):
         if lolly.health == 0:
             lolly.health = 1
-            
+            lolly.rect.x = 466
+            lolly.rect.y = 800
+            player_eliminated = False
 
         if bestie.health == 0:
             bestie.health = 1
+            bestie.rect.x = 285
+            bestie.rect.y = 800
+            player_eliminated = False
 
 class TangledTwist(PowerUp): # the player gets the other player's controls
     def __init__(self):
@@ -181,8 +188,7 @@ class ToyTransforminator(PowerUp): # the traffic cars get smaller
 
     def affect_traffic(self, traffic):
         for car in traffic:
-            car.width = 50
-            car.height = 50
+            car.resize(0.8, 0.8)
 
     def affect_both_players(self, lolly, bestie):
         pass

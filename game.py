@@ -619,21 +619,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             sissy_that_walk.move_down(3)
         if toy_transforminator in power_ups:
             toy_transforminator.move_down(3)
-
-        
-
-        
-
-        '''
-        besties_in_harmony.move_down(besties_in_harmony.base_speed)
-        diva_defiance.move_down(diva_defiance.base_speed)
-        frosty_frenzy.move_down(frosty_frenzy.base_speed)
-        if player_eliminated: # if at least one player is eliminated, the gal pal rebirth power up is spawned
-            gal_pal_rebirth.move_down(gal_pal_rebirth.base_speed)
-        tangled_twist.move_down(tangled_twist.base_speed)
-        glamorous_growth.move_down(glamorous_growth.base_speed)
-        sissy_that_walk.move_down(sissy_that_walk.base_speed)
-        toy_transforminator.move_down(toy_transforminator.base_speed) '''
         
         if besties_in_harmony.rect.y > 950:
             besties_in_harmony.give_cooldown(30)
@@ -662,24 +647,16 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
         if pygame.sprite.collide_rect(LollyCar, diva_defiance) or pygame.sprite.collide_rect(BestieCar, diva_defiance):
             diva_defiance.collision_with_player()
+            diva_defiance.affect_both_players(lolly=LollyCar, bestie=BestieCar)
 
         if pygame.sprite.collide_rect(LollyCar, frosty_frenzy) or pygame.sprite.collide_rect(BestieCar, frosty_frenzy):
             frosty_frenzy.collision_with_player()
+            frosty_frenzy.affect_traffic(left_incoming_cars) # decrease speed of incoming cars
 
         if player_eliminated:
             if pygame.sprite.collide_rect(LollyCar, gal_pal_rebirth) or pygame.sprite.collide_rect(BestieCar, gal_pal_rebirth):
                 gal_pal_rebirth.collision_with_player()
-                if LollyCar.health == 0:
-                    LollyCar.health = 1
-                    LollyCar.rect.x = 466
-                    LollyCar.rect.y = 800
-                    player_eliminated = False
-
-                if BestieCar.health == 0:
-                    BestieCar.health = 1
-                    BestieCar.rect.x = 285
-                    BestieCar.rect.y = 800
-                    player_eliminated = False
+                gal_pal_rebirth.affect_both_players(lolly=LollyCar, bestie=BestieCar) 
 
         if pygame.sprite.collide_rect(LollyCar, tangled_twist) or pygame.sprite.collide_rect(BestieCar, tangled_twist):
             LollyCar.change_car_image(lolly, 'tangled')
@@ -688,18 +665,17 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
         if pygame.sprite.collide_rect(LollyCar, glamorous_growth) or pygame.sprite.collide_rect(BestieCar, glamorous_growth):
             if pygame.sprite.collide_rect(LollyCar, glamorous_growth):
-                GlamorousGrowth.affect_player(LollyCar)
+                glamorous_growth.affect_player(player=LollyCar)
             if pygame.sprite.collide_rect(BestieCar, glamorous_growth):
-                GlamorousGrowth.affect_player(BestieCar)
+                glamorous_growth.affect_player(player=BestieCar)
             glamorous_growth.collision_with_player()
 
         if pygame.sprite.collide_rect(LollyCar, sissy_that_walk) or pygame.sprite.collide_rect(BestieCar, sissy_that_walk):
-            SissyThatWalk.affect_both_players(LollyCar, BestieCar, 15)
+            sissy_that_walk.affect_both_players(lolly=LollyCar, bestie=BestieCar, speed=30)
             sissy_that_walk.collision_with_player()
 
         if pygame.sprite.collide_rect(LollyCar, toy_transforminator) or pygame.sprite.collide_rect(BestieCar, toy_transforminator):
-            for car in left_incoming_cars:
-                car.resize(0.8, 0.8)
+            toy_transforminator.affect_traffic(left_incoming_cars) # resize the traffic cars to 80% of their original size
             toy_transforminator.collision_with_player()
         
         ''' Changes after collision with power ups and reset after duration '''
@@ -745,8 +721,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         if frosty_frenzy.active:  # if the frosty frenzy power-up is active, the cars move slower
             frosty_text = score_font.render("Frosty", True, (255, 255, 255))
             screen.blit(frosty_text, (10, 210))
-            for car in left_incoming_cars:
-                car.speed = -6
             frosty_frenzy.timer += 1
             if frosty_frenzy.timer == frosty_frenzy.duration:
                 frosty_frenzy.timer = 0
