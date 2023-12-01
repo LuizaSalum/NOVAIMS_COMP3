@@ -39,10 +39,7 @@ class PowerUp(ABC, pygame.sprite.Sprite):
     def set_position(self, x, y):
         self.rect.x = x
         self.rect.y = y 
-
-    def should_spawn_power_up(self, power_up_probabilities):
-        return random.random() < power_up_probabilities["power_up_probability"]
-    
+   
     def remove_from_screen(self):
         self.kill()
         self.rect.x = 400

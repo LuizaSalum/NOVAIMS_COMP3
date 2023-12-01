@@ -2,6 +2,7 @@ import pygame
 import random
 from car import TrafficCar, Car1, Car2, Car3
 from power_up import *
+import random
 
 # GREY = (197, 197, 197)
 # BLACK = (0, 0, 0)
@@ -70,25 +71,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
     players_cars.append(car_1)
     players_cars.append(car_2)
     players_cars.append(car_3)
-
-    # power ups
-
-    image_besties_in_harmony = "images/power_ups/besties_in_harmony.png"
-    # don't lose HP if you crash into your bestie
-    image_diva_defiance = "images/power_ups/diva_defiance.png"
-    # invulnerability
-    image_frosty_frenzy = "images/power_ups/frosty_frenzy.png"
-    # the traffic slows down
-    image_gal_pal_rebirth = "images/power_ups/gal_pal_rebirth.png"
-    # an eliminated player is revived
-    image_tangled_twist = "images/power_ups/tangled_twist.png"
-    # reverse controls left/right
-    image_glamorous_growth = "images/power_ups/glamorous_growth.png"
-    # the car grows in size and gain HP
-    image_sissy_that_walk = "images/power_ups/sissy_that_walk.png"
-    # speed boost
-    image_toy_transforminator = "images/power_ups/toy_transforminator.png"
-    # traffic shrinks in size and loses HP
 
     ''' Positioning Cars '''
 
@@ -234,14 +216,14 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
     ''' Define the probability for each power-up'''
     power_up_probabilities = {
-        "besties_in_harmony": 0.1,
-        "diva_defiance": 0.2,
-        "frosty_frenzy": 0.15,
-        "gal_pal_rebirth": 0.1,
-        "tangled_twist": 0.15,
-        "glamorous_growth": 0.1,
-        "sissy_that_walk": 0.2,
-        "toy_transforminator": 0.1,
+        "besties_in_harmony": 0.001,
+        "diva_defiance": 0.001,
+        "frosty_frenzy": 0.001,
+        "gal_pal_rebirth": 0.001,
+        "tangled_twist": 0.001,
+        "glamorous_growth": 0.001,
+        "sissy_that_walk": 0.001,
+        "toy_transforminator": 0.001,
     }
             
     ''' Adding Sprites to Group '''
@@ -597,28 +579,36 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             player_eliminated = False
 
         ''' Power Ups '''
-        '''
-        if should_spawn_power_up(power_up_probabilities):
-            power_up = random.choice(list(power_up_probabilities.keys()))
-            if power_up == "besties_in_harmony":
-                all_sprites_list.add(besties_in_harmony)
-            elif power_up == "diva_defiance":
-                all_sprites_list.add(diva_defiance)
-            elif power_up == "frosty_frenzy":
-                all_sprites_list.add(frosty_frenzy)
-            elif power_up == "gal_pal_rebirth":
-                all_sprites_list.add(gal_pal_rebirth)
-            elif power_up == "tangled_twist":
-                all_sprites_list.add(tangled_twist)
-            elif power_up == "glamorous_growth":
-                all_sprites_list.add(glamorous_growth)
-            elif power_up == "sissy_that_walk":
-                all_sprites_list.add(sissy_that_walk)
-            elif power_up == "toy_transforminator":
-                all_sprites_list.add(toy_transforminator)
-        '''
-        ''' Check if the power up is off screen '''
 
+        # Respawn power-ups based on probabilities
+        for power_up_name, probability in power_up_probabilities.items():
+            if random.random() < probability:
+                # Respawn the power-up
+                power_up = None
+                if power_up_name == "besties_in_harmony":
+                    power_up = BestiesInHarmony()
+                elif power_up_name == "diva_defiance":
+                    power_up = DivaDefiance()
+                elif power_up_name == "frosty_frenzy":
+                    power_up = FrostyFrenzy()
+                elif power_up_name == "gal_pal_rebirth":
+                    power_up = GalPalRebirth()
+                elif power_up_name == "tangled_twist":
+                    power_up = TangledTwist()
+                elif power_up_name == "glamorous_growth":
+                    power_up = GlamorousGrowth()
+                elif power_up_name == "sissy_that_walk":
+                    power_up = SissyThatWalk()
+                elif power_up_name == "toy_transforminator":
+                    power_up = ToyTransforminator()
+
+                if power_up:
+                    print(f"Respawning {power_up_name}")
+                    all_sprites_list.add(power_up)
+                    power_up.move_down(power_up.base_speed)
+
+        ''' Check if the power up is off screen 
+            
         besties_in_harmony.move_down(besties_in_harmony.base_speed)
         diva_defiance.move_down(diva_defiance.base_speed)
         frosty_frenzy.move_down(frosty_frenzy.base_speed)
@@ -628,6 +618,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         glamorous_growth.move_down(glamorous_growth.base_speed)
         sissy_that_walk.move_down(sissy_that_walk.base_speed)
         toy_transforminator.move_down(toy_transforminator.base_speed)
+        '''
 
         if besties_in_harmony.rect.y > 950: 
             besties_in_harmony.check_off_screen()
@@ -801,7 +792,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             glamorous_growth.timer += 1
             glamorous_text = score_font.render("Glamorous", True, (255, 255, 255))
             screen.blit(glamorous_text, (10, 330))
-
             if glamorous_growth.timer == glamorous_growth.duration:
                 glamorous_growth.active = False
                 glamorous_growth.remove_from_screen()
