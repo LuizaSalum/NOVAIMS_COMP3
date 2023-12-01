@@ -306,39 +306,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
         ''' Lolly controls '''
 
-        if not tangled_twist.active:  # if the tangled twist power up is active, the controls are reversed
- # if the tangled twist power up is not active, the controls are normal
-                if LollyCar.health > 0: # if the player is alive, they can move
-                    if keys[pygame.K_a]:
-                        LollyCar.move_left(20)
-                    if keys[pygame.K_d]:
-                        LollyCar.move_right(20)
-                    if keys[pygame.K_w]:
-                        LollyCar.move_up(20)
-                        if LollyCar.rect.y < 0:
-                            LollyCar.rect.y = 0
-                    if keys[pygame.K_s]:
-                        LollyCar.move_down(20)
-                        if LollyCar.rect.y > 800:
-                            LollyCar.rect.y = 800
-                else:
-                    pass
-                if BestieCar.health > 0:
-                    if keys[pygame.K_LEFT]:
-                        BestieCar.move_left(20)
-                    if keys[pygame.K_RIGHT]:
-                        BestieCar.move_right(20)
-                    if keys[pygame.K_UP]:
-                        BestieCar.move_up(20)
-                        if BestieCar.rect.y < 0:
-                            BestieCar.rect.y = 0
-                    if keys[pygame.K_DOWN]:
-                        BestieCar.move_down(20)
-                        if BestieCar.rect.y > 800:
-                            BestieCar.rect.y = 800
-                else:
-                    pass
-        else:
+        if tangled_twist.active:  # if the tangled twist power up is active, the controls are reversed
             if BestieCar.health > 0:
                 if keys[pygame.K_w]:
                     BestieCar.move_up(20)
@@ -367,6 +335,37 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                     LollyCar.move_left(20)
                 if keys[pygame.K_RIGHT]:
                     LollyCar.move_right(20)
+            else:
+                pass
+        else:# if the tangled twist power up is not active, the controls are normal
+            if LollyCar.health > 0: # if the player is alive, they can move
+                if keys[pygame.K_a]:
+                    LollyCar.move_left(20)
+                if keys[pygame.K_d]:
+                    LollyCar.move_right(20)
+                if keys[pygame.K_w]:
+                    LollyCar.move_up(20)
+                    if LollyCar.rect.y < 0:
+                        LollyCar.rect.y = 0
+                if keys[pygame.K_s]:
+                    LollyCar.move_down(20)
+                    if LollyCar.rect.y > 800:
+                        LollyCar.rect.y = 800
+            else:
+                pass
+            if BestieCar.health > 0:
+                if keys[pygame.K_LEFT]:
+                    BestieCar.move_left(20)
+                if keys[pygame.K_RIGHT]:
+                    BestieCar.move_right(20)
+                if keys[pygame.K_UP]:
+                    BestieCar.move_up(20)
+                    if BestieCar.rect.y < 0:
+                        BestieCar.rect.y = 0
+                if keys[pygame.K_DOWN]:
+                    BestieCar.move_down(20)
+                    if BestieCar.rect.y > 800:
+                        BestieCar.rect.y = 800
             else:
                 pass
         all_sprites_list.update(all_sprites_list)
