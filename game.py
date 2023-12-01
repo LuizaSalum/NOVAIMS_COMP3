@@ -318,9 +318,10 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
         keys = pygame.key.get_pressed()
 
-        ''' We should change this so it opens the pause menu instead of quitting the game.'''
         if keys[pygame.K_ESCAPE]:
-            carryOn = False
+            game_screen = pygame.Surface(screen.get_size())
+            game_screen.blit(screen, (0, 0))
+            pause_menu(game_screen)
 
         ''' Lolly controls '''
 
@@ -1052,3 +1053,53 @@ def game_over(road, difficulty, lolly, bestie, power_ups):
     pygame.quit()
 
     return True
+
+
+def pause_menu(game_screen):
+
+    menu_position = [451, 799, 326, 624]  # x1, x2, y1, y2
+    buttons = (
+        ['done', 544, 709, 376, 447],
+        ['exit', 528, 723, 501, 572]
+        )
+    
+    pygame.init()
+    size = (1250, 950)
+    screen = pygame.display.set_mode(size)
+
+    ''' Loading Images '''
+
+    pause_menu_image = pygame.image.load("images/interface/pause.png").convert_alpha()
+    pause_menu_done_image = pygame.image.load("images/interface/pause_done.png").convert_alpha()
+    pause_menu_exit_image = pygame.image.load("images/interface/pause_exit.png").convert_alpha()
+
+    screen.blit(game_screen, (0, 0))
+    screen.blit(pause_menu_image, (menu_position[0], menu_position[2]))
+    pygame.display.flip()
+
+    paused = True
+
+    while paused:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+
+            mouse = pygame.mouse.get_pos()
+
+            if buttons[0][1] <= mouse[0] <= buttons[0][2] and buttons[0][3] < mouse[1] < buttons[0][4]:  # if the user hovers over the done button
+                screen.blit(pause_menu_done_image, (menu_position[0], menu_position[2]))
+                if event.type == pygame.MOUSEBUTTONDOWN:  # if the user clicks on the done button
+                    paused = False
+
+            elif buttons[1][1] <= mouse[0] <= buttons[1][2] and buttons[1][3] < mouse[1] < buttons[1][4]:  # if the user hovers over the exit button
+                screen.blit(pause_menu_exit_image, (menu_position[0], menu_position[2]))
+                if event.type == pygame.MOUSEBUTTONDOWN:  # if the user clicks on the exit button
+                    pygame.quit()
+
+            else:  # if the user hovers anywhere else
+                screen.blit(pause_menu_image, (menu_position[0], menu_position[2]))
+                if event.type == pygame.MOUSEBUTTONDOWN:  # if the user clicks anywhere else
+                    paused = False
+                    
+        pygame.display.flip()

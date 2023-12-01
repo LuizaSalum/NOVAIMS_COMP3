@@ -713,3 +713,6 @@ def menu(screen_image):
                         elif buttons['menu'][number][0] == 'exit':
                             pygame.quit()
                             exit()
+
+                else:  # if the user clicks on the screen but not on the menu, we'll close the menu and return to the previous screen
+                    return
