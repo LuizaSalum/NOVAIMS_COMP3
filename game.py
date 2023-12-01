@@ -289,7 +289,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
     carryOn = True
 
-    power_up = None
     power_ups = []
 
     # starting the clock
@@ -581,6 +580,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         else:
             player_eliminated = False
 
+        ''' Power Ups Probability'''
 
         for power_up_name, probability in power_up_probabilities.items():
             if random.random() < probability:
@@ -601,6 +601,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                     power_ups.append(sissy_that_walk)
                 elif power_up_name == "toy_transforminator":
                     power_ups.append(toy_transforminator)
+                
+        ''' After checking if a power up should be spawned we brining them down'''
 
         if besties_in_harmony in power_ups:
             besties_in_harmony.move_down(3)
@@ -730,7 +732,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 road = pygame.image.load("images/road.png")
                 for car in left_incoming_cars:
                     car.speed = random.randint(-1, 2)
-
             
         if gal_pal_rebirth.active: # if the gal pal rebirth power up is active, the players are revived
             gal_pal_rebirth.timer += 1
@@ -804,7 +805,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 sissy_that_walk.give_cooldown(15)
                 sissy_that_walk.remove_from_screen()
 
-        
         if toy_transforminator.active:  # if the toy transforminator power-up is active, the cars shrink
             toy_text = score_font.render("TOY", True, (255, 255, 255))
             screen.blit(toy_text, (10, 310))
@@ -814,7 +814,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 toy_transforminator.active = False
                 toy_transforminator.add_cooldown(15)
                 toy_transforminator.remove_from_screen()
-                for car in left_incoming_cars:
+                for car in left_incoming_cars: # resetting the cars to their original size
                     car.move_down(15)
                     if car.rect.y > 950:
                         new_car = random.choice(cars_images_left)
@@ -823,7 +823,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                         car.rect.y = random.randint(-2200, -800)
                         car.rect.x = random.choice([285, 466, 643, 825])
         
-        ''' Cooldowns Reset and '''
+        ''' Cooldowns '''
 
         if besties_in_harmony.cooldown > 0:
             besties_in_harmony.cooldown -= 1

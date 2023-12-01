@@ -97,7 +97,6 @@ class DivaDefiance(PowerUp):
         lolly.collide_with_traffic = False
         bestie.collide_with_traffic = False
         
-        
 class FrostyFrenzy(PowerUp): # incoming cars get slower
     def __init__(self):
         super().__init__("images/power_ups/frosty_frenzy.png", 80, 80, 60,0)
@@ -154,9 +153,7 @@ class GlamorousGrowth(PowerUp): # the player gets bigger and gains hp (+2 if it'
 
     def affect_player(self, player):
         player.health += 1
-        player.width = 100
-        player.height = 100
-        player.image = pygame.image.load("images/cars/glamorous_growth.png").convert_alpha()
+        player.resize(1.2, 1.2)
         player.image = pygame.transform.scale(player.image, (player.width, player.height))
 
     def affect_traffic(self, traffic):
