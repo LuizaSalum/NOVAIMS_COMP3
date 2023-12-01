@@ -11,7 +11,7 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         self.height = height
         self.duration = duration
         self.cooldown = cooldown
-        self.base_speed = random.randint(2, 4)
+        self.base_speed = 3
         self.active = False
         self.timer = 0
         self.cooldown_timer = 0
@@ -22,6 +22,10 @@ class PowerUp(ABC, pygame.sprite.Sprite):
 
         self.rect.x = random.choice([285, 466, 643, 825])
         self.rect.y = random.randint(-1500, -100)
+
+    def change_image(self, image_path):
+        self.image = pygame.image.load(image_path).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (self.width, self.height))
     
     def move_down(self, pixels):
         pixels = self.base_speed + pixels
@@ -31,22 +35,18 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         self.base_speed += speed
     
     def add_cooldown(self, cooldown):
-        self.cooldown *= cooldown
+        self.cooldown += cooldown
     
     def add_duration(self, duration):
-        self.duration *= duration
+        self.duration += duration
 
     def set_position(self, x, y):
         self.rect.x = x
         self.rect.y = y 
    
     def remove_from_screen(self):
-        self.kill()
         self.rect.x = 400
         self.rect.y = -40000
-
-    def check_off_screen(self):
-        self.remove_from_screen()
         
     def collision_with_player(self):
         self.active = True
@@ -68,44 +68,43 @@ class PowerUp(ABC, pygame.sprite.Sprite):
     def affect_both_players(self, lolly, bestie):
         pass
 
+''' The following classes are the power ups that are available in the game. '''
 class BestiesInHarmony(PowerUp):
     def __init__(self):
-        super().__init__("images/power_ups/besties_in_harmony.png", 80, 80, 60,0)
+        super().__init__("images/power_ups/besties_in_harmony.png", 80, 80, 60, 0)
 
     def affect_player(self, player):
-        player.collide_with_player = False
+        pass
 
     def affect_traffic(self, traffic):
-        pass  # BestiesInHarmony doesn't affect traffic, so this method can be empty
+        pass 
 
     def affect_both_players(self, lolly, bestie):
-        lolly.collide_with_player = False
-        bestie.collide_with_player = False
-        
-class DivaDefiance(PowerUp): # The player can pass through traffic cars
+        pass
+
+class DivaDefiance(PowerUp):
     def __init__(self):
-        super().__init__("images/power_ups/diva_defiance.png", 80, 80, 60,0)
+        super().__init__("images/power_ups/diva_defiance.png", 80, 80, 60, 0)
 
     def affect_player(self, player):    
         pass 
 
     def affect_traffic(self, traffic):
-        for car in traffic:
-            car.collide_with_player = False
+        pass
 
     def affect_both_players(self, lolly, bestie):
         pass
         
 class FrostyFrenzy(PowerUp): # incoming cars get slower
     def __init__(self):
-        super().__init__("images/power_ups/frosty_frenzy.png", 80, 80, 60,0)
+        super().__init__("images/power_ups/frosty_frenzy.png", 80, 80, 60, 0)
 
     def affect_player(self, player):
         pass
 
     def affect_traffic(self, traffic):
         for car in traffic:
-            car.speed = 1
+            car.speed = -6
     
     def affect_both_players(self, lolly, bestie):
         pass
@@ -123,12 +122,19 @@ class GalPalRebirth(PowerUp): # Player gets revived
     def affect_both_players(self, lolly, bestie):
         if lolly.health == 0:
             lolly.health = 1
+            lolly.rect.x = 466
+            lolly.rect.y = 800
+            player_eliminated = False
+
         if bestie.health == 0:
             bestie.health = 1
+            bestie.rect.x = 285
+            bestie.rect.y = 800
+            player_eliminated = False
 
 class TangledTwist(PowerUp): # the player gets the other player's controls
     def __init__(self):
-        super().__init__("images/power_ups/tangled_twist.png", 80, 80, 60,0)
+        super().__init__("images/power_ups/tangled_twist.png", 80, 80, 600, 0)
 
     def affect_player(self, player):
         pass
@@ -141,12 +147,11 @@ class TangledTwist(PowerUp): # the player gets the other player's controls
 
 class GlamorousGrowth(PowerUp): # the player gets bigger and gains hp (+2 if it's the tank car, +1 if it's one of the others)
     def __init__(self):
-        super().__init__("images/power_ups/glamorous_growth.png", 80, 80, 60,0)
+        super().__init__("images/power_ups/glamorous_growth.png", 80, 80, 60, 0)
 
     def affect_player(self, player):
-        player.width = 100
-        player.height = 100
-        player.image = pygame.image.load("images/cars/glamorous_growth.png").convert_alpha()
+        player.health += 1
+        player.resize(1.2, 1.2)
         player.image = pygame.transform.scale(player.image, (player.width, player.height))
 
     def affect_traffic(self, traffic):
@@ -157,7 +162,7 @@ class GlamorousGrowth(PowerUp): # the player gets bigger and gains hp (+2 if it'
 
 class SissyThatWalk(PowerUp): # the player gets a speed boost
     def __init__(self):
-        super().__init__("images/power_ups/sissy_that_walk.png", 80, 80, 60,0)
+        super().__init__("images/power_ups/sissy_that_walk.png", 80, 80, 60, 0)
 
     def affect_player(self, player):
         pass
@@ -171,17 +176,14 @@ class SissyThatWalk(PowerUp): # the player gets a speed boost
 
 class ToyTransforminator(PowerUp): # the traffic cars get smaller
     def __init__(self):
-        super().__init__("images/power_ups/toy_transforminator.png", 80, 80, 60,0)
+        super().__init__("images/power_ups/toy_transforminator.png", 80, 80, 60, 0)
 
     def affect_player(self, player):
         pass
 
     def affect_traffic(self, traffic):
         for car in traffic:
-            car.width = 50
-            car.height = 50
-            car.image = pygame.image.load("images/cars/toy_car.png").convert_alpha()
-            car.image = pygame.transform.scale(car.image, (car.width, car.height))
+            car.resize(0.8, 0.8)
 
     def affect_both_players(self, lolly, bestie):
         pass
