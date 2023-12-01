@@ -35,6 +35,12 @@ def multi_game(difficulty, lolly, bestie, power_ups):
     heart2 = pygame.image.load("images/hearts/heart2.png").convert_alpha()
     heart3 = pygame.image.load("images/hearts/heart3.png").convert_alpha()
 
+    # hearts loss
+
+    heart1_loss = pygame.image.load("images/hearts/heart1_loss.png").convert_alpha()
+    heart2_loss = pygame.image.load("images/hearts/heart2_loss.png").convert_alpha()
+    heart3_loss = pygame.image.load("images/hearts/heart3_loss.png").convert_alpha()
+
     # incoming cars
 
     cars_dimensions = [
@@ -138,31 +144,43 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         LollyCar = Car1(car_1[0], car_1[1], car_1[2], car_1[3], car_1[4])
         LollyCar.rect.x = 466
         LollyCar.rect.y = 800
+        LollyCar.heart_on_image = heart1
+        LollyCar.heart_off_image = heart1_loss
         
     if lolly == 'car2':
         LollyCar = Car2(car_2[0], car_2[1], car_2[2], car_2[3], car_2[4])
         LollyCar.rect.x = 466
         LollyCar.rect.y = 800
+        LollyCar.heart_on_image = heart2
+        LollyCar.heart_off_image = heart2_loss
     
     if lolly == 'car3':
         LollyCar = Car3(car_3[0], car_3[1], car_3[2], car_3[3], car_3[4])
         LollyCar.rect.x = 466
         LollyCar.rect.y = 800
+        LollyCar.heart_on_image = heart3
+        LollyCar.heart_off_image = heart3_loss
         
     if bestie == 'car1':
         BestieCar = Car1(car_1[0], car_1[1], car_1[2], car_1[3], car_1[4])
         BestieCar.rect.x = 285
         BestieCar.rect.y = 800
+        BestieCar.heart_on_image = heart1
+        BestieCar.heart_off_image = heart1_loss
         
     if bestie == 'car2':
         BestieCar = Car2(car_2[0], car_2[1], car_2[2], car_2[3], car_2[4])
         BestieCar.rect.x = 285
         BestieCar.rect.y = 800
+        BestieCar.heart_on_image = heart2
+        BestieCar.heart_off_image = heart2_loss
         
     if bestie == 'car3':
         BestieCar = Car3(car_3[0], car_3[1], car_3[2], car_3[3], car_3[4])
         BestieCar.rect.x = 285
         BestieCar.rect.y = 800
+        BestieCar.heart_on_image = heart3
+        BestieCar.heart_off_image = heart3_loss
 
     ''' Positioning Power Ups '''
     
@@ -404,6 +422,42 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         screen.blit(road, (0, road_y))
         screen.blit(road, (0, road_y - 950))
 
+        ''' Drawing the Hearts '''
+
+        if LollyCar.health == 3:
+            screen.blit(LollyCar.heart_on_image, (1025, 10))
+            screen.blit(LollyCar.heart_on_image, (1100, 10))
+            screen.blit(LollyCar.heart_on_image, (1175, 10))
+        elif LollyCar.health == 2:
+            screen.blit(LollyCar.heart_on_image, (1025, 10))
+            screen.blit(LollyCar.heart_on_image, (1100, 10))
+            screen.blit(LollyCar.heart_off_image, (1175, 10))
+        elif LollyCar.health == 1:
+            screen.blit(LollyCar.heart_on_image, (1025, 10))
+            screen.blit(LollyCar.heart_off_image, (1100, 10))
+            screen.blit(LollyCar.heart_off_image, (1175, 10))
+        elif LollyCar.health == 0:
+            screen.blit(LollyCar.heart_off_image, (1025, 10))
+            screen.blit(LollyCar.heart_off_image, (1100, 10))
+            screen.blit(LollyCar.heart_off_image, (1175, 10))
+        if BestieCar.health == 3:
+            screen.blit(BestieCar.heart_on_image, (1025, 140))
+            screen.blit(BestieCar.heart_on_image, (1100, 140))
+            screen.blit(BestieCar.heart_on_image, (1175, 140))
+        elif BestieCar.health == 2:
+            screen.blit(BestieCar.heart_on_image, (1025, 140))
+            screen.blit(BestieCar.heart_on_image, (1100, 140))
+            screen.blit(BestieCar.heart_off_image, (1175, 140))
+        elif BestieCar.health == 1:
+            screen.blit(BestieCar.heart_on_image, (1025, 140))
+            screen.blit(BestieCar.heart_off_image, (1100, 140))
+            screen.blit(BestieCar.heart_off_image, (1175, 140))
+        elif BestieCar.health == 0:
+            screen.blit(BestieCar.heart_off_image, (1025, 140))
+            screen.blit(BestieCar.heart_off_image, (1100, 140))
+            screen.blit(BestieCar.heart_off_image, (1175, 140))       
+        
+        
         ''' Incoming Cars '''
 
         if difficulty != 'hard':

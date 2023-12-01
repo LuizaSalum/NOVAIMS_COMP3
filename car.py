@@ -93,6 +93,8 @@ class Car(pygame.sprite.Sprite):  # a sprite is a thing that moves around the sc
         self.image = pygame.image.load(image_path).convert_alpha()
         self.image = pygame.transform.scale(self.image, (self.width, self.height))
 
+
+
 class PlayerCar(Car):
 
     def __init__(self, car_image, width, height, x_box, y_box, speed=0, health=0):
