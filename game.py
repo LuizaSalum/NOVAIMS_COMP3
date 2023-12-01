@@ -306,44 +306,13 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
         ''' Lolly controls '''
 
-        if tangled_twist.active:  # if the tangled twist power up is active, the controls are reversed
-            if BestieCar.health > 0:
-                if keys[pygame.K_w]:
-                    BestieCar.move_up(20)
-                    if BestieCar.rect.y > 800:
-                        BestieCar.rect.y = 800
-                if keys[pygame.K_s]:
-                    BestieCar.move_down(20)
-                    if BestieCar.rect.y < 0:
-                        BestieCar.rect.y = 0
-                if keys[pygame.K_a]:
-                    BestieCar.move_left(20)
-                if keys[pygame.K_d]:
-                    BestieCar.move_right(20)
-            if LollyCar.health > 0: 
-                if keys[pygame.K_UP]:
-                    LollyCar.move_up(20)
-                if keys[pygame.K_DOWN]:
-                    LollyCar.move_down(20)
-                if keys[pygame.K_LEFT]:
-                    LollyCar.move_left(20)
-                    if LollyCar.rect.y < 0:
-                        LollyCar.rect.y = 0
-                if keys[pygame.K_RIGHT]:
-                    LollyCar.move_right(20)
-                    if LollyCar.rect.y > 800:
-                        LollyCar.rect.y = 800
-            
-        else: # if the tangled twist power up is not active, the controls are normal
+        if not tangled_twist.active:  # if the tangled twist power up is active, the controls are reversed
+ # if the tangled twist power up is not active, the controls are normal
                 if LollyCar.health > 0: # if the player is alive, they can move
                     if keys[pygame.K_a]:
                         LollyCar.move_left(20)
-                        if LollyCar.rect.x < 230:
-                            LollyCar.rect.x = 230
                     if keys[pygame.K_d]:
                         LollyCar.move_right(20)
-                        if LollyCar.rect.x > 900:
-                            LollyCar.rect.x = 900
                     if keys[pygame.K_w]:
                         LollyCar.move_up(20)
                         if LollyCar.rect.y < 0:
@@ -352,6 +321,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                         LollyCar.move_down(20)
                         if LollyCar.rect.y > 800:
                             LollyCar.rect.y = 800
+                else:
+                    pass
                 if BestieCar.health > 0:
                     if keys[pygame.K_LEFT]:
                         BestieCar.move_left(20)
@@ -365,11 +336,45 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                         BestieCar.move_down(20)
                         if BestieCar.rect.y > 800:
                             BestieCar.rect.y = 800
-
+                else:
+                    pass
+        else:
+            if BestieCar.health > 0:
+                if keys[pygame.K_w]:
+                    BestieCar.move_up(20)
+                    if BestieCar.rect.y < 0:
+                        BestieCar.rect.y = 0
+                if keys[pygame.K_s]:
+                    BestieCar.move_down(20)
+                    if BestieCar.rect.y > 800:
+                        BestieCar.rect.y = 800
+                if keys[pygame.K_a]:
+                    BestieCar.move_left(20)
+                if keys[pygame.K_d]:
+                    BestieCar.move_right(20)
+            else:
+                pass
+            if LollyCar.health > 0: 
+                if keys[pygame.K_UP]:
+                    LollyCar.move_up(20)
+                    if LollyCar.rect.y < 0:
+                        LollyCar.rect.y = 0
+                if keys[pygame.K_DOWN]:
+                    LollyCar.move_down(20)
+                    if LollyCar.rect.y > 800:
+                        LollyCar.rect.y = 800
+                if keys[pygame.K_LEFT]:
+                    LollyCar.move_left(20)
+                if keys[pygame.K_RIGHT]:
+                    LollyCar.move_right(20)
+            else:
+                pass
         all_sprites_list.update(all_sprites_list)
+        print(f"lolly {LollyCar.rect.x, LollyCar.rect.y}")
+        print(f"bestie {BestieCar.rect.x, BestieCar.rect.y}")
 
         ''' Prevent the cars from going off the street'''
-    
+
         if LollyCar.rect.x < 230:
             LollyCar.rect.x = 230
         if LollyCar.rect.x > 900:
