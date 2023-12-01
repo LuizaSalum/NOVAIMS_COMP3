@@ -216,14 +216,14 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
     ''' Define the probability for each power-up'''
     power_up_probabilities = {
-        "besties_in_harmony": 0.001,
-        "diva_defiance": 0.001,
-        "frosty_frenzy": 0.001,
-        "gal_pal_rebirth": 0.001,
-        "tangled_twist": 0.001,
-        "glamorous_growth": 0.001,
-        "sissy_that_walk": 0.001,
-        "toy_transforminator": 0.001,
+        "besties_in_harmony": 0.01,
+        "diva_defiance": 0.01,
+        "frosty_frenzy": 0.01,
+        "gal_pal_rebirth": 0.01,
+        "tangled_twist": 0.01,
+        "glamorous_growth": 0.01,
+        "sissy_that_walk": 0.01,
+        "toy_transforminator": 0.01,
     }
             
     ''' Adding Sprites to Group '''
@@ -232,9 +232,9 @@ def multi_game(difficulty, lolly, bestie, power_ups):
     all_sprites_list.add(LollyCar)
     all_sprites_list.add(BestieCar)
     all_sprites_list.add(left_incoming_cars)
+
     if difficulty == 'hard':
         all_sprites_list.add(right_incoming_cars)
-
     if 'besties_in_harmony' in power_ups:
         all_sprites_list.add(besties_in_harmony)
     if 'diva_defiance' in power_ups:
@@ -581,31 +581,33 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         ''' Power Ups '''
 
         # Respawn power-ups based on probabilities
-        for power_up_name, probability in power_up_probabilities.items():
+        for power_up_name, probability in power_up_probabilities.items(): # for each power up, check if it should be respawned
             if random.random() < probability:
+                print(f"Respawning {power_up_name}")
                 # Respawn the power-up
                 power_up = None
                 if power_up_name == "besties_in_harmony":
-                    power_up = BestiesInHarmony()
+                    power_up = besties_in_harmony
                 elif power_up_name == "diva_defiance":
-                    power_up = DivaDefiance()
+                    power_up = diva_defiance
                 elif power_up_name == "frosty_frenzy":
-                    power_up = FrostyFrenzy()
+                    power_up = frosty_frenzy
                 elif power_up_name == "gal_pal_rebirth":
-                    power_up = GalPalRebirth()
+                    power_up = gal_pal_rebirth
                 elif power_up_name == "tangled_twist":
-                    power_up = TangledTwist()
+                    power_up = tangled_twist
                 elif power_up_name == "glamorous_growth":
-                    power_up = GlamorousGrowth()
+                    power_up = glamorous_growth
                 elif power_up_name == "sissy_that_walk":
-                    power_up = SissyThatWalk()
+                    power_up = sissy_that_walk
                 elif power_up_name == "toy_transforminator":
-                    power_up = ToyTransforminator()
+                    power_up = toy_transforminator
 
                 if power_up:
                     print(f"Respawning {power_up_name}")
                     all_sprites_list.add(power_up)
-                    power_up.move_down(power_up.base_speed)
+                    power_up.move_down(3)
+
 
         ''' Check if the power up is off screen 
             
@@ -622,6 +624,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
         if besties_in_harmony.rect.y > 950: 
             besties_in_harmony.check_off_screen()
+            print("Besties in Harmony off-screen")
         if diva_defiance.rect.y > 950:
             diva_defiance.check_off_screen()
         if frosty_frenzy.rect.y > 950:
@@ -691,9 +694,9 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         ''' Changes after collision with power ups and reset after duration '''
 
         if besties_in_harmony.active: # if the power up is active, the players are invincible
-            besties_in_harmony.timer += 1
             besties_text = score_font.render("Besties", True, (255, 255, 255))
             screen.blit(besties_text, (10, 130))
+            besties_in_harmony.timer += 1
             if besties_in_harmony.timer == besties_in_harmony.duration:
                 besties_in_harmony.active = False
                 LollyCar.change_car_image(lolly, 'normal')
@@ -724,23 +727,20 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 LollyCar.change_car_image(lolly, 'normal')
                 BestieCar.change_car_image(bestie, 'normal')
             
-        if frosty_frenzy.active: # if the frosty frenzy power up is active, the cars move slower
-            frosty_frenzy.timer += 1
+        if frosty_frenzy.active:  # if the frosty frenzy power-up is active, the cars move slower
             frosty_text = score_font.render("Frosty", True, (255, 255, 255))
             screen.blit(frosty_text, (10, 210))
-            road = pygame.image.load("images/power_ups_visuals/frosty/road_snow.png")
-
-            print(frosty_frenzy.timer)
             for car in left_incoming_cars:
                 car.speed = -6
+            frosty_frenzy.timer += 1
             if frosty_frenzy.timer == frosty_frenzy.duration:
                 frosty_frenzy.active = False
                 frosty_frenzy.add_cooldown(15)
                 frosty_frenzy.remove_from_screen()
                 road = pygame.image.load("images/road.png")
-                
                 for car in left_incoming_cars:
                     car.speed = random.randint(-1, 2)
+
             
         if gal_pal_rebirth.active: # if the gal pal rebirth power up is active, the players are revived
             gal_pal_rebirth.timer += 1
@@ -751,11 +751,11 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 gal_pal_rebirth.remove_from_screen()
                 gal_pal_rebirth.add_cooldown(15)
         
-        if tangled_twist.active: # if the tangled twist power up is active, the controls are reversed
-            tangled_twist.timer += 1
+        if tangled_twist.active:  # if the tangled twist power-up is active, the controls are reversed
             tangled_twist_text = score_font.render("Tangle Twist", True, (255, 255, 255))
             screen.blit(tangled_twist_text, (10, 290))
-            if LollyCar.health == 0: # if the player is alive, they can move
+            tangled_twist.timer += 1
+            if LollyCar.health == 0:  # if the player is alive, they can move
                 if keys[pygame.K_LEFT]:
                     BestieCar.move_left(20)
                 if keys[pygame.K_RIGHT]:
@@ -784,14 +784,14 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             if tangled_twist.timer == tangled_twist.duration:
                 tangled_twist.active = False
                 tangled_twist.remove_from_screen()
-                tangled_twist.add_cooldown(15)  
+                tangled_twist.add_cooldown(15)
                 LollyCar.change_car_image(lolly, 'normal')
                 BestieCar.change_car_image(bestie, 'normal')
         
-        if glamorous_growth.active: # if the glamorous growth power up is active, the players grow
-            glamorous_growth.timer += 1
+        if glamorous_growth.active:  # if the glamorous growth power-up is active, the players grow
             glamorous_text = score_font.render("Glamorous", True, (255, 255, 255))
             screen.blit(glamorous_text, (10, 330))
+            glamorous_growth.timer += 1
             if glamorous_growth.timer == glamorous_growth.duration:
                 glamorous_growth.active = False
                 glamorous_growth.remove_from_screen()
@@ -799,21 +799,22 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 LollyCar.player_resize()
                 BestieCar.player_resize()
 
-        if sissy_that_walk.active: # if the sissy that walk power up is active, the players move faster
-            sissy_that_walk.timer += 1
+        if sissy_that_walk.active:  # if the sissy that walk power-up is active, the players move faster
             sissy_text = score_font.render("Sissy", True, (255, 255, 255))
             screen.blit(sissy_text, (10, 370))
+            sissy_that_walk.timer += 1
             sissy_that_walk.affect_both_players(LollyCar, BestieCar, 10)
             if sissy_that_walk.timer == sissy_that_walk.duration:
                 sissy_that_walk.active = False
                 sissy_that_walk.affect_both_players(LollyCar, BestieCar, 0)
                 sissy_that_walk.give_cooldown(15)
                 sissy_that_walk.remove_from_screen()
+
         
-        if toy_transforminator.active: # if the toy transforminator power up is active, the cars shrink
-            toy_transforminator.timer += 1
+        if toy_transforminator.active:  # if the toy transforminator power-up is active, the cars shrink
             toy_text = score_font.render("TOY", True, (255, 255, 255))
             screen.blit(toy_text, (10, 310))
+            toy_transforminator.timer += 1
             if toy_transforminator.timer == toy_transforminator.duration:
                 toy_transforminator.active = False
                 toy_transforminator.add_cooldown(15)
@@ -927,6 +928,8 @@ def game_over(road, difficulty, lolly, bestie, power_ups):
     road_y = 0
 
     carry_on = True
+    event = pygame.event.Event(pygame.USEREVENT)  # Initialize event outside the loop with a default event
+
 
     while carry_on:
         for event in pygame.event.get():
