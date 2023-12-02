@@ -186,6 +186,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         diva_defiance.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
         diva_defiance.active = False
         diva_defiance.base_speed = 3
+        diva_defiance.timer = 0
 
     if 'frosty_frenzy' in power_ups:
         frosty_frenzy = FrostyFrenzy()
@@ -735,7 +736,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         if diva_defiance.active: # if the diva defiance power up is active, the players dont take damage from cars
             LollyCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
             BestieCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
-            diva_text = score_font.render("Diva", True, (255, 255, 255))
+            diva_text = score_font.render(f"{diva_defiance.timer}", True, (255, 255, 255))
             screen.blit(diva_text, (10, 170))
             diva_defiance.timer += 1
             if diva_defiance.timer == diva_defiance.duration:
@@ -770,7 +771,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 gal_pal_rebirth.remove_from_screen()
                 
         if tangled_twist.active:  # if the tangled twist power-up is active, the controls are reversed
-            tangled_twist_text = score_font.render("Tangled Twist", True, (255, 255, 255))
+            tangled_twist_text = score_font.render(f"{tangled_twist.timer}", True, (255, 255, 255))
             screen.blit(tangled_twist_text, (10, 290))
             tangled_twist.timer += 1
             if LollyCar.health == 0:  # if the player is alive, they can move
