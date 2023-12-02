@@ -4,13 +4,14 @@ from abc import abstractmethod
 class Car(pygame.sprite.Sprite): # a sprite is a thing that moves around the screen and can be interacted with
     # A car is a two-dimensional image that can be interacted with, a child of the Sprite class
 
-    def __init__(self, car_image, width, height, x_box=0, y_box=0, speed=0, health=0):
+    def __init__(self, car_image, width, height, x_box=0, y_box=0, speed=0, health=0, max_health=0):
         super().__init__()
         self.car_image = car_image
         self.width = width
         self.height = height
         self.speed = speed
         self.health = health
+        self.max_health = max_health
         self.base_width = width
         self.base_height = height
         self.x_box = x_box
