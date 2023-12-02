@@ -697,9 +697,11 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             tangled_twist.collision_with_player() 
 
         if pygame.sprite.collide_rect(LollyCar, glamorous_growth):
+            glamorous_growth.affect_player(LollyCar)
             LollyCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
             glamorous_growth.collision_with_player()
         if pygame.sprite.collide_rect(BestieCar, glamorous_growth):
+            glamorous_growth.affect_player(BestieCar)
             BestieCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
             glamorous_growth.collision_with_player()
 
@@ -938,39 +940,40 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         screen.blit(score_bar, (0, 0))  # Draw the score_bar on top of everything else
 
         #check what car has the player have and draw the hearts accordingly
+        print(LollyCar.health, BestieCar.health)
         if lolly == "car1":
-            for i in LollyCar.max_health:
+            for i in range(LollyCar.max_health):
                 if i < LollyCar.health:
                     screen.blit(LollyCar.heart_on_image, (500 + i * 75, 5))
                 else:
                     screen.blit(LollyCar.heart_off_image, (500 + i * 75, 5))	
         elif lolly == "car2":
-            for i in LollyCar.max_health:
+            for i in range(LollyCar.max_health):
                 if i < LollyCar.health:
                     screen.blit(LollyCar.heart_on_image, (500 + i * 75, 5))
                 else:
                     screen.blit(LollyCar.heart_off_image, (500 + i * 75, 5))
         elif lolly == "car3":
-            for i in LollyCar.max_health:
+            for i in range(LollyCar.max_health):
                 if i < LollyCar.health:
                     screen.blit(LollyCar.heart_on_image, (500 + i * 75, 5))
                 else:
                     screen.blit(LollyCar.heart_off_image, (500 + i * 75, 5))
 
         if bestie == "car1":
-            for i in BestieCar.max_health:
+            for i in range(BestieCar.max_health):
                 if i < BestieCar.health:
                     screen.blit(BestieCar.heart_on_image, (870 + i * 75, 5))
                 else:
                     screen.blit(BestieCar.heart_off_image, (870 + i * 75, 5))
         elif bestie == "car2":
-            for i in BestieCar.max_health:
+            for i in range(BestieCar.max_health):
                 if i < BestieCar.health:
                     screen.blit(BestieCar.heart_on_image, (870 + i * 75, 5))
                 else:
                     screen.blit(BestieCar.heart_off_image, (870 + i * 75, 5))
         elif bestie == "car3":
-            for i in BestieCar.max_health:
+            for i in range(BestieCar.max_health):
                 if i < BestieCar.health:
                     screen.blit(BestieCar.heart_on_image, (870 + i * 75, 5))
                 else:
