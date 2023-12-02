@@ -70,22 +70,82 @@ class Car(pygame.sprite.Sprite):  # a sprite is a thing that moves around the sc
             'normal': {
                 'car1': 'images/players_cars/car1.png',
                 'car2': 'images/players_cars/car2.png',
-                'car3': 'images/players_cars/car3.png',
+                'car3': 'images/players_cars/car3.png'
             },
             'besties': {
                 'car1': 'images/power_ups_visuals/besties/car1_besties.png',
                 'car2': 'images/power_ups_visuals/besties/car2_besties.png',
-                'car3': 'images/power_ups_visuals/besties/car3_besties.png',
+                'car3': 'images/power_ups_visuals/besties/car3_besties.png'
             },
-            'diva': {
-                'car1': 'images/power_ups_visuals/diva/car1_diva.png',
-                'car2': 'images/power_ups_visuals/diva/car2_diva.png',
-                'car3': 'images/power_ups_visuals/diva/car3_diva.png',
+            'besties_tangled': {
+                'car1': 'images/power_ups_visuals/besties_tangled/car1_besties_tangled.png',
+                'car2': 'images/power_ups_visuals/besties_tangled/car2_besties_tangled.png',
+                'car3': 'images/power_ups_visuals/besties_tangled/car3_besties_tangled.png'
+            },
+            'besties_growth': {
+                'car1': 'images/power_ups_visuals/besties_growth/car1_besties.png',
+                'car2': 'images/power_ups_visuals/besties_growth/car2_besties.png',
+                'car3': 'images/power_ups_visuals/besties_growth/car3_besties.png'
+            },
+            'besties_tangled_growth': {
+                'car1': 'images/power_ups_visuals/besties_tangled_growth/car1_besties_tangled.png',
+                'car2': 'images/power_ups_visuals/besties_tangled_growth/car2_besties_tangled.png',
+                'car3': 'images/power_ups_visuals/besties_tangled_growth/car3_besties_tangled.png'
+            },
+            'besties_diva': {
+                'car1': 'images/power_ups_visuals/besties_diva/car1_besties_diva.png',
+                'car2': 'images/power_ups_visuals/besties_diva/car2_besties_diva.png',
+                'car3': 'images/power_ups_visuals/besties_diva/car3_besties_diva.png'
+            },
+            'besties_diva_tangled': {
+                'car1': 'images/power_ups_visuals/besties_diva_tangled/car1_besties_diva_tangled.png',
+                'car2': 'images/power_ups_visuals/besties_diva_tangled/car2_besties_diva_tangled.png',
+                'car3': 'images/power_ups_visuals/besties_diva_tangled/car3_besties_diva_tangled.png'
+            },
+            'besties_diva_growth': {
+                'car1': 'images/power_ups_visuals/besties_diva_growth/car1_besties_diva.png',
+                'car2': 'images/power_ups_visuals/besties_diva_growth/car2_besties_diva.png',
+                'car3': 'images/power_ups_visuals/besties_diva_growth/car3_besties_diva.png'
+            },
+            'besties_diva_tangled_growth': {
+                'car1': 'images/power_ups_visuals/besties_diva_tangled_growth/car1_besties_diva_tangled.png',
+                'car2': 'images/power_ups_visuals/besties_diva_tangled_growth/car2_besties_diva_tangled.png',
+                'car3': 'images/power_ups_visuals/besties_diva_tangled_growth/car3_besties_diva_tangled.png'
             },
             'tangled': {
                 'car1': 'images/power_ups_visuals/tangled/car1_tangled.png',
                 'car2': 'images/power_ups_visuals/tangled/car2_tangled.png',
-                'car3': 'images/power_ups_visuals/tangled/car3_tangled.png',
+                'car3': 'images/power_ups_visuals/tangled/car3_tangled.png'
+            },
+            'growth': {
+                'car1': 'images/power_ups_visuals/growth/car1.png',
+                'car2': 'images/power_ups_visuals/growth/car2.png',
+                'car3': 'images/power_ups_visuals/growth/car3.png'
+            },
+            'tangled_growth': {
+                'car1': 'images/power_ups_visuals/tangled_growth/car1_tangled.png',
+                'car2': 'images/power_ups_visuals/tangled_growth/car2_tangled.png',
+                'car3': 'images/power_ups_visuals/tangled_growth/car3_tangled.png'
+            },
+            'diva': {
+                'car1': 'images/power_ups_visuals/diva/car1_diva.png',
+                'car2': 'images/power_ups_visuals/diva/car2_diva.png',
+                'car3': 'images/power_ups_visuals/diva/car3_diva.png'
+            },
+            'diva_tangled': {
+                'car1': 'images/power_ups_visuals/diva_tangled/car1_diva_tangled.png',
+                'car2': 'images/power_ups_visuals/diva_tangled/car2_diva_tangled.png',
+                'car3': 'images/power_ups_visuals/diva_tangled/car3_diva_tangled.png'
+            },
+            'diva_growth': {
+                'car1': 'images/power_ups_visuals/diva_growth/car1_diva.png',
+                'car2': 'images/power_ups_visuals/diva_growth/car2_diva.png',
+                'car3': 'images/power_ups_visuals/diva_growth/car3_diva.png'
+            },
+            'diva_tangled_growth': {
+                'car1': 'images/power_ups_visuals/diva_tangled_growth/car1_diva_tangled.png',
+                'car2': 'images/power_ups_visuals/diva_tangled_growth/car2_diva_tangled.png',
+                'car3': 'images/power_ups_visuals/diva_tangled_growth/car3_diva_tangled.png'
             }}
 
         # this will change the image of the car to the image of the power up that is currently active

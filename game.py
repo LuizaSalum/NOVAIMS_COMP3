@@ -668,8 +668,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         ''' Check collision between players and power ups '''
 
         if pygame.sprite.collide_rect(LollyCar, besties_in_harmony) or pygame.sprite.collide_rect(BestieCar, besties_in_harmony):
-            LollyCar.change_car_image(lolly, 'besties')
-            BestieCar.change_car_image(bestie, 'besties')
+            LollyCar.change_car_image(lolly, active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
+            BestieCar.change_car_image(bestie, active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
             besties_in_harmony.collision_with_player() # if the power up is collected, it is removed and enters cooldown
 
         if pygame.sprite.collide_rect(LollyCar, diva_defiance) or pygame.sprite.collide_rect(BestieCar, diva_defiance):
@@ -685,8 +685,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 gal_pal_rebirth.affect_both_players(lolly=LollyCar, bestie=BestieCar) 
 
         if pygame.sprite.collide_rect(LollyCar, tangled_twist) or pygame.sprite.collide_rect(BestieCar, tangled_twist):
-            LollyCar.change_car_image(lolly, 'tangled')
-            BestieCar.change_car_image(bestie, 'tangled')  
+            LollyCar.change_car_image(lolly, active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
+            BestieCar.change_car_image(bestie, active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))  
             tangled_twist.collision_with_player() 
 
         if pygame.sprite.collide_rect(LollyCar, glamorous_growth) or pygame.sprite.collide_rect(BestieCar, glamorous_growth):
@@ -713,8 +713,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             if besties_in_harmony.timer == besties_in_harmony.duration:
                 besties_in_harmony.timer = 0
                 besties_in_harmony.active = False
-                LollyCar.change_car_image(lolly, 'normal')
-                BestieCar.change_car_image(bestie, 'normal')
+                LollyCar.change_car_image(lolly, active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
+                BestieCar.change_car_image(bestie, active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
                 besties_in_harmony.add_cooldown(15)
                 besties_in_harmony.remove_from_screen()
       
@@ -731,16 +731,16 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                     gal_pal_rebirth.remove_from_screen()
 
         if diva_defiance.active: # if the diva defiance power up is active, the players dont take damage from cars
-            LollyCar.change_car_image(lolly, 'diva')
-            BestieCar.change_car_image(bestie, 'diva')
+            LollyCar.change_car_image(lolly, active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
+            BestieCar.change_car_image(bestie, active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
             diva_text = score_font.render("Diva", True, (255, 255, 255))
             screen.blit(diva_text, (10, 170))
             diva_defiance.timer += 1
             if diva_defiance.timer == diva_defiance.duration:
                 diva_defiance.timer = 0
                 diva_defiance.active = False
-                LollyCar.change_car_image(lolly, 'normal')
-                BestieCar.change_car_image(bestie, 'normal')
+                LollyCar.change_car_image(lolly, active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
+                BestieCar.change_car_image(bestie, active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
                 diva_defiance.add_cooldown(15)
                 diva_defiance.remove_from_screen()
             
@@ -801,8 +801,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             if tangled_twist.timer == tangled_twist.duration:
                 tangled_twist.timer = 0
                 tangled_twist.active = False
-                LollyCar.change_car_image(lolly, 'normal')
-                BestieCar.change_car_image(bestie, 'normal')
+                LollyCar.change_car_image(lolly, active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
+                BestieCar.change_car_image(bestie, active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
                 tangled_twist.add_cooldown(15)
                 tangled_twist.remove_from_screen()
         
