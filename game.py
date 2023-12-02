@@ -4,18 +4,6 @@ from car import TrafficCar, Car1, Car2, Car3
 from power_up import *
 import random
 
-# GREY = (197, 197, 197)
-# BLACK = (0, 0, 0)
-# WHITE = (255, 255, 255)
-# RED = (255, 0, 0)
-# GREEN = (0, 255, 0)
-# BLUE = (0, 0, 255)
-# PURPLE = (255, 0, 255)
-ORANGE = (255, 165, 0)
-# YELLOW = (255, 255, 0)
-PINK = (255, 192, 203)
-SKY_BLUE = (135, 206, 235)
-
 score = 0
 
 def multi_game(difficulty, lolly, bestie, power_ups):
