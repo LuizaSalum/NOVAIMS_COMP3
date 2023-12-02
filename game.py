@@ -310,6 +310,10 @@ def multi_game(difficulty, lolly, bestie, power_ups):
     # starting the clock
     clock = pygame.time.Clock()
 
+    # putting the countdown before the game starts
+
+    countdown(road)
+
     while carryOn:
 
         for event in pygame.event.get():
@@ -1103,3 +1107,39 @@ def pause_menu(game_screen):
                     paused = False
                     
         pygame.display.flip()
+
+
+def countdown(game_screen):
+
+    pygame.init()
+    size = (1250, 950)
+    screen = pygame.display.set_mode(size)
+
+    ''' Loading Images '''
+
+    countdown_3 = pygame.image.load("images/countdown/countdown_3.png").convert_alpha()
+    countdown_2 = pygame.image.load("images/countdown/countdown_2.png").convert_alpha()
+    countdown_1 = pygame.image.load("images/countdown/countdown_1.png").convert_alpha()
+    countdown_go = pygame.image.load("images/countdown/countdown_go.png").convert_alpha()
+
+    screen.blit(game_screen, (0, 0))
+    screen.blit(countdown_3, (0, 0))
+    pygame.display.flip()
+
+    pygame.time.wait(1000)
+    screen.blit(game_screen, (0, 0))
+    screen.blit(countdown_2, (0, 0))
+    pygame.display.flip()
+
+    pygame.time.wait(1000)
+    screen.blit(game_screen, (0, 0))
+    screen.blit(countdown_1, (0, 0))
+    pygame.display.flip()
+
+    pygame.time.wait(1000)
+    screen.blit(game_screen, (0, 0))
+    screen.blit(countdown_go, (0, 0))
+    pygame.display.flip()
+
+    pygame.time.wait(1000)
+    return
