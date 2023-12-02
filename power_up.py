@@ -151,8 +151,6 @@ class GlamorousGrowth(PowerUp): # the player gets bigger and gains hp (+2 if it'
 
     def affect_player(self, player):
         player.health += 1
-        player.resize(1.2, 1.2)
-        player.image = pygame.transform.scale(player.image, (player.width, player.height))
 
     def affect_traffic(self, traffic):
         pass
