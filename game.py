@@ -933,7 +933,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         screen.blit(score_bar, (0, 0))  # Draw the score_bar on top of everything else
         screen.blit(score_text, (170, 15))
         mouse = pygame.mouse.get_pos()
-        print(mouse)
 
         ''' Drawing the Hearts '''
 
