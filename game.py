@@ -946,7 +946,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         screen.blit(score_text, (170, 0))
 
         #check what car has the player have and draw the hearts accordingly
-        print(LollyCar.health, BestieCar.health)
+        
         if LollyCar.car_type == "car1":
             for i in range(LollyCar.max_health):
                 if i < LollyCar.health:
