@@ -24,6 +24,8 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
     # frozen road
     frozen_road = pygame.image.load("images/power_ups_visuals/frosty/road_snow.png").convert()
+    snow_sky = pygame.image.load("images/power_ups_visuals/frosty/snow_sky.png").convert_alpha()
+    snow_snowflakes = pygame.image.load("images/power_ups_visuals/frosty/snow_snowflakes.png").convert_alpha()
 
     # hearts
     heart1 = pygame.image.load("images/hearts/heart1.png").convert_alpha()
@@ -36,25 +38,9 @@ def multi_game(difficulty, lolly, bestie, power_ups):
     heart2_loss = pygame.image.load("images/hearts/heart2_loss.png").convert_alpha()
     heart3_loss = pygame.image.load("images/hearts/heart3_loss.png").convert_alpha()
 
-    # power ups
-    besties_in_harmony_image = pygame.image.load("images/power_ups/besties_in_harmony.png").convert_alpha()
-    diva_defiance_image = pygame.image.load("images/power_ups/diva_defiance.png").convert_alpha()
-    frosty_frenzy_image = pygame.image.load("images/power_ups/frosty_frenzy.png").convert_alpha()
-    gal_pal_rebirth_image = pygame.image.load("images/power_ups/gal_pal_rebirth.png").convert_alpha()
-    tangled_twist_image = pygame.image.load("images/power_ups/tangled_twist.png").convert_alpha()
-    glamorous_growth_image = pygame.image.load("images/power_ups/glamorous_growth.png").convert_alpha()
-    sissy_that_walk_image = pygame.image.load("images/power_ups/sissy_that_walk.png").convert_alpha()
-    toy_transforminator_image = pygame.image.load("images/power_ups/toy_transforminator.png").convert_alpha()
+    # speed images
 
-    # power ups off
-    besties_in_harmony_off_image = pygame.image.load("images/power_ups/besties_in_harmony_off.png").convert_alpha()
-    diva_defiance_off_image = pygame.image.load("images/power_ups/diva_defiance_off.png").convert_alpha()
-    frosty_frenzy_off_image = pygame.image.load("images/power_ups/frosty_frenzy_off.png").convert_alpha()
-    gal_pal_rebirth_off_image = pygame.image.load("images/power_ups/gal_pal_rebirth_off.png").convert_alpha()
-    tangled_twist_off_image = pygame.image.load("images/power_ups/tangled_twist_off.png").convert_alpha()
-    glamorous_growth_off_image = pygame.image.load("images/power_ups/glamorous_growth_off.png").convert_alpha()
-    sissy_that_walk_off_image = pygame.image.load("images/power_ups/sissy_that_walk_off.png").convert_alpha()
-    toy_transforminator_off_image = pygame.image.load("images/power_ups/toy_transforminator_off.png").convert_alpha()
+    speed_images = [pygame.image.load("images/power_ups_visuals/sissy/sissy1.png").convert_alpha(), pygame.image.load("images/power_ups_visuals/sissy/sissy2.png").convert_alpha(), pygame.image.load("images/power_ups_visuals/sissy/sissy3.png").convert_alpha()]
 
     ''' Defining Classes '''
 
@@ -921,10 +907,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 toy_transforminator.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
                 toy_transforminator.move_down(0)
 
-        speed_effect = ["images/power_ups_visuals/sissy/sissy1.png", "images/power_ups_visuals/sissy/sissy2.png", "images/power_ups_visuals/sissy/sissy3.png"]
-        if sissy_that_walk.active:
-            screen.blit(pygame.image.load(random.choice(speed_effect)), (0, 0))
-
         ''' Score '''
 
         score += 1
@@ -935,6 +917,13 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
         all_sprites_list.update(all_sprites_list)
         all_sprites_list.draw(screen)
+
+        if frosty_frenzy.active:
+            screen.blit(snow_sky, (0, 0))
+            screen.blit(snow_snowflakes, (0, 0))
+
+        if sissy_that_walk.active:
+            screen.blit(random.choice(speed_images), (0, 0))
 
         # score counter
         
