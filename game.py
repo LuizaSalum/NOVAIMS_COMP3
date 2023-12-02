@@ -36,6 +36,28 @@ def multi_game(difficulty, lolly, bestie, power_ups):
     heart2_loss = pygame.image.load("images/hearts/heart2_loss.png").convert_alpha()
     heart3_loss = pygame.image.load("images/hearts/heart3_loss.png").convert_alpha()
 
+    # power ups
+    besties_in_harmony_image = pygame.image.load("images/power_ups/besties_in_harmony.png").convert_alpha()
+    diva_defiance_image = pygame.image.load("images/power_ups/diva_defiance.png").convert_alpha()
+    frosty_frenzy_image = pygame.image.load("images/power_ups/frosty_frenzy.png").convert_alpha()
+    gal_pal_rebirth_image = pygame.image.load("images/power_ups/gal_pal_rebirth.png").convert_alpha()
+    tangled_twist_image = pygame.image.load("images/power_ups/tangled_twist.png").convert_alpha()
+    glamorous_growth_image = pygame.image.load("images/power_ups/glamorous_growth.png").convert_alpha()
+    sissy_that_walk_image = pygame.image.load("images/power_ups/sissy_that_walk.png").convert_alpha()
+    toy_transforminator_image = pygame.image.load("images/power_ups/toy_transforminator.png").convert_alpha()
+
+    # power ups off
+    besties_in_harmony_off_image = pygame.image.load("images/power_ups/besties_in_harmony_off.png").convert_alpha()
+    diva_defiance_off_image = pygame.image.load("images/power_ups/diva_defiance_off.png").convert_alpha()
+    frosty_frenzy_off_image = pygame.image.load("images/power_ups/frosty_frenzy_off.png").convert_alpha()
+    gal_pal_rebirth_off_image = pygame.image.load("images/power_ups/gal_pal_rebirth_off.png").convert_alpha()
+    tangled_twist_off_image = pygame.image.load("images/power_ups/tangled_twist_off.png").convert_alpha()
+    glamorous_growth_off_image = pygame.image.load("images/power_ups/glamorous_growth_off.png").convert_alpha()
+    sissy_that_walk_off_image = pygame.image.load("images/power_ups/sissy_that_walk_off.png").convert_alpha()
+    toy_transforminator_off_image = pygame.image.load("images/power_ups/toy_transforminator_off.png").convert_alpha()
+
+    ''' Defining Classes '''
+
     # incoming cars
 
     cars_dimensions = [
@@ -973,8 +995,13 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                     screen.blit(BestieCar.heart_on_image, (870 + i * 75, 5))
                 else:
                     screen.blit(BestieCar.heart_off_image, (870 + i * 75, 5))
-                    
-        ''' Drawing the Hearts '''
+
+        ''' Drawing Power Ups On the Side '''
+
+        image_power_up_position = 30
+        for image_power_up in power_ups_side(besties_in_harmony.active, diva_defiance.active, frosty_frenzy.active, gal_pal_rebirth.active, tangled_twist.active, glamorous_growth.active, sissy_that_walk.active, toy_transforminator.active):
+            image_power_up_position += 80
+            screen.blit(image_power_up, (0, image_power_up_position))
         
 
         pygame.display.flip()
@@ -982,6 +1009,20 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
     pygame.quit()
 
+
+def power_ups_side(besties_in_harmony, diva_defiance, frosty_frenzy, gal_pal_rebirth, tangled_twist, glamorous_growth, sissy_that_walk, toy_transforminator):
+
+    power_ups = []
+    power_ups_names = ["besties_in_harmony", "diva_defiance", "frosty_frenzy", "gal_pal_rebirth", "tangled_twist", "glamorous_growth", "sissy_that_walk", "toy_transforminator"]
+    power_ups_boolean_list = [besties_in_harmony, diva_defiance, frosty_frenzy, gal_pal_rebirth, tangled_twist, glamorous_growth, sissy_that_walk, toy_transforminator]
+
+    for number in range(len(power_ups_boolean_list)):
+        if power_ups_boolean_list[number]:
+            power_ups.append(pygame.image.load(f"images/power_ups/{power_ups_names[number]}.png").convert_alpha())
+        else:
+            power_ups.append(pygame.image.load(f"images/power_ups/{power_ups_names[number]}_off.png").convert_alpha())
+    
+    return power_ups
 
 def game_over(road, difficulty, lolly, bestie, power_ups):
 
