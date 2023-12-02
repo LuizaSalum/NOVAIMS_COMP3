@@ -192,54 +192,29 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         BestieCar.max_health = 5
 
     ''' Positioning Power Ups '''
+
+    power_ups_list = []
     
-    if 'besties_in_harmony' in power_ups:
+    for power_up in power_ups:
         besties_in_harmony = BestiesInHarmony()
-        besties_in_harmony.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100)) # starting pos of the power ups
-        besties_in_harmony.active = False
-        besties_in_harmony.base_speed = 3
-
-    if 'diva_defiance' in power_ups:
+        power_ups_list.append(besties_in_harmony)
         diva_defiance = DivaDefiance()
-        diva_defiance.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
-        diva_defiance.active = False
-        diva_defiance.base_speed = 3
-
-    if 'frosty_frenzy' in power_ups:
+        power_ups_list.append(diva_defiance)
         frosty_frenzy = FrostyFrenzy()
-        frosty_frenzy.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
-        frosty_frenzy.active = False
-        frosty_frenzy.base_speed = 3
-
-    if 'gal_pal_rebirth' in power_ups:
+        power_ups_list.append(frosty_frenzy)
         gal_pal_rebirth = GalPalRebirth()
-        gal_pal_rebirth.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
-        gal_pal_rebirth.active = False
-        gal_pal_rebirth.base_speed = 3
-            
-    if 'tangled_twist' in power_ups:
+        power_ups_list.append(gal_pal_rebirth)
         tangled_twist = TangledTwist()
-        tangled_twist.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
-        tangled_twist.active = False
-        tangled_twist.base_speed = 3
-   
-    if 'glamorous_growth' in power_ups:
+        power_ups_list.append(tangled_twist)
         glamorous_growth = GlamorousGrowth()
-        glamorous_growth.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
-        glamorous_growth.active = False
-        glamorous_growth.base_speed = 3
-
-    if 'sissy_that_walk' in power_ups:
+        power_ups_list.append(glamorous_growth)
         sissy_that_walk = SissyThatWalk()
-        sissy_that_walk.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
-        sissy_that_walk.active = False
-        sissy_that_walk.base_speed = 3
-        
-    if 'toy_transforminator' in power_ups:
+        power_ups_list.append(sissy_that_walk)
         toy_transforminator = ToyTransforminator()
-        toy_transforminator.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
-        toy_transforminator.active = False
-        toy_transforminator.base_speed = 3
+        power_ups_list.append(toy_transforminator)
+
+    for power_up in power_ups_list:
+        power_up.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100)) # starting pos of the power ups
 
     ''' Define the probability for each power-up'''
     power_up_probabilities = {
@@ -685,13 +660,9 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         ''' Check collision between players and power ups '''
 
         if pygame.sprite.collide_rect(LollyCar, besties_in_harmony) or pygame.sprite.collide_rect(BestieCar, besties_in_harmony):
-            LollyCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
-            BestieCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
             besties_in_harmony.collision_with_player() # if the power up is collected, it is removed and enters cooldown
 
         if pygame.sprite.collide_rect(LollyCar, diva_defiance) or pygame.sprite.collide_rect(BestieCar, diva_defiance):
-            LollyCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
-            BestieCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
             diva_defiance.collision_with_player()
 
         if pygame.sprite.collide_rect(LollyCar, frosty_frenzy) or pygame.sprite.collide_rect(BestieCar, frosty_frenzy):
@@ -704,17 +675,13 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 gal_pal_rebirth.affect_both_players(lolly=LollyCar, bestie=BestieCar) 
 
         if pygame.sprite.collide_rect(LollyCar, tangled_twist) or pygame.sprite.collide_rect(BestieCar, tangled_twist):
-            LollyCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
-            BestieCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))  
             tangled_twist.collision_with_player() 
 
         if pygame.sprite.collide_rect(LollyCar, glamorous_growth):
             glamorous_growth.affect_player(LollyCar)
-            LollyCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
             glamorous_growth.collision_with_player()
         if pygame.sprite.collide_rect(BestieCar, glamorous_growth):
             glamorous_growth.affect_player(BestieCar)
-            BestieCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
             glamorous_growth.collision_with_player()
 
         if pygame.sprite.collide_rect(LollyCar, sissy_that_walk) or pygame.sprite.collide_rect(BestieCar, sissy_that_walk):
@@ -732,8 +699,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             if besties_in_harmony.timer == besties_in_harmony.duration:
                 besties_in_harmony.timer = 0
                 besties_in_harmony.active = False
-                LollyCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
-                BestieCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
                 besties_in_harmony.add_cooldown(15)
                 besties_in_harmony.remove_from_screen()
       
@@ -751,8 +716,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             if diva_defiance.timer == diva_defiance.duration:
                 diva_defiance.timer = 0
                 diva_defiance.active = False
-                LollyCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
-                BestieCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
                 diva_defiance.add_cooldown(15)
                 diva_defiance.remove_from_screen()
             
@@ -807,8 +770,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             if tangled_twist.timer == tangled_twist.duration:
                 tangled_twist.timer = 0
                 tangled_twist.active = False
-                LollyCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
-                BestieCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
                 tangled_twist.add_cooldown(15)
                 tangled_twist.remove_from_screen()
         
@@ -817,8 +778,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             if glamorous_growth.timer == glamorous_growth.duration:
                 glamorous_growth.timer = 0
                 glamorous_growth.active = False
-                LollyCar.player_resize()
-                BestieCar.player_resize()
                 glamorous_growth.remove_from_screen()
                 glamorous_growth.add_cooldown(15)
                 
@@ -914,6 +873,9 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         ''' Drawing Everything '''
         if frosty_frenzy.active:
             road = frozen_road
+
+        LollyCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
+        BestieCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
 
         all_sprites_list.update(all_sprites_list)
         all_sprites_list.draw(screen)

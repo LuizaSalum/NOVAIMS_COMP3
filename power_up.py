@@ -166,7 +166,6 @@ class GlamorousGrowth(PowerUp): # the player gets bigger and gains hp (+2 if it'
             else:
                 player.health += 1
 
-
     def affect_traffic(self, traffic):
         pass
 
