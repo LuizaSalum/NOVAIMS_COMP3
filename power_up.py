@@ -134,7 +134,7 @@ class GalPalRebirth(PowerUp): # Player gets revived
 
 class TangledTwist(PowerUp): # the player gets the other player's controls
     def __init__(self):
-        super().__init__("images/power_ups/tangled_twist.png", 80, 80, 600, 0)
+        super().__init__("images/power_ups/tangled_twist.png", 80, 80, 60, 0)
 
     def affect_player(self, player):
         pass
