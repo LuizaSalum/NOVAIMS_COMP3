@@ -4,18 +4,6 @@ from car import TrafficCar, Car1, Car2, Car3
 from power_up import *
 import random
 
-# GREY = (197, 197, 197)
-# BLACK = (0, 0, 0)
-# WHITE = (255, 255, 255)
-# RED = (255, 0, 0)
-# GREEN = (0, 255, 0)
-# BLUE = (0, 0, 255)
-# PURPLE = (255, 0, 255)
-ORANGE = (255, 165, 0)
-# YELLOW = (255, 255, 0)
-PINK = (255, 192, 203)
-SKY_BLUE = (135, 206, 235)
-
 score = 0
 
 def multi_game(difficulty, lolly, bestie, power_ups):
@@ -312,6 +300,10 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
     # starting the clock
     clock = pygame.time.Clock()
+
+    # putting the countdown before the game starts
+
+    countdown(road)
 
     while carryOn:
 
@@ -1103,3 +1095,39 @@ def pause_menu(game_screen):
                     paused = False
                     
         pygame.display.flip()
+
+
+def countdown(game_screen):
+
+    pygame.init()
+    size = (1250, 950)
+    screen = pygame.display.set_mode(size)
+
+    ''' Loading Images '''
+
+    countdown_3 = pygame.image.load("images/countdown/countdown_3.png").convert_alpha()
+    countdown_2 = pygame.image.load("images/countdown/countdown_2.png").convert_alpha()
+    countdown_1 = pygame.image.load("images/countdown/countdown_1.png").convert_alpha()
+    countdown_go = pygame.image.load("images/countdown/countdown_go.png").convert_alpha()
+
+    screen.blit(game_screen, (0, 0))
+    screen.blit(countdown_3, (0, 0))
+    pygame.display.flip()
+
+    pygame.time.wait(1000)
+    screen.blit(game_screen, (0, 0))
+    screen.blit(countdown_2, (0, 0))
+    pygame.display.flip()
+
+    pygame.time.wait(1000)
+    screen.blit(game_screen, (0, 0))
+    screen.blit(countdown_1, (0, 0))
+    pygame.display.flip()
+
+    pygame.time.wait(1000)
+    screen.blit(game_screen, (0, 0))
+    screen.blit(countdown_go, (0, 0))
+    pygame.display.flip()
+
+    pygame.time.wait(1000)
+    return
