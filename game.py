@@ -214,7 +214,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         power_ups_list.append(toy_transforminator)
 
     for power_up in power_ups_list:
-        power_up.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100)) # starting pos of the power ups
+        power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100)) # starting pos of the power ups
 
     ''' Define the probability for each power-up'''
     power_up_probabilities = {
@@ -814,56 +814,56 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             besties_in_harmony.cooldown -= 1
             if besties_in_harmony.cooldown == 0:
                 power_ups.remove(besties_in_harmony)
-                besties_in_harmony.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+                besties_in_harmony.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
                 besties_in_harmony.move_down(0)
 
         if diva_defiance.cooldown > 0:
             diva_defiance.cooldown -= 1
             if diva_defiance.cooldown == 0:
                 power_ups.remove(diva_defiance)
-                diva_defiance.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+                diva_defiance.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
                 diva_defiance.move_down(0)
 
         if frosty_frenzy.cooldown > 0:
             frosty_frenzy.cooldown -= 1
             if frosty_frenzy.cooldown == 0:
                 power_ups.remove(frosty_frenzy)
-                frosty_frenzy.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+                frosty_frenzy.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
                 frosty_frenzy.move_down(0)
 
         if gal_pal_rebirth.cooldown > 0:
             gal_pal_rebirth.cooldown -= 1
             if gal_pal_rebirth.cooldown == 0:
                 power_ups.remove(gal_pal_rebirth)
-                gal_pal_rebirth.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+                gal_pal_rebirth.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
                 gal_pal_rebirth.move_down(0)
 
         if tangled_twist.cooldown > 0:
             tangled_twist.cooldown -= 1
             if tangled_twist.cooldown == 0:
                 power_ups.remove(tangled_twist)
-                tangled_twist.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+                tangled_twist.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
                 tangled_twist.move_down(0)
 
         if glamorous_growth.cooldown > 0:
             glamorous_growth.cooldown -= 1
             if glamorous_growth.cooldown == 0:
                 power_ups.remove(glamorous_growth)
-                glamorous_growth.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+                glamorous_growth.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
                 glamorous_growth.move_down(0)
 
         if sissy_that_walk.cooldown > 0:
             sissy_that_walk.cooldown -= 1
             if sissy_that_walk.cooldown == 0:
                 power_ups.remove(sissy_that_walk)
-                sissy_that_walk.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+                sissy_that_walk.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
                 sissy_that_walk.move_down(0)
 
         if toy_transforminator.cooldown > 0:
             toy_transforminator.cooldown -= 1
             if toy_transforminator.cooldown == 0:
                 power_ups.remove(toy_transforminator)
-                toy_transforminator.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+                toy_transforminator.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
                 toy_transforminator.move_down(0)
 
         ''' Score '''

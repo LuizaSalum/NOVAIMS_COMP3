@@ -20,7 +20,7 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (self.width, self.height))
         self.rect = self.image.get_rect()
 
-        self.rect.x = random.choice([285, 466, 643, 825])
+        self.rect.x = random.choice([317, 496, 675, 853])
         self.rect.y = random.randint(-1500, -100)
 
     def change_image(self, image_path):
