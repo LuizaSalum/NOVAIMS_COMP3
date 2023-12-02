@@ -150,7 +150,22 @@ class GlamorousGrowth(PowerUp): # the player gets bigger and gains hp (+2 if it'
         super().__init__("images/power_ups/glamorous_growth.png", 80, 80, 60, 0)
 
     def affect_player(self, player):
-        player.health += 1
+        if player.car_type == "car1":
+            if player.health + 1 == 5:
+                player.health = player.health
+            else:
+                player.health += 1
+        elif player.car_type == "car2":
+            if player.health + 1 == 4:
+                player.health = player.health
+            else:
+                player.health += 1
+        elif player.car_type == "car3":
+            if player.health + 1 == 6:
+                player.health = player.health
+            else:
+                player.health += 1
+
 
     def affect_traffic(self, traffic):
         pass
