@@ -733,7 +733,7 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         if diva_defiance.active: # if the diva defiance power up is active, the players dont take damage from cars
             LollyCar.change_car_image(lolly, active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
             BestieCar.change_car_image(bestie, active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
-            diva_text = score_font.render("Diva", True, (255, 255, 255))
+            diva_text = score_font.render(f"{diva_defiance.timer}", True, (255, 255, 255))
             screen.blit(diva_text, (10, 170))
             diva_defiance.timer += 1
             if diva_defiance.timer == diva_defiance.duration:
