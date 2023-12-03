@@ -273,14 +273,14 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         speed_buffer = 3
         traffic_speed_buffer = 0
         HP_buffer = 3
-        power_ups_duration_buffer = 0
-        power_ups_cooldown_nerfer = 0
+        power_ups_duration_buffer = 5
+        power_ups_cooldown_nerfer = -5
     elif difficulty == 'hard':
         speed_buffer = -2
         traffic_speed_buffer = 2
         HP_buffer = 2
-        power_ups_duration_buffer = -10
-        power_ups_cooldown_nerfer = 5
+        power_ups_duration_buffer = 0
+        power_ups_cooldown_nerfer = 0
 
     LollyCar.add_speed(speed_buffer)
     BestieCar.add_speed(speed_buffer)
