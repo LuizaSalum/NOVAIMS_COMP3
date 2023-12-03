@@ -160,7 +160,7 @@ class Car2(PlayerCar):
         super().__init__(car_image, width, height, x_box, y_box, speed, health)
         self.car_type = 'car2'
         self.speed += 3
-        self.health -= 2
+        self.health -= 1
 
     def change_car_image(self, power_up_type):
 
