@@ -218,13 +218,13 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
     ''' Define the probability for each power-up'''
     power_up_probabilities = {
-        "besties_in_harmony": 0.005,
-        "diva_defiance": 0.01,
-        "frosty_frenzy": 0.01,
-        "gal_pal_rebirth": 0.5,
-        "tangled_twist": 0.005,
-        "glamorous_growth": 0.05,
-        "sissy_that_walk": 0.015,
+        "besties_in_harmony": 0.001,
+        "diva_defiance": 0.001,
+        "frosty_frenzy": 0.001,
+        "gal_pal_rebirth": 0.001,
+        "tangled_twist": 0.001,
+        "glamorous_growth": 0.001,
+        "sissy_that_walk": 0.001,
         "toy_transforminator": 0.001,
     }
             
@@ -597,6 +597,14 @@ def multi_game(difficulty, lolly, bestie, power_ups):
         else:
             player_eliminated = False
 
+        # if a player is eliminated besties in harmony and tangled twist must not be spawned
+        if player_eliminated: #change the porbability of these power ups to 0 so they are not spawned
+                power_up_probabilities["besties_in_harmony"] = 0
+                power_up_probabilities["tangled_twist"] = 0
+        else:
+            power_up_probabilities["besties_in_harmony"] = 0.005
+            power_up_probabilities["tangled_twist"] = 0.005
+
         ''' Power Ups Probability'''
 
         for power_up_name, probability in power_up_probabilities.items():
@@ -604,20 +612,28 @@ def multi_game(difficulty, lolly, bestie, power_ups):
                 # Set power_up based on power_up_name
                 if power_up_name == "besties_in_harmony":
                     power_ups.append(besties_in_harmony)
+                    print("besties_in_harmony")
                 elif power_up_name == "diva_defiance":
                     power_ups.append(diva_defiance)
+                    print("diva_defiance")
                 elif power_up_name == "frosty_frenzy":
                     power_ups.append(frosty_frenzy)
+                    print("frosty_frenzy")
                 elif power_up_name == "gal_pal_rebirth":
                     power_ups.append(gal_pal_rebirth)
+                    print("gal_pal_rebirth")
                 elif power_up_name == "tangled_twist":
                     power_ups.append(tangled_twist)
+                    print("tangled_twist")
                 elif power_up_name == "glamorous_growth":	
                     power_ups.append(glamorous_growth)
+                    print("glamorous_growth")
                 elif power_up_name == "sissy_that_walk":
                     power_ups.append(sissy_that_walk)
+                    print("sissy_that_walk")
                 elif power_up_name == "toy_transforminator":
                     power_ups.append(toy_transforminator)
+                    print("toy_transforminator")
                 
         ''' After checking if a power up should be spawned we brining them down'''
 
