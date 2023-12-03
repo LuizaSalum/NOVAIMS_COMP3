@@ -176,8 +176,8 @@ class SissyThatWalk(PowerUp): # the player gets a speed boost
     def __init__(self):
         super().__init__("images/power_ups/sissy_that_walk.png", 80, 80, 60, 0)
 
-    def affect_player(self, player):
-        pass
+    def affect_player(self, player, speed):
+        player.speed = speed
 
     def affect_traffic(self, traffic):
         pass
