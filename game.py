@@ -1131,7 +1131,7 @@ def pause_menu(game_screen):
                 if event.type == pygame.MOUSEBUTTONDOWN:  # if the user clicks on the exit button
                     pygame.quit()
 
-            elif not (menu_position[0] <= mouse[0] <= menu_position[1] and menu_position[2] < mouse[1] < menu_position[3]):  # if the user hovers over anywhere else
+            else:  # if the user hovers anywhere else
                 screen.blit(pause_menu_image, (menu_position[0], menu_position[2]))
                 if event.type == pygame.MOUSEBUTTONDOWN:  # if the user clicks anywhere else
                     paused = False
