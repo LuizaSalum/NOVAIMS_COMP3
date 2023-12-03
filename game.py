@@ -20,10 +20,14 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
     # road
     normal_road = pygame.image.load("images/road.png").convert()
+    normal_road2 = pygame.image.load("images/road2.png").convert()
+    normal_road3 = pygame.image.load("images/road3.png").convert()
     road = normal_road
 
     # frozen road
     frozen_road = pygame.image.load("images/power_ups_visuals/frosty/road_snow.png").convert()
+    frozen_road2 = pygame.image.load("images/power_ups_visuals/frosty/road2_snow.png").convert()
+    frozen_road3 = pygame.image.load("images/power_ups_visuals/frosty/road3_snow.png").convert()
     snow_sky = pygame.image.load("images/power_ups_visuals/frosty/snow_sky.png").convert_alpha()
     snow_snowflakes = pygame.image.load("images/power_ups_visuals/frosty/snow_snowflakes.png").convert_alpha()
 
@@ -259,7 +263,6 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
     score = 0
     road_y = 0
-    obstacle_counter = 0
 
     ''' Defining Buffs and Nerfs regarding the difficulty '''
 
@@ -398,6 +401,13 @@ def multi_game(difficulty, lolly, bestie, power_ups):
             BestieCar.rect.x = 900
 
         ''' Scrolling the road '''
+        
+        if score < 2000:
+            road = normal_road
+        elif 2000 < score < 4000:
+            road = normal_road2
+        else:
+            road = normal_road3
 
         # Scrolling the road
         if sissy_that_walk.active:
@@ -913,7 +923,12 @@ def multi_game(difficulty, lolly, bestie, power_ups):
 
         ''' Drawing Everything '''
         if frosty_frenzy.active:
-            road = frozen_road
+            if score < 2000:
+                road = frozen_road
+            elif score < 4000:
+                road = frozen_road2
+            else:
+                road = frozen_road3
 
         LollyCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
         BestieCar.change_car_image(active_power_ups(besties_in_harmony, diva_defiance, glamorous_growth, tangled_twist))
