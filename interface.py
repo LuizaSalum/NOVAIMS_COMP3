@@ -714,5 +714,5 @@ def menu(screen_image):
                             pygame.quit()
                             exit()
 
-                else:  # if the user clicks on the screen but not on the menu, we'll close the menu and return to the previous screen
+                if not (menu_position[0] <= mouse[0] <= menu_position[1] and menu_position[2] <= mouse[1] <= menu_position[3]):  # if the user clicks on the screen but not on the menu, we'll close the menu and return to the previous screen
                     return
