@@ -1,5 +1,5 @@
 import pygame
-from game import *
+from game_old import multi_game
 
 
 # buttons is a dictionary with the screen name as key and the buttons lists as values
@@ -55,7 +55,6 @@ buttons = {
         ]
     }
 
-
 def start_screen():
 
     pygame.init()
@@ -65,6 +64,9 @@ def start_screen():
     start_image = pygame.image.load("images/interface/start.png").convert_alpha()
     screen.blit(start_image, (0, 0))
     pygame.display.flip()
+
+    single_power_ups = ['diva_defiance', 'frosty_frenzy', 'tangled_twist', 'glamorous_growth', 'sissy_that_walk', 'toy_transforminator']
+    multi_power_ups = ['besties_in_harmony', 'diva_defiance', 'frosty_frenzy', 'gal_pal_rebirth', 'tangled_twist', 'glamorous_growth', 'sissy_that_walk', 'toy_transforminator']
 
     while True:
 
@@ -104,9 +106,9 @@ def start_screen():
                 for number in range(len(buttons['start'])):
                     if buttons['start'][number][1] <= user_input.pos[0] <= buttons['start'][number][2] and buttons['start'][number][3] <= user_input.pos[1] <= buttons['start'][number][4]:
                         if buttons['start'][number][0] == 'singleplayer':
-                            single_customisation_screen(lolly='car1', difficulty='normal')
+                            single_customisation_screen(lolly='car1', difficulty='normal', power_ups=single_power_ups)
                         elif buttons['start'][number][0] == 'multiplayer':
-                            multi_customisation_screen(lolly='car1', bestie='car2', difficulty='normal')
+                            multi_customisation_screen(lolly='car1', bestie='car2', difficulty='normal', power_ups=multi_power_ups)
                         elif buttons['start'][number][0] == 'credits':
                             credits_screen()
                         elif buttons['start'][number][0] == 'exit':
@@ -159,7 +161,7 @@ def credits_screen():
                     start_screen()
 
 
-def single_customisation_screen(lolly, difficulty):
+def single_customisation_screen(lolly, difficulty, power_ups):
 
     pygame.init()
     size = (1250, 950)
@@ -209,19 +211,20 @@ def single_customisation_screen(lolly, difficulty):
                         if buttons['singleplayer'][number][0] == 'back':
                             start_screen()
                         elif buttons['singleplayer'][number][0] == 'start':
-                            pass  # single_game(lolly_car=lolly, difficulty=difficulty)
+                            pass  # single_game(lolly=lolly, difficulty=difficulty, power_ups=power_ups)
                         elif buttons['singleplayer'][number][0] == 'lolly':
-                            lolly_customisation_screen(mode='single', lolly_car=lolly, difficulty=difficulty)
+                            lolly_customisation_screen(mode='single', lolly=lolly, difficulty=difficulty, power_ups=power_ups)
                         elif buttons['singleplayer'][number][0] == 'dog':
-                            dog_customisation_screen(mode='single', lolly_car=lolly, difficulty=difficulty)
+                            dog_customisation_screen(mode='single', lolly=lolly, difficulty=difficulty, power_ups=power_ups)
                         elif buttons['singleplayer'][number][0] == 'power_ups':
-                            power_ups_list_screen(mode='single', lolly_car=lolly, difficulty=difficulty)
+                            power_ups_list_screen(mode='single', lolly=lolly, difficulty=difficulty, power_ups=power_ups)
                         elif buttons['singleplayer'][number][0] == 'reset':
                             lolly = 'car1'
                             difficulty = 'normal'
+                            power_ups = ['diva_defiance', 'frosty_frenzy', 'tangled_twist', 'glamorous_growth', 'sissy_that_walk', 'toy_transforminator']
 
 
-def multi_customisation_screen(lolly, bestie, difficulty):
+def multi_customisation_screen(lolly, bestie, difficulty, power_ups):
 
     pygame.init()
     size = (1250, 950)
@@ -271,22 +274,23 @@ def multi_customisation_screen(lolly, bestie, difficulty):
                         if buttons['multiplayer'][number][0] == 'back':
                             start_screen()
                         elif buttons['multiplayer'][number][0] == 'start':
-                            multi_game(lolly_car=lolly, bestie_car=bestie, difficulty=difficulty)
+                            multi_game(lolly=lolly, bestie=bestie, difficulty=difficulty, power_ups=power_ups)
                         elif buttons['multiplayer'][number][0] == 'lolly':
-                            lolly_customisation_screen(mode='multi', lolly_car=lolly, bestie_car=bestie, difficulty=difficulty)
+                            lolly_customisation_screen(mode='multi', lolly=lolly, bestie=bestie, difficulty=difficulty, power_ups=power_ups)
                         elif buttons['multiplayer'][number][0] == 'dog':
-                            dog_customisation_screen(mode='multi', lolly_car=lolly, bestie_car=bestie, difficulty=difficulty)
+                            dog_customisation_screen(mode='multi', lolly=lolly, bestie=bestie, difficulty=difficulty, power_ups=power_ups)
                         elif buttons['multiplayer'][number][0] == 'power_ups':
-                            power_ups_list_screen(mode='multi', lolly_car=lolly, bestie_car=bestie, difficulty=difficulty)
+                            power_ups_list_screen(mode='multi', lolly=lolly, bestie=bestie, difficulty=difficulty, power_ups=power_ups)
                         elif buttons['multiplayer'][number][0] == 'bestie':
-                            bestie_customisation_screen(lolly_car=lolly, bestie_car=bestie, difficulty=difficulty)
+                            bestie_customisation_screen(lolly=lolly, bestie=bestie, difficulty=difficulty, power_ups=power_ups)
                         elif buttons['multiplayer'][number][0] == 'reset':
                             lolly = 'car1'
                             bestie = 'car2'
                             difficulty = 'normal'
+                            power_ups = ['sissy_that_walk', 'toy_transforminator', 'besties_in_harmony', 'diva_defiance', 'frosty_frenzy', 'gal_pal_rebirth', 'tangled_twist', 'glamorous_growth']
 
 
-def dog_customisation_screen(lolly, mode, difficulty, bestie=None):
+def dog_customisation_screen(lolly, mode, difficulty, power_ups, bestie=None):
 
     pygame.init()
     size = (1250, 950)
@@ -363,9 +367,9 @@ def dog_customisation_screen(lolly, mode, difficulty, bestie=None):
                         elif buttons['select_dog'][number][0] == 'return':
                                 
                                 if mode == 'single':
-                                    single_customisation_screen(lolly_car=lolly, difficulty=difficulty)
+                                    single_customisation_screen(lolly=lolly, difficulty=difficulty, power_ups=power_ups)
                                 else:
-                                    multi_customisation_screen(lolly_car=lolly, bestie_car=bestie, difficulty=difficulty)
+                                    multi_customisation_screen(lolly=lolly, bestie=bestie, difficulty=difficulty, power_ups=power_ups)
 
 
 def lolly_customisation_screen(mode, lolly, difficulty, power_ups, bestie=None):
@@ -466,12 +470,12 @@ def lolly_customisation_screen(mode, lolly, difficulty, power_ups, bestie=None):
                         elif buttons['select_character'][number][0] == 'return':
 
                             if mode == 'single':
-                                single_customisation_screen(lolly_car=lolly, difficulty=difficulty)
+                                single_customisation_screen(lolly=lolly, difficulty=difficulty, power_ups=power_ups)
                             else:
-                                multi_customisation_screen(lolly_car=lolly, bestie_car=bestie, difficulty=difficulty)
+                                multi_customisation_screen(lolly=lolly, bestie=bestie, difficulty=difficulty, power_ups=power_ups)
 
 
-def bestie_customisation_screen(lolly, bestie, difficulty):
+def bestie_customisation_screen(lolly, bestie, difficulty, power_ups):
 
     # the bestie should not be able to be the same as the lolly, so we'll display the blocked screen when the arrow is clicked to the selected lolly screem
 
@@ -569,7 +573,7 @@ def bestie_customisation_screen(lolly, bestie, difficulty):
                             return
                         
                         elif buttons['select_character'][number][0] == 'return':
-                            multi_customisation_screen(lolly_car=lolly, bestie_car=bestie, difficulty=difficulty)
+                            multi_customisation_screen(lolly=lolly, bestie=bestie, difficulty=difficulty, power_ups=power_ups)
 
                         screen.blit(bestie_customisation_image, (0, 0))
                         pygame.display.flip()
@@ -640,9 +644,9 @@ def power_ups_list_screen(mode, lolly, difficulty, power_ups, bestie=None):
                         
                         elif buttons['power_ups_list'][number][0] == 'return':
                             if mode == 'single':
-                                single_customisation_screen(lolly_car=lolly, difficulty=difficulty)
+                                single_customisation_screen(lolly=lolly, difficulty=difficulty, power_ups=power_ups)
                             else:
-                                multi_customisation_screen(lolly_car=lolly, bestie_car=bestie, difficulty=difficulty)
+                                multi_customisation_screen(lolly=lolly, bestie=bestie, difficulty=difficulty, power_ups=power_ups)
 
 
 def menu(screen_image):
