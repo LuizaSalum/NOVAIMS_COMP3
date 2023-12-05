@@ -1,4 +1,4 @@
-# NOVAIMS Computation 3 Final Project - Lolly Locket's Dog Chase
+<h1>NOVAIMS Computation 3 Final Project - Lolly Locket's Dog Chase</h1>
   
 Group Members:  
 António Manuel Ferreira dos Santos - 20221966  
@@ -16,16 +16,18 @@ interface.py
 ## game.py
   
 ### multiplayer_game function
-#### Initialising pygame
-#### Setting up the screen
-#### Importing images
+#### Before Main Game Loop
+##### Initialising pygame
+##### Setting up the screen
+##### Importing images
 Road  
 Frozen Road  
 Speed Lines  
 Score Bar
-#### Creating and Positioning
+##### Creating and Positioning
 Players' Cars + Hearts  
 Traffic Cars  
 Power-Ups
-#### Adding All Sprites to a Group
-#### Setting Up Variables
+##### Adding All Sprites to a Group
+##### Setting Up Variables
+#### Main Game Loop
