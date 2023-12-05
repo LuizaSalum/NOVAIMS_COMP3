@@ -167,6 +167,8 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
     while carryOn:
 
+        clock.tick(60)
+
         score += 1
 
         for event in pygame.event.get():
@@ -555,7 +557,6 @@ def multi_game(difficulty, lolly_car, bestie_car):
         # Updating the Display
 
         pygame.display.flip()
-        clock.tick(60)
 
     pygame.quit()
 
