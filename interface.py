@@ -56,11 +56,17 @@ buttons = {
     }
 
 
-def start_screen():
+def start_screen(music_started=True):
 
+    pygame.mixer.init()
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
+
+    if not music_started:
+        pygame.mixer.music.load("sounds/music/start_screen.mp3")
+        pygame.mixer.music.play(-1)
+        music_started = True
 
     start_image = pygame.image.load("images/interface/start.png").convert_alpha()
     screen.blit(start_image, (0, 0))
