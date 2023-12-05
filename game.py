@@ -166,6 +166,10 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
     countdown(road)  # countdown function before the game starts
 
+    pygame.mixer.music.load("sounds/music/race.mp3")
+    pygame.mixer.music.set_volume(0.4)
+    pygame.mixer.music.play(-1)
+
     while carryOn:
 
         clock.tick(60)
@@ -183,7 +187,9 @@ def multi_game(difficulty, lolly_car, bestie_car):
             game_screen.blit(screen, (0, 0))
             menu_open.play()
             pygame.time.delay(200)
+            pygame.mixer.music.pause()
             pause_menu(game_screen)
+            pygame.mixer.music.unpause()
 
         # Player Car Movement
 
@@ -607,7 +613,7 @@ def countdown(game_screen):
     pygame.display.flip()
 
     pygame.time.wait(1500)
-    return
+    return True
 
 def game_over(road, difficulty, lolly, bestie):
 
@@ -677,7 +683,7 @@ def game_over(road, difficulty, lolly, bestie):
 
     pygame.quit()
 
-    return True
+    return
 
 def pause_menu(game_screen):
 
