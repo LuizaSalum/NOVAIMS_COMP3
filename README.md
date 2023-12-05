@@ -1,6 +1,5 @@
 <h1>NOVAIMS Computation 3 Final Project - Lolly Locket's Dog Chase</h1>
-<br>
-Group Members:<br>
+<h2>Group Members:</h2>
 António Manuel Ferreira dos Santos - 20221966<br>
 Maria Luiza Salum Alves Corrêa - 20221902<br>
 <br>
@@ -58,5 +57,5 @@ Power-Ups Bar
 <h3>pause_menu function</h3>
 <br>
 <h3>active_power_ups function</h3>
-
+<br>
 <h3>power_ups_bar function</h3>
