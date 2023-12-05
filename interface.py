@@ -65,9 +65,16 @@ def start_screen(music_started=True):
 
     if not music_started:
         pygame.mixer.music.load("sounds/music/start_screen.mp3")
-        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.set_volume(0.3)
         pygame.mixer.music.play(-1)
         music_started = True
+
+    button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
+    button_pressed.set_volume(0.5)
+    exit_pressed = pygame.mixer.Sound("sounds/exit_button.mp3")
+    exit_pressed.set_volume(0.2)
+    menu_open = pygame.mixer.Sound("sounds/menu_open.mp3")
+    menu_open.set_volume(0.7)
 
     start_image = pygame.image.load("images/interface/start.png").convert_alpha()
     screen.blit(start_image, (0, 0))
@@ -83,6 +90,8 @@ def start_screen(music_started=True):
 
             if user_input.type == pygame.KEYDOWN:
                 if user_input.key == pygame.K_ESCAPE:
+                    menu_open.play()
+                    pygame.time.delay(200)
                     menu(screen_image=start_image)
 
             # if the user hovers over the buttons
@@ -111,21 +120,33 @@ def start_screen(music_started=True):
                 for number in range(len(buttons['start'])):
                     if buttons['start'][number][1] <= user_input.pos[0] <= buttons['start'][number][2] and buttons['start'][number][3] <= user_input.pos[1] <= buttons['start'][number][4]:
                         if buttons['start'][number][0] == 'singleplayer':
+                            button_pressed.play()
                             single_customisation_screen(lolly='car1', difficulty='normal')
                         elif buttons['start'][number][0] == 'multiplayer':
+                            button_pressed.play()
                             multi_customisation_screen(lolly='car1', bestie='car2', difficulty='normal')
                         elif buttons['start'][number][0] == 'credits':
+                            button_pressed.play()
                             credits_screen()
                         elif buttons['start'][number][0] == 'exit':
+                            pygame.mixer.music.fadeout(800)
+                            exit_pressed.play()
+                            pygame.time.delay(800)
                             pygame.quit()
                             exit()
 
 
 def credits_screen():
 
+    pygame.mixer.init()
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
+
+    button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
+    button_pressed.set_volume(0.5)
+    menu_open = pygame.mixer.Sound("sounds/menu_open.mp3")
+    menu_open.set_volume(0.7)
 
     credits_image = pygame.image.load("images/interface/credits.png").convert_alpha()
     screen.blit(credits_image, (0, 0))
@@ -143,6 +164,8 @@ def credits_screen():
 
             if user_input.type == pygame.KEYDOWN:
                 if user_input.key == pygame.K_ESCAPE:
+                    menu_open.play()
+                    pygame.time.delay(200)
                     menu(screen_image=credits_image)
 
             # if the user hovers over the back button
@@ -163,14 +186,21 @@ def credits_screen():
             if user_input.type == pygame.MOUSEBUTTONDOWN:
 
                 if back_button_position[0] <= user_input.pos[0] <= back_button_position[1] and back_button_position[2] <= user_input.pos[1] <= back_button_position[3]:
+                    button_pressed.play()
                     start_screen()
 
 
 def single_customisation_screen(lolly, difficulty):
 
+    pygame.mixer.init()
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
+
+    button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
+    button_pressed.set_volume(0.5)
+    menu_open = pygame.mixer.Sound("sounds/menu_open.mp3")
+    menu_open.set_volume(0.7)
 
     single_customisation_image = pygame.image.load("images/interface/singleplayer.png").convert_alpha()
     screen.blit(single_customisation_image, (0, 0))
@@ -186,6 +216,8 @@ def single_customisation_screen(lolly, difficulty):
 
             if user_input.type == pygame.KEYDOWN:
                 if user_input.key == pygame.K_ESCAPE:
+                    menu_open.play()
+                    pygame.time.delay(200)
                     menu(screen_image=single_customisation_image)
 
             # if the user hovers over the buttons
@@ -214,17 +246,22 @@ def single_customisation_screen(lolly, difficulty):
                 for number in range(len(buttons['singleplayer'])):
                     if buttons['singleplayer'][number][1] <= user_input.pos[0] <= buttons['singleplayer'][number][2] and buttons['singleplayer'][number][3] <= user_input.pos[1] <= buttons['singleplayer'][number][4]:
                         if buttons['singleplayer'][number][0] == 'back':
+                            button_pressed.play()
                             start_screen()
                         elif buttons['singleplayer'][number][0] == 'start':
                             # pygame.mixer.music.stop()
                             pass  # single_game(lolly_car=lolly, difficulty=difficulty)
                         elif buttons['singleplayer'][number][0] == 'lolly':
+                            button_pressed.play()
                             lolly_customisation_screen(mode='single', lolly=lolly, difficulty=difficulty)
                         elif buttons['singleplayer'][number][0] == 'dog':
+                            button_pressed.play()
                             dog_customisation_screen(mode='single', lolly=lolly, difficulty=difficulty)
                         elif buttons['singleplayer'][number][0] == 'power_ups':
+                            button_pressed.play()
                             power_ups_list_screen(mode='single', lolly=lolly, difficulty=difficulty)
                         elif buttons['singleplayer'][number][0] == 'reset':
+                            button_pressed.play()
                             lolly = 'car1'
                             difficulty = 'normal'
 
@@ -234,6 +271,11 @@ def multi_customisation_screen(lolly, bestie, difficulty):
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
+
+    button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
+    button_pressed.set_volume(0.5)
+    menu_open = pygame.mixer.Sound("sounds/menu_open.mp3")
+    menu_open.set_volume(0.7)
 
     multi_customisation_image = pygame.image.load("images/interface/multiplayer.png").convert_alpha()
     screen.blit(multi_customisation_image, (0, 0))
@@ -249,6 +291,8 @@ def multi_customisation_screen(lolly, bestie, difficulty):
 
             if user_input.type == pygame.KEYDOWN:
                 if user_input.key == pygame.K_ESCAPE:
+                    menu_open.play()
+                    pygame.time.delay(200)
                     menu(screen_image=multi_customisation_image)
 
             # if the user hovers over the buttons
@@ -277,19 +321,26 @@ def multi_customisation_screen(lolly, bestie, difficulty):
                 for number in range(len(buttons['multiplayer'])):
                     if buttons['multiplayer'][number][1] <= user_input.pos[0] <= buttons['multiplayer'][number][2] and buttons['multiplayer'][number][3] <= user_input.pos[1] <= buttons['multiplayer'][number][4]:
                         if buttons['multiplayer'][number][0] == 'back':
+                            button_pressed.play()
                             start_screen()
                         elif buttons['multiplayer'][number][0] == 'start':
+                            button_pressed.play()
                             pygame.mixer.music.stop()
                             multi_game(lolly_car=lolly, bestie_car=bestie, difficulty=difficulty)
                         elif buttons['multiplayer'][number][0] == 'lolly':
+                            button_pressed.play()
                             lolly_customisation_screen(mode='multi', lolly=lolly, bestie=bestie, difficulty=difficulty)
                         elif buttons['multiplayer'][number][0] == 'dog':
+                            button_pressed.play()
                             dog_customisation_screen(mode='multi', lolly=lolly, bestie=bestie, difficulty=difficulty)
                         elif buttons['multiplayer'][number][0] == 'power_ups':
+                            button_pressed.play()
                             power_ups_list_screen(mode='multi', lolly=lolly, bestie=bestie, difficulty=difficulty)
                         elif buttons['multiplayer'][number][0] == 'bestie':
+                            button_pressed.play()
                             bestie_customisation_screen(lolly=lolly, bestie=bestie, difficulty=difficulty)
                         elif buttons['multiplayer'][number][0] == 'reset':
+                            button_pressed.play()
                             lolly = 'car1'
                             bestie = 'car2'
                             difficulty = 'normal'
@@ -301,6 +352,11 @@ def dog_customisation_screen(lolly, mode, difficulty, bestie=None):
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
+
+    button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
+    button_pressed.set_volume(0.5)
+    menu_open = pygame.mixer.Sound("sounds/menu_open.mp3")
+    menu_open.set_volume(0.7)
 
     easy_bark = pygame.mixer.Sound("sounds/dogs/easy.mp3")
     normal_bark = pygame.mixer.Sound("sounds/dogs/normal.mp3")
@@ -320,6 +376,8 @@ def dog_customisation_screen(lolly, mode, difficulty, bestie=None):
 
             if user_input.type == pygame.KEYDOWN:
                 if user_input.key == pygame.K_ESCAPE:
+                    menu_open.play()
+                    pygame.time.delay(200)
                     menu(screen_image=dog_customisation_image)
 
             # if the user hovers over the buttons
@@ -351,6 +409,8 @@ def dog_customisation_screen(lolly, mode, difficulty, bestie=None):
 
                         if buttons['select_dog'][number][0] == 'easy':
                             difficulty = 'easy'
+                            button_pressed.play()
+                            pygame.time.delay(200)
                             easy_bark.play()
                             # display the easy dog
                             dog_customisation_image = pygame.image.load(f"images/interface/select_dog_{difficulty}.png").convert_alpha()
@@ -359,6 +419,8 @@ def dog_customisation_screen(lolly, mode, difficulty, bestie=None):
 
                         elif buttons['select_dog'][number][0] == 'normal':
                             difficulty = 'normal'
+                            button_pressed.play()
+                            pygame.time.delay(200)
                             normal_bark.play()
                             # display the normal dog
                             dog_customisation_image = pygame.image.load(f"images/interface/select_dog_{difficulty}.png").convert_alpha()
@@ -367,6 +429,8 @@ def dog_customisation_screen(lolly, mode, difficulty, bestie=None):
 
                         elif buttons['select_dog'][number][0] == 'hard':
                             difficulty = 'hard'
+                            button_pressed.play()
+                            pygame.time.delay(200)
                             hard_bark.play()
                             # display the hard dog
                             dog_customisation_image = pygame.image.load(f"images/interface/select_dog_{difficulty}.png").convert_alpha()
@@ -374,14 +438,17 @@ def dog_customisation_screen(lolly, mode, difficulty, bestie=None):
                             pygame.display.flip()
 
                         elif buttons['select_dog'][number][0] == 'back':
+                            button_pressed.play()
                             start_screen()
                             return
                         
                         elif buttons['select_dog'][number][0] == 'return':
                                 
                                 if mode == 'single':
+                                    button_pressed.play()
                                     single_customisation_screen(lolly=lolly, difficulty=difficulty)
                                 else:
+                                    button_pressed.play()
                                     multi_customisation_screen(lolly=lolly, bestie=bestie, difficulty=difficulty)
 
 
@@ -390,6 +457,11 @@ def lolly_customisation_screen(mode, lolly, difficulty, bestie=None):
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
+
+    button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
+    button_pressed.set_volume(0.5)
+    menu_open = pygame.mixer.Sound("sounds/menu_open.mp3")
+    menu_open.set_volume(0.7)
 
     lolly_customisation_image = pygame.image.load(f"images/interface/select_character_{lolly}.png").convert_alpha()
     screen.blit(lolly_customisation_image, (0, 0))
@@ -405,6 +477,8 @@ def lolly_customisation_screen(mode, lolly, difficulty, bestie=None):
 
             if user_input.type == pygame.KEYDOWN:
                 if user_input.key == pygame.K_ESCAPE:
+                    menu_open.play()
+                    pygame.time.delay(200)
                     menu(screen_image=lolly_customisation_image)
 
             # if the user hovers over the buttons
@@ -443,6 +517,8 @@ def lolly_customisation_screen(mode, lolly, difficulty, bestie=None):
                 for number in range(len(buttons['select_character'])):
 
                     if buttons['select_character'][number][1] <= user_input.pos[0] <= buttons['select_character'][number][2] and buttons['select_character'][number][3] <= user_input.pos[1] <= buttons['select_character'][number][4]:
+
+                        button_pressed.play()
 
                         if buttons['select_character'][number][0] == 'left':
                                 
@@ -496,6 +572,11 @@ def bestie_customisation_screen(lolly, bestie, difficulty):
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
 
+    button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
+    button_pressed.set_volume(0.5)
+    menu_open = pygame.mixer.Sound("sounds/menu_open.mp3")
+    menu_open.set_volume(0.7)
+
     bestie_customisation_image = pygame.image.load(f"images/interface/select_character_{bestie}.png").convert_alpha()
     screen.blit(bestie_customisation_image, (0, 0))
     pygame.display.flip()
@@ -510,6 +591,8 @@ def bestie_customisation_screen(lolly, bestie, difficulty):
 
             if user_input.type == pygame.KEYDOWN:
                 if user_input.key == pygame.K_ESCAPE:
+                    menu_open.play()
+                    pygame.time.delay(200)
                     menu(screen_image=bestie_customisation_image)
 
             # if the user hovers over the buttons
@@ -548,6 +631,8 @@ def bestie_customisation_screen(lolly, bestie, difficulty):
                 for number in range(len(buttons['select_character'])):
 
                     if buttons['select_character'][number][1] <= user_input.pos[0] <= buttons['select_character'][number][2] and buttons['select_character'][number][3] <= user_input.pos[1] <= buttons['select_character'][number][4]:
+
+                        button_pressed.play()
 
                         if buttons['select_character'][number][0] == 'left':
 
@@ -598,6 +683,11 @@ def power_ups_list_screen(mode, lolly, difficulty, bestie=None):
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
 
+    button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
+    button_pressed.set_volume(0.5)
+    menu_open = pygame.mixer.Sound("sounds/menu_open.mp3")
+    menu_open.set_volume(0.7)
+
     if mode == 'single':
         power_ups_list_image = pygame.image.load("images/interface/singleplayer_power_ups_list.png").convert_alpha()
     else:
@@ -615,6 +705,8 @@ def power_ups_list_screen(mode, lolly, difficulty, bestie=None):
 
             if user_input.type == pygame.KEYDOWN:
                 if user_input.key == pygame.K_ESCAPE:
+                    menu_open.play()
+                    pygame.time.delay(200)
                     menu(screen_image=power_ups_list_image)
 
             # if the user hovers over the buttons
@@ -651,6 +743,8 @@ def power_ups_list_screen(mode, lolly, difficulty, bestie=None):
 
                     if buttons['power_ups_list'][number][1] <= user_input.pos[0] <= buttons['power_ups_list'][number][2] and buttons['power_ups_list'][number][3] <= user_input.pos[1] <= buttons['power_ups_list'][number][4]:
 
+                        button_pressed.play()
+
                         if buttons['power_ups_list'][number][0] == 'back':
                             start_screen()
                             return
@@ -665,6 +759,13 @@ def power_ups_list_screen(mode, lolly, difficulty, bestie=None):
 def menu(screen_image):
 
     menu_position = (451, 799, 201, 749)  # (min_x, max_x, mix_y, max_y)
+
+    button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
+    button_pressed.set_volume(0.5)
+    exit_pressed = pygame.mixer.Sound("sounds/exit_button.mp3")
+    exit_pressed.set_volume(0.2)
+    menu_open = pygame.mixer.Sound("sounds/menu_open.mp3")
+    menu_open.set_volume(0.7)
 
     pygame.init()
     size = (1250, 950)
@@ -684,6 +785,12 @@ def menu(screen_image):
             if user_input.type == pygame.QUIT:
                 pygame.quit()
                 exit()
+
+            if user_input.type == pygame.KEYDOWN:
+                if user_input.key == pygame.K_ESCAPE:
+                    menu_open.play()
+                    pygame.time.delay(200)
+                    return
 
             # if the user hovers over the buttons
 
@@ -714,16 +821,22 @@ def menu(screen_image):
                     if buttons['menu'][number][1] <= user_input.pos[0] <= buttons['menu'][number][2] and buttons['menu'][number][3] <= user_input.pos[1] <= buttons['menu'][number][4]:
 
                         if buttons['menu'][number][0] == 'done':  # if the user clicks on the done button, we'll close the menu and return to the previous screen
+                            button_pressed.play()
                             return
 
                         elif buttons['menu'][number][0] == 'credits':
+                            button_pressed.play()
                             credits_screen()
 
                         elif buttons['menu'][number][0] == 'back':
+                            button_pressed.play()
                             start_screen()
                             return
 
                         elif buttons['menu'][number][0] == 'exit':
+                            pygame.mixer.music.fadeout(800)
+                            exit_pressed.play()
+                            pygame.time.delay(800)
                             pygame.quit()
                             exit()
 
