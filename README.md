@@ -19,13 +19,13 @@ interface.py
 #### Initialising pygame
 #### Setting up the screen
 #### Importing images
-Road
-Frozen Road
-Speed Lines
+Road  
+Frozen Road  
+Speed Lines  
 Score Bar
 #### Creating and Positioning
-Players' Cars + Hearts
-Traffic Cars
+Players' Cars + Hearts  
+Traffic Cars  
 Power-Ups
 #### Adding All Sprites to a Group
 #### Setting Up Variables
