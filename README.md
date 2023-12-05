@@ -13,19 +13,19 @@ interface.py
 
 # Code Structure
 
-##game.py
+## game.py
 
-###multiplayer_game function
-####Initialising pygame
-####Setting up the screen
-####Importing images
+### multiplayer_game function
+#### Initialising pygame
+#### Setting up the screen
+#### Importing images
 Road
 Frozen Road
 Speed Lines
 Score Bar
-###Creating and Positioning
+### Creating and Positioning
 Players' Cars + Hearts
 Traffic Cars
 Power-Ups
-###Adding All Sprites to a Group
-###Setting Up Variables
+### Adding All Sprites to a Group
+### Setting Up Variables
