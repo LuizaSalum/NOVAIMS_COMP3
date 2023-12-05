@@ -21,6 +21,9 @@ class Car(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
 
+    def set_position(self, x, y):
+        self.rect.x = x
+        self.rect.y = y
 
 class PlayerCar(Car):
 
@@ -205,7 +208,3 @@ class TrafficCar(Car):
         self.image = pygame.transform.scale(self.image, (int(self.image.get_width() * multiplier), int(self.image.get_height() * multiplier)))
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
-
-    def set_position(self, x, y):
-        self.rect.x = x
-        self.rect.y = y

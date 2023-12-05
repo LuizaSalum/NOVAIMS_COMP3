@@ -10,6 +10,9 @@ def multi_game(difficulty, lolly_car, bestie_car):
     pygame.mixer.init() # for sound
     pygame.font.init() # for text
 
+    menu_open = pygame.mixer.Sound("sounds/menu_open.mp3")
+    menu_open.set_volume(0.7)
+
     # Setting up the screen
 
     size = (1250, 950)
@@ -54,10 +57,8 @@ def multi_game(difficulty, lolly_car, bestie_car):
     bestie.heart_on = pygame.image.load(f"images/hearts/heart{bestie_car[-1]}.png").convert_alpha()
     bestie.heart_off = pygame.image.load(f"images/hearts/heart{bestie_car[-1]}_loss.png").convert_alpha()
 
-    lolly.rect.x = 285
-    lolly.rect.y = 800
-    bestie.rect.x = 466
-    bestie.rect.y = 850
+    lolly.set_position(285, 800)
+    bestie.set_position(466, 800)
 
     sprite_lolly = pygame.sprite.Group()
     sprite_bestie = pygame.sprite.Group()
@@ -180,6 +181,8 @@ def multi_game(difficulty, lolly_car, bestie_car):
         if keys[pygame.K_ESCAPE]:
             game_screen = pygame.Surface(screen.get_size())
             game_screen.blit(screen, (0, 0))
+            menu_open.play()
+            pygame.time.delay(200)
             pause_menu(game_screen)
 
         # Player Car Movement
@@ -683,7 +686,13 @@ def pause_menu(game_screen):
         ['done', 544, 709, 376, 447],
         ['exit', 528, 723, 501, 572]
         )
+
+    button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
+    button_pressed.set_volume(0.5)
+    exit_pressed = pygame.mixer.Sound("sounds/exit_button.mp3")
+    exit_pressed.set_volume(0.2)
     
+    pygame.mixer.init()
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
@@ -712,16 +721,20 @@ def pause_menu(game_screen):
             if buttons[0][1] <= mouse[0] <= buttons[0][2] and buttons[0][3] < mouse[1] < buttons[0][4]:  # if the user hovers over the done button
                 screen.blit(pause_menu_done_image, (menu_position[0], menu_position[2]))
                 if event.type == pygame.MOUSEBUTTONDOWN:  # if the user clicks on the done button
+                    button_pressed.play()
                     paused = False
 
             elif buttons[1][1] <= mouse[0] <= buttons[1][2] and buttons[1][3] < mouse[1] < buttons[1][4]:  # if the user hovers over the exit button
                 screen.blit(pause_menu_exit_image, (menu_position[0], menu_position[2]))
                 if event.type == pygame.MOUSEBUTTONDOWN:  # if the user clicks on the exit button
+                    exit_pressed.play()
+                    pygame.time.delay(800)
                     pygame.quit()
 
             elif not (menu_position[0] <= mouse[0] <= menu_position[1] and menu_position[2] < mouse[1] < menu_position[3]):  # if the user hovers over anywhere else
                 screen.blit(pause_menu_image, (menu_position[0], menu_position[2]))
                 if event.type == pygame.MOUSEBUTTONDOWN:  # if the user clicks anywhere else
+                    button_pressed.play()
                     paused = False
                     
         pygame.display.flip()
