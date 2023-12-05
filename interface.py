@@ -62,6 +62,7 @@ def start_screen(music_started=True):
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
+    pygame.display.set_caption("Lolly Locket's Dog Chase")
 
     if not music_started:
         pygame.mixer.music.load("sounds/music/start_screen.mp3")
@@ -142,6 +143,7 @@ def credits_screen():
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
+    pygame.display.set_caption("Lolly Locket's Dog Chase")
 
     button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
     button_pressed.set_volume(0.5)
@@ -196,6 +198,7 @@ def single_customisation_screen(lolly, difficulty):
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
+    pygame.display.set_caption("Lolly Locket's Dog Chase")
 
     button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
     button_pressed.set_volume(0.5)
@@ -271,6 +274,7 @@ def multi_customisation_screen(lolly, bestie, difficulty):
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
+    pygame.display.set_caption("Lolly Locket's Dog Chase")
 
     button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
     button_pressed.set_volume(0.5)
@@ -352,6 +356,7 @@ def dog_customisation_screen(lolly, mode, difficulty, bestie=None):
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
+    pygame.display.set_caption("Lolly Locket's Dog Chase")
 
     button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
     button_pressed.set_volume(0.5)
@@ -457,6 +462,7 @@ def lolly_customisation_screen(mode, lolly, difficulty, bestie=None):
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
+    pygame.display.set_caption("Lolly Locket's Dog Chase")
 
     button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
     button_pressed.set_volume(0.5)
@@ -571,6 +577,7 @@ def bestie_customisation_screen(lolly, bestie, difficulty):
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
+    pygame.display.set_caption("Lolly Locket's Dog Chase")
 
     button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
     button_pressed.set_volume(0.5)
@@ -682,6 +689,7 @@ def power_ups_list_screen(mode, lolly, difficulty, bestie=None):
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
+    pygame.display.set_caption("Lolly Locket's Dog Chase")
 
     button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
     button_pressed.set_volume(0.5)
@@ -770,6 +778,7 @@ def menu(screen_image):
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
+    pygame.display.set_caption("Lolly Locket's Dog Chase")
 
     # display the background image (screen_image) and the menu on top of it, in the menu position
 

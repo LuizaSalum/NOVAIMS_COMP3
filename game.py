@@ -14,7 +14,8 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
-    pygame.display.set_caption("Lolly's Locket Dog Chase")
+    pygame.display.set_caption("Lolly Locket's Dog Chase")
+    pygame.display.set_caption("Lolly Locket's Dog Chase")
 
     # Importing Images
 
@@ -566,6 +567,7 @@ def countdown(game_screen):
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
+    pygame.display.set_caption("Lolly Locket's Dog Chase")
 
     beeps = pygame.mixer.Sound("sounds/countdown/beeps.mp3")
     go = pygame.mixer.Sound("sounds/countdown/go.mp3")
@@ -610,6 +612,7 @@ def game_over(road, difficulty, lolly, bestie):
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
+    pygame.display.set_caption("Lolly Locket's Dog Chase")
 
     ''' Loading Images '''
 
@@ -685,6 +688,7 @@ def pause_menu(game_screen):
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
+    pygame.display.set_caption("Lolly Locket's Dog Chase")
 
     ''' Loading Images '''
 
