@@ -1,1 +1,0 @@
-# NOVAIMS_COMP3
