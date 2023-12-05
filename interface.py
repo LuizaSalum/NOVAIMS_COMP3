@@ -65,6 +65,7 @@ def start_screen(music_started=True):
 
     if not music_started:
         pygame.mixer.music.load("sounds/music/start_screen.mp3")
+        pygame.mixer.music.set_volume(0.5)
         pygame.mixer.music.play(-1)
         music_started = True
 
@@ -294,9 +295,14 @@ def multi_customisation_screen(lolly, bestie, difficulty):
 
 def dog_customisation_screen(lolly, mode, difficulty, bestie=None):
 
+    pygame.mixer.init()
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
+
+    easy_bark = pygame.mixer.Sound("sounds/dogs/easy.mp3")
+    normal_bark = pygame.mixer.Sound("sounds/dogs/normal.mp3")
+    hard_bark = pygame.mixer.Sound("sounds/dogs/hard.mp3")
 
     dog_customisation_image = pygame.image.load(f"images/interface/select_dog_{difficulty}.png").convert_alpha()
     screen.blit(dog_customisation_image, (0, 0))
@@ -343,6 +349,7 @@ def dog_customisation_screen(lolly, mode, difficulty, bestie=None):
 
                         if buttons['select_dog'][number][0] == 'easy':
                             difficulty = 'easy'
+                            easy_bark.play()
                             # display the easy dog
                             dog_customisation_image = pygame.image.load(f"images/interface/select_dog_{difficulty}.png").convert_alpha()
                             screen.blit(dog_customisation_image, (0, 0))
@@ -350,6 +357,7 @@ def dog_customisation_screen(lolly, mode, difficulty, bestie=None):
 
                         elif buttons['select_dog'][number][0] == 'normal':
                             difficulty = 'normal'
+                            normal_bark.play()
                             # display the normal dog
                             dog_customisation_image = pygame.image.load(f"images/interface/select_dog_{difficulty}.png").convert_alpha()
                             screen.blit(dog_customisation_image, (0, 0))
@@ -357,6 +365,7 @@ def dog_customisation_screen(lolly, mode, difficulty, bestie=None):
 
                         elif buttons['select_dog'][number][0] == 'hard':
                             difficulty = 'hard'
+                            hard_bark.play()
                             # display the hard dog
                             dog_customisation_image = pygame.image.load(f"images/interface/select_dog_{difficulty}.png").convert_alpha()
                             screen.blit(dog_customisation_image, (0, 0))
