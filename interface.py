@@ -216,7 +216,8 @@ def single_customisation_screen(lolly, difficulty):
                         if buttons['singleplayer'][number][0] == 'back':
                             start_screen()
                         elif buttons['singleplayer'][number][0] == 'start':
-                            pass  # single_game(lolly=lolly, difficulty=difficulty)
+                            # pygame.mixer.music.stop()
+                            pass  # single_game(lolly_car=lolly, difficulty=difficulty)
                         elif buttons['singleplayer'][number][0] == 'lolly':
                             lolly_customisation_screen(mode='single', lolly=lolly, difficulty=difficulty)
                         elif buttons['singleplayer'][number][0] == 'dog':
@@ -278,7 +279,8 @@ def multi_customisation_screen(lolly, bestie, difficulty):
                         if buttons['multiplayer'][number][0] == 'back':
                             start_screen()
                         elif buttons['multiplayer'][number][0] == 'start':
-                            multi_game(lolly=lolly, bestie=bestie, difficulty=difficulty)
+                            pygame.mixer.music.stop()
+                            multi_game(lolly_car=lolly, bestie_car=bestie, difficulty=difficulty)
                         elif buttons['multiplayer'][number][0] == 'lolly':
                             lolly_customisation_screen(mode='multi', lolly=lolly, bestie=bestie, difficulty=difficulty)
                         elif buttons['multiplayer'][number][0] == 'dog':

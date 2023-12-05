@@ -561,9 +561,15 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
 def countdown(game_screen):
 
+    pygame.mixer.init()
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
+
+    beeps = pygame.mixer.Sound("sounds/countdown/beeps.mp3")
+    go = pygame.mixer.Sound("sounds/countdown/go.mp3")
+    beeps.set_volume(0.5)
+    go.set_volume(0.5)
 
     ''' Loading Images '''
 
@@ -574,24 +580,28 @@ def countdown(game_screen):
 
     screen.blit(game_screen, (0, 0))
     screen.blit(countdown_3, (0, 0))
+    beeps.play()
     pygame.display.flip()
 
     pygame.time.wait(1000)
     screen.blit(game_screen, (0, 0))
     screen.blit(countdown_2, (0, 0))
+    beeps.play()
     pygame.display.flip()
 
     pygame.time.wait(1000)
     screen.blit(game_screen, (0, 0))
     screen.blit(countdown_1, (0, 0))
+    beeps.play()
     pygame.display.flip()
 
     pygame.time.wait(1000)
     screen.blit(game_screen, (0, 0))
     screen.blit(countdown_go, (0, 0))
+    go.play()
     pygame.display.flip()
 
-    pygame.time.wait(1000)
+    pygame.time.wait(1500)
     return
 
 def game_over(road, difficulty, lolly, bestie):
