@@ -15,7 +15,6 @@ def multi_game(difficulty, lolly_car, bestie_car):
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Lolly Locket's Dog Chase")
-    pygame.display.set_caption("Lolly Locket's Dog Chase")
 
     # Importing Images
 
