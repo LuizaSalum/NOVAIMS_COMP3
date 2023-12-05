@@ -18,16 +18,16 @@ class PowerUp(ABC, pygame.sprite.Sprite):
 
         self.active = False
         self.on_cooldown = False
-        self.unavailable = False
-        self.can_move = True
+        self.unavailable = False  # if the power up is unavailable (used in the game file)
+        self.can_move = True  # if the power up can move
 
-        if self.on_cooldown or self.unavailable:
+        if self.on_cooldown or self.unavailable:  # if the power up is on cooldown or unavailable, it will be hidden
             self.hide()
-        else:
+        else:  # if the power up is not on cooldown or unavailable, it will be placed in a random lane
             self.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
 
     def move_down(self, speed_modifier=0):
-        if self.can_move:
+        if self.can_move:  # if the power up can move, it will move down
             self.rect.y += (self.speed + speed_modifier)
 
     def add_speed(self, speed):
@@ -40,30 +40,30 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         self.duration += duration
 
     def set_position(self, x, y):
-        self.can_move = True
+        self.can_move = True  # if the power up is set in a new position, it can move
         self.rect.x = x
         self.rect.y = y
 
     def duration_timer(self):
         for duration_timer in range(self.duration, -1, -1):  # this is a countdown timer that will run for the duration of the power up
             if duration_timer == 0:
-                self.active = False
+                self.active = False  # when the duration is over, the power up will be deactivated
                 break
         
     def cooldown_timer(self):
         for cooldown_timer in range(self.cooldown, -1, -1):  # this is a countdown timer that will run for the cooldown of the power up
             if cooldown_timer == 0:
-                self.on_cooldown = False
+                self.on_cooldown = False  # when the cooldown is over, the power up will be available again
                 break
 
     def hide(self):
-        self.can_move = False
-        self.rect.x = -1000
+        self.can_move = False  # if the power up is hidden, it can't move
+        self.rect.x = -1000  # the power up will be hidden outside the screen
 
     @abstractmethod
-    def collision(self):
-        self.active = True
-        self.on_cooldown = True
+    def collision(self):  # this method will be called when the power up collides with a player car
+        self.active = True  # the power up will be active after the collision
+        self.on_cooldown = True  # the power up will go on cooldown as well
 
         '''
         We will do customised cooldowns and durations according to the player car
@@ -89,7 +89,7 @@ class PowerUp(ABC, pygame.sprite.Sprite):
 class BestiesInHarmony(PowerUp):  # Players can't collide with each other
 
     def __init__(self, difficulty):
-        super().__init__('images/power_ups/besties_in_harmony.png', 1, 360, 600)  # speed, duration and cooldown of the power up. for the last two, 60 frames = 1 second
+        super().__init__('images/power_ups/besties_in_harmony.png', 1, 360, 600)  # speed, duration and cooldown of the power up. for the last two, 60 = 1 second because of the FPS
 
         if difficulty == 'easy':
             self.add_speed(-1)
@@ -97,18 +97,18 @@ class BestiesInHarmony(PowerUp):  # Players can't collide with each other
             self.add_duration(120)  # + 2 seconds
 
     def collision(self, lolly, bestie):
-        super().collision()
+        super().collision()  # calling the parent class' collision method
 
-        if lolly.car_type == 'car1' or bestie.car_type == 'car1':
+        if lolly.car_type == 'car1' or bestie.car_type == 'car1':  # if the player has the car with the power ups buff
             self.add_duration(60)
             self.add_cooldown(-120)
 
-        self.affect_both_players(lolly, bestie)
-        self.duration_timer()
-        if not self.active:
+        self.affect_both_players(lolly, bestie)  # calling the method that will affect both players
+        self.duration_timer()  # calling the method that will run the duration timer
+        if not self.active:  # if the power up is not active anymore, the players will be able to collide again
             lolly.can_collide = True
             bestie.can_collide = True
-        self.cooldown_timer()
+        self.cooldown_timer()  # calling the method that will run the cooldown timer after the power up is inactive again
 
     def affect_both_players(self, lolly, bestie):
         lolly.can_collide = False
@@ -136,10 +136,10 @@ class GalPalRebirth(PowerUp):  # Eliminated player gets revived
             self.add_cooldown(-120)
 
         self.affect_both_players(lolly, bestie)
-        self.duration_timer()
+        self.duration_timer()  # this power up doesn't have a duration, so the timer will run for 0 frames
         self.cooldown_timer()
 
-    def affect_both_players(self, lolly, bestie):
+    def affect_both_players(self, lolly, bestie):  # if the players are eliminated, they will be revived
         if lolly.eliminated:
             lolly.respawn()
         elif bestie.eliminated:
@@ -170,7 +170,7 @@ class TangledTwist(PowerUp):  # Players get tangled and their controls are inver
 
         self.affect_both_players(lolly, bestie)
         self.duration_timer()
-        if not self.active:
+        if not self.active:  # if the power up is not active anymore, the controls will be normal again
             lolly.controls_inverted = False
             bestie.controls_inverted = False
         self.cooldown_timer()
@@ -204,7 +204,7 @@ class SissyThatWalk(PowerUp):  # Players get a speed buff
 
         self.affect_both_players(lolly, bestie)
         self.duration_timer()
-        if not self.active:
+        if not self.active:  # if the power up is not active anymore, the players will have their normal speed again
             lolly.add_speed(-2)
             bestie.add_speed(-2)
         self.cooldown_timer()
@@ -240,7 +240,7 @@ class DivaDefiance(PowerUp):  # Player can't crash with traffic (invincibility)
 
         self.affect_player(player_that_collided)
         self.duration_timer()
-        if not self.active:
+        if not self.active:  # if the power up is not active anymore, the player will be able to crash with the traffic again
             player_that_collided.can_crash = True
         self.cooldown_timer()
 
@@ -272,16 +272,13 @@ class GlamorousGrowth(PowerUp):  # Player gets a health buff and grows in size
 
         self.affect_player(player_that_collided)
         self.duration_timer()
-        if not self.active:
-            player_that_collided.size_increased = False
         self.cooldown_timer()
 
     def affect_both_players(self):
         pass
 
-    def affect_player(self, player):
+    def affect_player(self, player):  # the player will grow in size and get an extra health point, the size growth is done in the game file
         player.add_health(1)
-        player.size_increased = True
 
     def affect_traffic(self):
         pass
@@ -309,7 +306,7 @@ class FrostyFrenzy(PowerUp):  # Traffic gets slowed down
         if self.difficulty != 'hard':
             self.affect_traffic(traffic_group)
             self.duration_timer()
-            if not self.active:
+            if not self.active:  # if the power up is not active anymore, the traffic will have its normal speed again
                 for car in traffic_group:
                     car.add_speed(2)
             self.cooldown_timer()
@@ -356,7 +353,7 @@ class ToyTransforminator(PowerUp):  # Traffic decreases in size
         if self.difficulty != 'hard':
             self.affect_traffic(traffic_group)
             self.duration_timer()
-            if not self.active:
+            if not self.active:  # if the power up is not active anymore, the traffic will have its normal size again
                 for car in traffic_group:
                     car.resize_car(2)
             self.cooldown_timer()

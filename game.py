@@ -10,7 +10,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
     pygame.mixer.init() # for sound
     pygame.font.init() # for text
 
-    menu_open = pygame.mixer.Sound("sounds/menu_open.mp3")
+    menu_open = pygame.mixer.Sound("sounds/menu_open.mp3")  # sound for when the menu opens
     menu_open.set_volume(0.7)
 
     # Setting up the screen
@@ -57,7 +57,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
     bestie.heart_on = pygame.image.load(f"images/hearts/heart{bestie_car[-1]}.png").convert_alpha()
     bestie.heart_off = pygame.image.load(f"images/hearts/heart{bestie_car[-1]}_loss.png").convert_alpha()
 
-    lolly.set_position(285, 800)
+    lolly.set_position(285, 800)  # the x position is different for each player car, set_position is a function from the Car class
     bestie.set_position(466, 800)
 
     sprite_lolly = pygame.sprite.Group()
@@ -75,7 +75,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
         cars_list = []
         incoming_cars = pygame.sprite.Group()
 
-        left_car1 = TrafficCar(random.randint(1, 32), 'left', 'normal')
+        left_car1 = TrafficCar(random.randint(1, 32), 'left', 'normal')  # TrafficCar(car_number (we have 32 images), direction of the car (left is for cars going downwards), difficulty)
         cars_list.append(left_car1)
         left_car2 = TrafficCar(random.randint(1, 32), 'left', 'normal')
         cars_list.append(left_car2)
@@ -116,7 +116,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
     power_ups_list = []
     power_ups = pygame.sprite.Group()
 
-    besties = BestiesInHarmony(difficulty)
+    besties = BestiesInHarmony(difficulty)  # each Power Up is a class, children of the PowerUp class
     power_ups_list.append(besties)
     galpal = GalPalRebirth(difficulty)
     power_ups_list.append(galpal)
@@ -166,15 +166,15 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
     countdown(road)  # countdown function before the game starts
 
-    pygame.mixer.music.load("sounds/music/race.mp3")
+    pygame.mixer.music.load("sounds/music/race.mp3")  # loading the music after the countdown
     pygame.mixer.music.set_volume(0.4)
-    pygame.mixer.music.play(-1)
+    pygame.mixer.music.play(-1)  # -1 means that the music will loop
 
     while carryOn:
 
         clock.tick(60)
 
-        score += 1
+        score += 1  # the score increases by 1 every frame
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -183,13 +183,13 @@ def multi_game(difficulty, lolly_car, bestie_car):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_ESCAPE]:
-            game_screen = pygame.Surface(screen.get_size())
-            game_screen.blit(screen, (0, 0))
-            menu_open.play()
-            pygame.time.delay(200)
-            pygame.mixer.music.pause()
-            pause_menu(game_screen)
-            pygame.mixer.music.unpause()
+            game_screen = pygame.Surface(size)  # creating a surface with the same size as the screen
+            game_screen.blit(screen, (0, 0))  # copying the screen to the surface
+            menu_open.play()  # playing the sound for when the menu opens
+            pygame.time.delay(200)  # delaying the menu opening by 200 milliseconds, just so it looks smooth
+            pygame.mixer.music.pause()  # pausing the music
+            pause_menu(game_screen)  # calling the pause menu function
+            pygame.mixer.music.unpause()  # unpausing the music
 
         # Player Car Movement
 
@@ -231,7 +231,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
             if keys[pygame.K_d]:
                 bestie.move_right()
 
-        # Updating the sprites
+        # Updating the sprites so that they move on the screen after the player presses a key to move
 
         all_sprites.update()
 
@@ -246,7 +246,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
         else:
             road = normal_road3
 
-        # scrolling the road
+        # scrolling the road according to the active power ups
 
         if sissy.active:
             scroll_speed = 5000
@@ -258,10 +258,10 @@ def multi_game(difficulty, lolly_car, bestie_car):
         road_y += scroll_speed * clock.tick(60) / 1000  # we're multiplying the scroll speed by the clock tick to make the scrolling speed independent of the frame rate
 
         if road_y > 950:
-            road_y = 0
+            road_y = 0  # if the road goes off the screen, it is repositioned at the top of the screen
 
-        screen.blit(road, (0, road_y))
-        screen.blit(road, (0, road_y - 950))
+        screen.blit(road, (0, road_y))  # blitting the road twice so that there's no gap between the two images
+        screen.blit(road, (0, road_y - 950))  # the second image is blitted at the top of the screen
 
         # Incoming Cars
 
@@ -298,14 +298,14 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
         if difficulty != 'hard':
             for car in cars_list:
-                car.move_down(random.randint(10,13))
-                if car.rect.y > 950:
+                car.move_down(random.randint(10,13))  # the cars move down the screen at a random speed between 10 and 13
+                if car.rect.y > 950:  # if the car goes off the screen
                     new_car_number = random.randint(1, 32)
-                    car.change_car(new_car_number, 'left', 'normal')
-                    car.add_speed(random.randint(-1, 3))
-                    car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+                    car.change_car(new_car_number, 'left', 'normal')  # the car is given a new image
+                    car.add_speed(random.randint(-1, 3))  # the car is given a new speed buff or debuff
+                    car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))  # the car is repositioned at the top of the screen
 
-        elif difficulty == 'hard':
+        elif difficulty == 'hard':  # same thing as above, but for cars on the left and right
             for car in cars_list_left:
                 car.move_down(random.randint(10,13))
                 if car.rect.y > 950:
@@ -338,16 +338,16 @@ def multi_game(difficulty, lolly_car, bestie_car):
             if pygame.sprite.collide_rect(lolly, bestie):
                 # spritecollide(sprite, group, boolean (True if the sprite should be killed), collision method)
                 if pygame.sprite.spritecollide(lolly, sprite_bestie, False, pygame.sprite.collide_mask):
-                    if lolly.rect.x < bestie.rect.x:
-                        lolly.rect.x -= 20
-                        bestie.rect.x += 20
-                    else:
+                    if lolly.rect.x < bestie.rect.x:  # if the Lolly is on the left side
+                        lolly.rect.x -= 20 # pull the Lolly more to the left side
+                        bestie.rect.x += 20  # and the Bestie more to the right
+                    else:  # the inverse if the Lolly is on the right side
                         lolly.rect.x += 20
                         bestie.rect.x -= 20
         
         # collision between players and traffic cars
 
-        if lolly.can_crash:
+        if lolly.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
 
             if difficulty != 'hard':
 
@@ -358,8 +358,10 @@ def multi_game(difficulty, lolly_car, bestie_car):
                             traffic_car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
                             
                             if lolly.health == 0 and bestie.health != 0:
-                                lolly.die()
-                            elif lolly.health == 0 and bestie.health == 0:
+                                lolly.die()  # if the Lolly is eliminated, then the die function is called,
+                                # this function moves the car off screen and turns the can_move variable to False
+                                # also, it stores the position of the car, so that it can be respawned later
+                            elif lolly.health == 0 and bestie.health == 0:  # if both players are eliminated, then the game is over
                                 game_over(road, difficulty, lolly, bestie)
 
             elif difficulty == 'hard':
@@ -386,7 +388,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
                             elif lolly.health == 0 and bestie.health == 0:
                                 game_over(road, difficulty, lolly, bestie)
 
-        if bestie.can_crash:
+        if bestie.can_crash:  # same thing as above, but for the Bestie
 
             if difficulty != 'hard':
 
@@ -432,14 +434,14 @@ def multi_game(difficulty, lolly_car, bestie_car):
             for traffic_car_1 in incoming_cars:
                 for traffic_car_2 in incoming_cars:
                     if traffic_car_1 != traffic_car_2:
-                        if pygame.sprite.collide_rect(traffic_car_1, traffic_car_2):
-                            if traffic_car_1.rect.y < -800 or traffic_car_2.rect.y < -200:
-                                traffic_car_1.rect.y = random.randint(-2200, -800)
-                                traffic_car_1.rect.x = random.choice([285, 466, 643, 825])
-                            else:
-                                traffic_car_2.speed = 0
+                        if pygame.sprite.collide_rect(traffic_car_1, traffic_car_2):  # this time we're only checking for collision between the rectangles
+                            if traffic_car_1.rect.y < -800 or traffic_car_2.rect.y < -200:  # if one of the cars is off screen
+                                traffic_car_1.rect.y = random.randint(-2200, -800)  # then it is repositioned at the top of the screen
+                                traffic_car_1.rect.x = random.choice([285, 466, 643, 825])  # and given a new image
+                            else:  # if both cars are on screen
+                                traffic_car_2.speed = 0  # then the speed of the second car is set to 0, so that it follows the first car
 
-        elif difficulty == 'hard':
+        elif difficulty == 'hard':  # same thing as above, but for cars on the left and right
 
             for traffic_car_1 in incoming_cars_left:
                 for traffic_car_2 in incoming_cars_left:
@@ -466,8 +468,8 @@ def multi_game(difficulty, lolly_car, bestie_car):
         for power_up in power_ups:
             if pygame.sprite.collide_rect(lolly, power_up):
                 if pygame.sprite.spritecollide(lolly, power_ups, False, pygame.sprite.collide_mask):
-                    if power_up == besties or power_up == galpal or power_up == tangled or power_up == sissy:
-                        power_up.collision(lolly, bestie)
+                    if power_up == besties or power_up == galpal or power_up == tangled or power_up == sissy:  # these power ups affect both players, and take different arguments
+                        power_up.collision(lolly, bestie)  # the collision function is different for each power up
                     elif power_up == diva or power_up == growth:
                         power_up.collision(lolly)
                     elif power_up == frosty or power_up == toy:
@@ -475,7 +477,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
                             power_up.collision(lolly, bestie, incoming_cars)
                         elif difficulty == 'hard':
                             power_up.collision(lolly, bestie, incoming_cars_left, incoming_cars_right)
-            if pygame.sprite.collide_rect(bestie, power_up):
+            if pygame.sprite.collide_rect(bestie, power_up):  # same thing as above, but for the Bestie
                 if pygame.sprite.spritecollide(bestie, power_ups, False, pygame.sprite.collide_mask):
                     if power_up == besties or power_up == galpal or power_up == tangled or power_up == sissy:
                         power_up.collision(lolly, bestie)
@@ -508,11 +510,11 @@ def multi_game(difficulty, lolly_car, bestie_car):
             else:
                 road = frozen_road3
 
-        lolly.change_image(active_power_ups(besties, diva, growth, tangled))
+        lolly.change_image(active_power_ups(besties, diva, growth, tangled))  # this function changes the appearance of the player car according to the active power ups
         bestie.change_image(active_power_ups(besties, diva, growth, tangled))
 
-        all_sprites.update()
-        all_sprites.draw(screen)
+        all_sprites.update()  # updating the sprites again, so that the images are changed
+        all_sprites.draw(screen)  # drawing the sprites on the screen
 
         # Drawing the Power Ups that change the road and screen
 
@@ -525,7 +527,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
         # Drawing the Score Bar
 
-        score_bar_font = pygame.font.SysFont('comic_sans', 55)
+        score_bar_font = pygame.font.SysFont('comic_sans', 55)  # yes Liah, we're using comic sans
         border_colour = (55, 18, 26)
 
         score_text = score_bar_font.render(f"{score}", True, (255, 255, 255))
@@ -533,11 +535,11 @@ def multi_game(difficulty, lolly_car, bestie_car):
             (-3, -3), (-2, -3), (-1, -3), (0, -3), (1, -3), (2, -3), (3, -3),
             (-3, -2), (3, -2), (-3, -1), (3, -1), (-3, 0), (3, 0), (-3, 1), (3, 1),
             (-3, 2), (3, 2), (-3, 3), (-2, 3), (-1, 3), (0, 3), (1, 3), (2, 3), (3, 3)
-        ]
+        ]  # this is a list of tuples, each tuple is a coordinate offset for the score text
 
         screen.blit(score_bar, (0, 0))
 
-        for offset in offsets:
+        for offset in offsets:  # this for loop draws the score text with the offsets, so that it looks like it has a border
             screen.blit(score_bar_font.render(f"{score}", True, border_colour), (170 + offset[0], offset[1]))
 
         screen.blit(score_text, (170, 0))
@@ -545,9 +547,9 @@ def multi_game(difficulty, lolly_car, bestie_car):
         # Drawing the Hearts (Lives)
 
         for HP in range(lolly.max_health):
-            if HP < lolly.health:
-                screen.blit(lolly.heart_on, (480 + HP * 75, 5))
-            else:
+            if HP < lolly.health:  # if the HP is less than the health, then the heart is drawn
+                screen.blit(lolly.heart_on, (480 + HP * 75, 5))  # the hearts are drawn at different x positions, so that they're not on top of each other
+            else:  # if the HP is greater or equal to the health, then the heart loss image is drawn, which is just a heart with less opacity
                 screen.blit(lolly.heart_off, (480 + HP * 75, 5))
         
         for HP in range(bestie.max_health):
@@ -558,7 +560,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
         # Drawing the Power Ups Bar (on the left side of the screen)
 
-        icon_position = 30
+        icon_position = 30  # the y position of the first icon
         for icon in power_ups_bar(besties.active, diva.active, growth.active, tangled.active, sissy.active, frosty.active, toy.active):
             icon_position += 80
             screen.blit(icon, (0, icon_position))
@@ -569,7 +571,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
     pygame.quit()
 
-def countdown(game_screen):
+def countdown(game_screen):  # this function is called before the game starts
 
     pygame.mixer.init()
     pygame.init()
@@ -591,10 +593,10 @@ def countdown(game_screen):
 
     screen.blit(game_screen, (0, 0))
     screen.blit(countdown_3, (0, 0))
-    beeps.play()
+    beeps.play()  # playing the beeps sound
     pygame.display.flip()
 
-    pygame.time.wait(1000)
+    pygame.time.wait(1000)  # waiting 1 second before blitting the next image
     screen.blit(game_screen, (0, 0))
     screen.blit(countdown_2, (0, 0))
     beeps.play()
@@ -612,8 +614,8 @@ def countdown(game_screen):
     go.play()
     pygame.display.flip()
 
-    pygame.time.wait(1500)
-    return True
+    pygame.time.wait(1500)  # waiting 1.5 seconds before the game starts
+    return  # returning to the game function
 
 def game_over(road, difficulty, lolly, bestie):
 
@@ -628,17 +630,17 @@ def game_over(road, difficulty, lolly, bestie):
     game_over_restart_image = pygame.image.load("images/game_over/game_over_restart.png").convert_alpha()
     game_over_exit_image = pygame.image.load("images/game_over/game_over_exit.png").convert_alpha()
 
-    center_game_over_coord = ((1250 - 792) // 2, (950 - 792) // 2)
+    center_game_over_coord = ((1250 - 792) // 2, (950 - 792) // 2)  # the center coordinates of the game over image
     pygame.display.flip()
 
-    restart_button_coor = 445, 295, 820, 400
-    back_button_coor = 495, 420, 750, 520
+    restart_button_coor = 445, 295, 820, 400  # x1, x2, y1, y2
+    exit_button_coor = 495, 420, 750, 520
 
     clock = pygame.time.Clock()
     road_y = 0
 
     carry_on = True
-    event = pygame.event.Event(pygame.USEREVENT)  # Initialize event outside the loop with a default event
+    event = pygame.event.Event(pygame.USEREVENT)
 
     while carry_on:
         for event in pygame.event.get():
@@ -656,28 +658,21 @@ def game_over(road, difficulty, lolly, bestie):
         screen.blit(road, (0, road_y))
         screen.blit(road, (0, road_y - 950))
 
-        keys = pygame.key.get_pressed()
         mouse = pygame.mouse.get_pos()
-
-        if keys[pygame.K_RETURN]:
-            carry_on = False
-
-        if keys[pygame.K_BACKSPACE]:
-            carry_on = False
 
         if restart_button_coor[0] <= mouse[0] <= restart_button_coor[2] and restart_button_coor[1] < mouse[1] < restart_button_coor[3]:
             screen.blit(game_over_restart_image, center_game_over_coord)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 carry_on = False
-                multi_game(difficulty, lolly.car_type, bestie.car_type)
-        elif back_button_coor[0] <= mouse[0] <= back_button_coor[2] and back_button_coor[1] < mouse[1] < back_button_coor[3]:
+                multi_game(difficulty, lolly.car_type, bestie.car_type)  # calling the multi_game function with the same difficulty and car types as before
+        elif exit_button_coor[0] <= mouse[0] <= exit_button_coor[2] and exit_button_coor[1] < mouse[1] < exit_button_coor[3]:
             screen.blit(game_over_exit_image, center_game_over_coord)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 carry_on = False
-                pygame.quit()
+                pygame.quit()  # quitting the game
         
         else:
-            screen.blit(game_over_image, center_game_over_coord)
+            screen.blit(game_over_image, center_game_over_coord)  # if the user hovers over anywhere else, then the normal game over image is blitted
 
         pygame.display.flip()
 
@@ -788,10 +783,10 @@ def power_ups_bar(besties, diva, growth, tangled, sissy, frosty, toy):
     power_ups_names = ["besties_in_harmony", "diva_defiance", "frosty_frenzy", "gal_pal_rebirth", "tangled_twist", "glamorous_growth", "sissy_that_walk", "toy_transforminator"]
     power_ups_boolean_list = [besties, diva, frosty, tangled, growth, sissy, toy]
 
-    for number in range(len(power_ups_boolean_list)):
-        if power_ups_boolean_list[number]:
+    for number in range(len(power_ups_boolean_list)):  # this for loop adds the power ups to the list, according to the boolean values
+        if power_ups_boolean_list[number]:  # if the power up is active
             power_ups.append(pygame.image.load(f"images/power_ups/{power_ups_names[number]}.png").convert_alpha())
-        else:
+        else:  # if the power up is inactive
             power_ups.append(pygame.image.load(f"images/power_ups/{power_ups_names[number]}_off.png").convert_alpha())
     
-    return power_ups
+    return power_ups  # returning the list of power ups

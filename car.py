@@ -50,14 +50,13 @@ class PlayerCar(Car):
         self.car_type = car_type
         self.max_health = max_health
 
-        self.can_collide = True
-        self.can_crash = True
-        self.eliminated = False
-        self.can_move = True
-        self.controls_inverted = False
-        self.size_increased = False
+        self.can_collide = True  # this variable is used to check if the player car can collide with the other player (used for the Besties in Harmony Power Up)
+        self.can_crash = True  # if the player car can crash with the traffic cars (used for the Diva Defiance Power Up)
+        self.eliminated = False  # if the player car has been eliminated (used for the Gal Pal Rebirth Power Up)
+        self.can_move = True  # if the player car can move (an eliminated player car can't move)
+        self.controls_inverted = False  # if the controls are inverted (used for the Tangled Twist Power Up)
 
-        if difficulty == 'easy':
+        if difficulty == 'easy':  # if the difficulty is easy, the player car will have an extra health point
             self.add_health(1)
         elif difficulty == 'hard':
             self.add_health(-1)
@@ -91,16 +90,15 @@ class PlayerCar(Car):
     # Other functions
 
     def add_health(self, health):
-        if self.health < self.max_health:
+        if self.health < self.max_health:  # if the player car has not reached the maximum health points
             self.health += health
-        self.check_health()
 
     def check_health(self):
-        if self.health <= 0:
+        if self.health <= 0:  # if the player car has no health points left, we only added "less than" to make sure
             self.eliminated = True
-            self.die()
+            self.die()  # the die function will return the position of the player car so we can respawn it later
 
-    def change_image(self, active_power_ups):
+    def change_image(self, active_power_ups):  # this function will change the image of the player car according to the active power ups
 
         power_ups_images_paths = {
             'normal': f'images/players_cars/{self.car_type}.png',
@@ -121,19 +119,19 @@ class PlayerCar(Car):
             'diva_tangled_growth': f'images/power_ups_visuals/diva_tangled_growth/{self.car_type}_diva_tangled.png'
         }
 
-        image_path = power_ups_images_paths[active_power_ups]
-        super().change_image(image_path)
+        image_path = power_ups_images_paths[active_power_ups]  # getting the image path from the dictionary
+        super().change_image(image_path)  # changing the image using the parent class' function
 
-    def die(self):
-        stored_position = [self.rect.x, self.rect.y]
-        self.can_move = False
-        self.rect.x = -2000
-        return stored_position
+    def die(self):  # this function will be called when the player car dies
+        stored_position = [self.rect.x, self.rect.y]  # storing the position of the player car
+        self.can_move = False  # the player car can't move anymore
+        self.rect.x = -2000  # moving the player car out of the screen
+        return stored_position  # returning the stored position
     
-    def respawn(self, stored_position):
-        self.health = self.max_health - 1
-        self.can_move = True
-        self.rect.x = stored_position[0]
+    def respawn(self, stored_position):  # this function will be called when the player car respawns (used for the Gal Pal Rebirth Power Up)
+        self.health = self.max_health - 1  # the player car will have one less health point than the maximum
+        self.can_move = True  # the player car can move again
+        self.rect.x = stored_position[0]  # replacing the player car in the stored position
         self.rect.y = stored_position[1]
 
 
@@ -141,7 +139,7 @@ class TrafficCar(Car):
 
     def __init__(self, car_type_number, direction, difficulty):
 
-        if 1 <= car_type_number <= 6:
+        if 1 <= car_type_number <= 6:  # we have cars with equal shape but different colors, so we will use the same speed and health for them
             speed = 4
             health = 1
         elif 7 <= car_type_number <= 12:
@@ -157,11 +155,11 @@ class TrafficCar(Car):
             speed = 3
             health = 1
 
-        image_path = f'images/cars_{direction}/car{car_type_number}.png'
+        image_path = f'images/cars_{direction}/car{car_type_number}.png'  # getting the image path according to the car type number and the direction (if the car is going up or down)
 
-        super().__init__(image_path, speed, health)
+        super().__init__(image_path, speed, health)  # calling the parent class' constructor
 
-        if difficulty == 'hard':
+        if difficulty == 'hard':  # if the difficulty is hard, the traffic cars will move faster
             self.speed += 2
 
     # Movement functions for the traffic cars
