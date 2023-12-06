@@ -22,12 +22,7 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         self.on_cooldown = False
         self.unavailable = False  # if the power up is unavailable (used in the game file)
         self.can_move = True  # if the power up can move
-
-        if self.on_cooldown or self.unavailable:  # if the power up is on cooldown or unavailable, it will be hidden
-            self.hide()
-        else:  # if the power up is not on cooldown or unavailable, it will be placed in a random lane
-            self.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
-
+        
     def move_down(self):
         if self.can_move:  # if the power up can move, it will move down
             self.rect.y += self.speed
@@ -66,6 +61,13 @@ class PowerUp(ABC, pygame.sprite.Sprite):
     def collision(self):  # this method will be called when the power up collides with a player car
         self.active = True  # the power up will be active after the collision
         self.on_cooldown = True  # the power up will go on cooldown as well
+
+        if self.active or self.on_cooldown or self.unavailable:  # if the power up is on cooldown or unavailable, it will be hidden
+            self.hide()
+        else:  # if the power up is not on cooldown or unavailable, it will be placed in a random lane
+            self.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+            self.add_cooldown(random.randint(-300, 300)) # adding a rnadom value so that teh cooldown is variable
+
 
         '''
         We will do customised cooldowns and durations according to the player car

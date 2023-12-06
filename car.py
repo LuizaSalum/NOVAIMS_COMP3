@@ -21,7 +21,7 @@ class Car(pygame.sprite.Sprite):
         self.image = pygame.image.load(image_path).convert_alpha()
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
-        
+
         self.rect.x = current_position[0]  # replacing the player car in the stored position
         self.rect.y = current_position[1]
 
@@ -211,7 +211,9 @@ class TrafficCar(Car):
     def resize_car(self, multiplier):
 
         # Function that resizes the traffic car according to the multiplier, used for the Toy Transforminator Power Up
-
+        current_position = [self.rect.x, self.rect.y]  # storing the current position of the traffic car
         self.image = pygame.transform.scale(self.image, (int(self.image.get_width() * multiplier), int(self.image.get_height() * multiplier)))
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
+        self.rect.x = current_position[0]  # replacing the traffic car in the stored position
+        
