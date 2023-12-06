@@ -100,6 +100,8 @@ class PlayerCar(Car):
 
     def change_image(self, active_power_ups):  # this function will change the image of the player car according to the active power ups
 
+        current_position = [self.rect.x, self.rect.y]  # storing the current position of the player car
+
         power_ups_images_paths = {
             'normal': f'images/players_cars/{self.car_type}.png',
             'besties': f'images/power_ups_visuals/besties/{self.car_type}_besties.png',
@@ -122,6 +124,9 @@ class PlayerCar(Car):
         image_path = power_ups_images_paths[active_power_ups]  # getting the image path from the dictionary
         super().change_image(image_path)  # changing the image using the parent class' function
 
+        self.rect.x = current_position[0]  # replacing the player car in the stored position
+        self.rect.y = current_position[1]
+        
     def die(self):  # this function will be called when the player car dies
         stored_position = [self.rect.x, self.rect.y]  # storing the position of the player car
         self.can_move = False  # the player car can't move anymore
