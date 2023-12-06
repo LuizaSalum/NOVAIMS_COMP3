@@ -164,7 +164,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
     clock = pygame.time.Clock()
 
-    countdown(road)  # countdown function before the game starts
+    #countdown(road)  # countdown function before the game starts
 
     pygame.mixer.music.load("sounds/music/race.mp3")  # loading the music after the countdown
     pygame.mixer.music.set_volume(0.4)
