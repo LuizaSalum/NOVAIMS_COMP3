@@ -31,17 +31,17 @@ class PlayerCar(Car):
 
         if car_type == 'car1':
             image_path = 'images/players_cars/car1.png'
-            speed = 3
+            speed = 13
             health = 3
             max_health = 4
         elif car_type == 'car2':
             image_path = 'images/players_cars/car2.png'
-            speed = 6
+            speed = 16
             health = 2
             max_health = 3
         elif car_type == 'car3':
             image_path = 'images/players_cars/car3.png'
-            speed = 0
+            speed = 10
             health = 4
             max_health = 5
 
@@ -65,25 +65,25 @@ class PlayerCar(Car):
 
     def move_up(self , speed_modifier=0):
         if self.can_move:
-            self.rect.y -= (self.speed + speed_modifier)
+            self.rect.y -= self.speed
             if self.rect.y < 0:
                 self.rect.y = 0
 
     def move_down(self, speed_modifier=0):
         if self.can_move:
-            self.rect.y += (self.speed + speed_modifier)
-            if self.rect.y > 800 - self.rect.height:
-                self.rect.y = 800 - self.rect.height
+            self.rect.y += self.speed
+            if self.rect.y > 950 - self.rect.height:
+                self.rect.y = 950 - self.rect.height
 
     def move_left(self, speed_modifier=0):
         if self.can_move:
-            self.rect.x -= (self.speed + speed_modifier)
+            self.rect.x -= self.speed
             if self.rect.x < 272:
                 self.rect.x = 272
 
     def move_right(self, speed_modifier=0):
         if self.can_move:
-            self.rect.x += (self.speed + speed_modifier)
+            self.rect.x += self.speed
             if self.rect.x > 980 - self.rect.width:
                 self.rect.x = 980 - self.rect.width
 

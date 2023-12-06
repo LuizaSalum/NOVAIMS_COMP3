@@ -57,8 +57,8 @@ def multi_game(difficulty, lolly_car, bestie_car):
     bestie.heart_on = pygame.image.load(f"images/hearts/heart{bestie_car[-1]}.png").convert_alpha()
     bestie.heart_off = pygame.image.load(f"images/hearts/heart{bestie_car[-1]}_loss.png").convert_alpha()
 
-    lolly.set_position(285, 800)  # the x position is different for each player car, set_position is a function from the Car class
-    bestie.set_position(466, 800)
+    lolly.set_position(285, (950 - lolly.rect.height))  # the x position is different for each player car, set_position is a function from the Car class
+    bestie.set_position(466, (950 - bestie.rect.height))
 
     sprite_lolly = pygame.sprite.Group()
     sprite_bestie = pygame.sprite.Group()
@@ -338,12 +338,41 @@ def multi_game(difficulty, lolly_car, bestie_car):
             if pygame.sprite.collide_rect(lolly, bestie):
                 # spritecollide(sprite, group, boolean (True if the sprite should be killed), collision method)
                 if pygame.sprite.spritecollide(lolly, sprite_bestie, False, pygame.sprite.collide_mask):
+
                     if lolly.rect.x < bestie.rect.x:  # if the Lolly is on the left side
-                        lolly.rect.x -= 20 # pull the Lolly more to the left side
-                        bestie.rect.x += 20  # and the Bestie more to the right
+                        if not (bestie.rect.x >= (980 - bestie.rect.width) or lolly.rect.x <= 272):  # if the players are not in the corner
+                            lolly.rect.x -= lolly.speed # pull the Lolly more to the left side
+                            bestie.rect.x += bestie.speed  # and the Bestie more to the right
+                        elif bestie.rect.x >= (980 - bestie.rect.width):  # if the bestie is in the right corner
+                            lolly.rect.x -= lolly.speed  # the lolly won't be able to move to the right
+                        elif lolly.rect.x <= 272:  # if the lolly is in the left corner
+                            bestie.rect.x += bestie.speed  # the bestie can't move to the left
                     else:  # the inverse if the Lolly is on the right side
-                        lolly.rect.x += 20
-                        bestie.rect.x -= 20
+                        if not (lolly.rect.x >= (980 - lolly.rect.width) or bestie.rect.x <= 272):
+                            lolly.rect.x += lolly.speed
+                            bestie.rect.x -= bestie.speed
+                        elif lolly.rect.x >= (980 - lolly.rect.width):
+                            bestie.rect.x -= bestie.speed
+                        elif bestie.rect.x <= 272:
+                            lolly.rect.x += lolly.speed
+
+                    if lolly.rect.y < bestie.rect.y:  # if the Lolly is on the top side
+                        if not (bestie.rect.y >= (950 - bestie.rect.height) or lolly.rect.y <= 0):
+                            lolly.rect.y -= lolly.speed
+                            bestie.rect.y += bestie.speed
+                        elif bestie.rect.y >= (950 - bestie.rect.height):
+                            lolly.rect.y -= lolly.speed
+                        elif lolly.rect.y <= 0:
+                            bestie.rect.y += bestie.speed
+                    else:  # the inverse if the Lolly is on the bottom side
+                        if not (lolly.rect.y >= (950 - lolly.rect.height) or bestie.rect.y <= 0):
+                            lolly.rect.y += lolly.speed
+                            bestie.rect.y -= bestie.speed
+                        elif lolly.rect.y >= (950 - lolly.rect.height):
+                            bestie.rect.y -= bestie.speed
+                        elif bestie.rect.y <= 0:
+                            lolly.rect.y += lolly.speed
+
         
         # collision between players and traffic cars
 
