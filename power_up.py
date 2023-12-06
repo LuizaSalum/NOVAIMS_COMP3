@@ -23,7 +23,7 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         self.unavailable = False  # if the power up is unavailable (used in the game file)
         self.can_move = True  # if the power up can move
 
-        if self.on_cooldown or self.unavailable:  # if the power up is on cooldown or unavailable, it will be hidden
+        if self.active or self.on_cooldown or self.unavailable:  # if the power up is on cooldown or unavailable, it will be hidden
             self.hide()
         else:  # if the power up is not on cooldown or unavailable, it will be placed in a random lane
             self.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
@@ -51,13 +51,11 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         for duration_timer in range(self.duration, -1, -1):  # this is a countdown timer that will run for the duration of the power up
             if duration_timer == 0:
                 self.active = False  # when the duration is over, the power up will be deactivated
-                break
         
     def cooldown_timer(self):
         for cooldown_timer in range(self.cooldown, -1, -1):  # this is a countdown timer that will run for the cooldown of the power up
             if cooldown_timer == 0:
                 self.on_cooldown = False  # when the cooldown is over, the power up will be available again
-                break
 
     def hide(self):
         self.can_move = False  # if the power up is hidden, it can't move
