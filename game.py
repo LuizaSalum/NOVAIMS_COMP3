@@ -495,7 +495,9 @@ def multi_game(difficulty, lolly_car, bestie_car):
         # collision between players and power ups
 
         for power_up in power_ups:
+            power_up.move_down()
             if pygame.sprite.collide_rect(lolly, power_up):
+                print('collision')
                 if pygame.sprite.spritecollide(lolly, power_ups, False, pygame.sprite.collide_mask):
                     if power_up == besties or power_up == galpal or power_up == tangled or power_up == sissy:  # these power ups affect both players, and take different arguments
                         power_up.collision(lolly, bestie)  # the collision function is different for each power up
@@ -507,6 +509,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
                         elif difficulty == 'hard':
                             power_up.collision(lolly, bestie, incoming_cars_left, incoming_cars_right)
             if pygame.sprite.collide_rect(bestie, power_up):  # same thing as above, but for the Bestie
+                print('collision')
                 if pygame.sprite.spritecollide(bestie, power_ups, False, pygame.sprite.collide_mask):
                     if power_up == besties or power_up == galpal or power_up == tangled or power_up == sissy:
                         power_up.collision(lolly, bestie)
