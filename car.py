@@ -215,5 +215,7 @@ class TrafficCar(Car):
         self.image = pygame.transform.scale(self.image, (int(self.image.get_width() * multiplier), int(self.image.get_height() * multiplier)))
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
-        self.rect.x = current_position[0]  # replacing the traffic car in the stored position
+        self.rect.x = current_position[0]
+        self.rect.y = current_position[1]
+          # replacing the traffic car in the stored position
         
