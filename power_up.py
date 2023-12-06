@@ -27,6 +27,7 @@ class PowerUp(ABC, pygame.sprite.Sprite):
             self.hide()
         else:  # if the power up is not on cooldown or unavailable, it will be placed in a random lane
             self.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+            self.add_cooldown(random.randint(-300, 300))  # adding a random value so that the cooldown is variable
 
     def move_down(self):
         if self.can_move:  # if the power up can move, it will move down
@@ -91,7 +92,7 @@ class PowerUp(ABC, pygame.sprite.Sprite):
 class BestiesInHarmony(PowerUp):  # Players can't collide with each other
 
     def __init__(self, difficulty):
-        super().__init__('images/power_ups/besties_in_harmony.png', difficulty, 10, 360, 600)  # speed, duration and cooldown of the power up. for the last two, 60 = 1 second because of the FPS
+        super().__init__('images/power_ups/besties_in_harmony.png', difficulty, 10, 360, 1200)  # speed, duration and cooldown of the power up. for the last two, 60 = 1 second because of the FPS
 
         if difficulty == 'easy':
             self.add_speed(-1)
@@ -125,7 +126,7 @@ class BestiesInHarmony(PowerUp):  # Players can't collide with each other
 class GalPalRebirth(PowerUp):  # Eliminated player gets revived
 
     def __init__(self, difficulty):
-        super().__init__('images/power_ups/gal_pal_rebirth.png', difficulty, 10, 0, 1200)
+        super().__init__('images/power_ups/gal_pal_rebirth.png', difficulty, 10, 0, 2400)
 
         if difficulty == 'easy':
             self.add_speed(-1)
@@ -156,7 +157,7 @@ class GalPalRebirth(PowerUp):  # Eliminated player gets revived
 class TangledTwist(PowerUp):  # Players get tangled and their controls are inverted, this is done in the game file
 
     def __init__(self, difficulty):
-        super().__init__('images/power_ups/tangled_twist.png', difficulty, 10, 360, 900)
+        super().__init__('images/power_ups/tangled_twist.png', difficulty, 10, 360, 1800)
 
         if difficulty == 'easy':
             self.add_speed(-1)
@@ -190,7 +191,7 @@ class TangledTwist(PowerUp):  # Players get tangled and their controls are inver
 class SissyThatWalk(PowerUp):  # Players get a speed buff
 
     def __init__(self, difficulty):
-        super().__init__('images/power_ups/sissy_that_walk.png', difficulty, 10, 300, 600)
+        super().__init__('images/power_ups/sissy_that_walk.png', difficulty, 10, 300, 1200)
 
         if difficulty == 'easy':
             self.add_speed(-1)
@@ -226,7 +227,7 @@ class SissyThatWalk(PowerUp):  # Players get a speed buff
 class DivaDefiance(PowerUp):  # Player can't crash with traffic (invincibility)
 
     def __init__(self, difficulty):
-        super().__init__('images/power_ups/diva_defiance.png', difficulty, 10, 180, 900)
+        super().__init__('images/power_ups/diva_defiance.png', difficulty, 10, 180, 1800)
 
         if difficulty == 'easy':
             self.add_speed(-1)
@@ -258,7 +259,7 @@ class DivaDefiance(PowerUp):  # Player can't crash with traffic (invincibility)
 class GlamorousGrowth(PowerUp):  # Player gets a health buff and grows in size
 
     def __init__(self, difficulty):
-        super().__init__('images/power_ups/glamorous_growth.png', difficulty, 10, 300, 600)
+        super().__init__('images/power_ups/glamorous_growth.png', difficulty, 10, 300, 1200)
 
         if difficulty == 'easy':
             self.add_speed(-1)
@@ -290,7 +291,7 @@ class GlamorousGrowth(PowerUp):  # Player gets a health buff and grows in size
 class FrostyFrenzy(PowerUp):  # Traffic gets slowed down
 
     def __init__(self, difficulty):
-        super().__init__('images/power_ups/frosty_frenzy.png', difficulty, 10, 240, 600)
+        super().__init__('images/power_ups/frosty_frenzy.png', difficulty, 10, 240, 1200)
 
         self.difficulty = difficulty
         if difficulty == 'easy':
@@ -338,7 +339,7 @@ class FrostyFrenzy(PowerUp):  # Traffic gets slowed down
 class ToyTransforminator(PowerUp):  # Traffic decreases in size
 
     def __init__(self, difficulty):
-        super().__init__('images/power_ups/toy_transforminator.png', difficulty, 10, 300, 600)
+        super().__init__('images/power_ups/toy_transforminator.png', difficulty, 10, 300, 1200)
 
         if difficulty == 'easy':
             self.add_speed(-1)
