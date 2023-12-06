@@ -6,8 +6,8 @@ from power_up import *
 
 def multi_game(difficulty, lolly_car, bestie_car):
 
-    pygame.init() # for pygame
     pygame.mixer.init() # for sound
+    pygame.init() # for pygame
     pygame.font.init() # for text
 
     menu_open = pygame.mixer.Sound("sounds/menu_open.mp3")  # sound for when the menu opens
@@ -164,7 +164,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
     clock = pygame.time.Clock()
 
-    #countdown(road)  # countdown function before the game starts
+    countdown(road)  # countdown function before the game starts
 
     pygame.mixer.music.load("sounds/music/race.mp3")  # loading the music after the countdown
     pygame.mixer.music.set_volume(0.4)
@@ -648,6 +648,7 @@ def countdown(game_screen):  # this function is called before the game starts
 
 def game_over(road, difficulty, lolly, bestie):
 
+    pygame.mixer.init()
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
