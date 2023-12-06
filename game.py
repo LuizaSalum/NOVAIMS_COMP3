@@ -164,7 +164,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
     clock = pygame.time.Clock()
 
-    countdown(road)  # countdown function before the game starts
+    #countdown(road)  # countdown function before the game starts
 
     pygame.mixer.music.load("sounds/music/race.mp3")  # loading the music after the countdown
     pygame.mixer.music.set_volume(0.4)
@@ -298,31 +298,31 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
         if difficulty != 'hard':
             for car in cars_list:
-                car.move_down(random.randint(10,13))  # the cars move down the screen at a random speed between 10 and 13
+                car.move_down()  # the cars move down the screen at a random speed between 10 and 13
                 if car.rect.y > 950:  # if the car goes off the screen
                     new_car_number = random.randint(1, 32)
-                    car.change_car(new_car_number, 'left', 'normal')  # the car is given a new image
+                    car.change_car(new_car_number, 'left')  # the car is given a new image
                     car.add_speed(random.randint(-1, 3))  # the car is given a new speed buff or debuff
                     car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))  # the car is repositioned at the top of the screen
 
         elif difficulty == 'hard':  # same thing as above, but for cars on the left and right
             for car in cars_list_left:
-                car.move_down(random.randint(10,13))
+                car.move_down()
                 if car.rect.y > 950:
                     new_car_number = random.randint(1, 32)
                     random_side = random.choice(['left', 'right'])
-                    car.change_car(new_car_number, random_side, 'hard')
+                    car.change_car(new_car_number, random_side)
                     car.add_speed(random.randint(-1, 3))
                     if random_side == 'left':
                         car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
                     elif random_side == 'right':
                         car.set_position(random.choice([643, 825]), random.randint(-1500, -100))
             for car in cars_list_right:
-                car.move_down(random.randint(10,13))
+                car.move_up()
                 if car.rect.y > 950:
                     new_car_number = random.randint(1, 32)
                     random_side = random.choice(['left', 'right'])
-                    car.change_car(new_car_number, random_side, 'hard')
+                    car.change_car(new_car_number, random_side)
                     car.add_speed(random.randint(-1, 3))
                     if random_side == 'left':
                         car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
@@ -468,7 +468,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
                                 traffic_car_1.rect.y = random.randint(-2200, -800)  # then it is repositioned at the top of the screen
                                 traffic_car_1.rect.x = random.choice([285, 466, 643, 825])  # and given a new image
                             else:  # if both cars are on screen
-                                traffic_car_2.speed = 0  # then the speed of the second car is set to 0, so that it follows the first car
+                                traffic_car_2.speed -= 1 # then they have the same speed
 
         elif difficulty == 'hard':  # same thing as above, but for cars on the left and right
 
@@ -480,7 +480,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
                                 traffic_car_1.rect.y = random.randint(-2200, -800)
                                 traffic_car_1.rect.x = random.choice([285, 466])
                             else:
-                                traffic_car_2.speed = 0
+                                traffic_car_2.speed -= 1
 
             for traffic_car_1 in incoming_cars_right:
                 for traffic_car_2 in incoming_cars_right:
@@ -490,7 +490,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
                                 traffic_car_1.rect.y = random.randint(-2200, -800)
                                 traffic_car_1.rect.x = random.choice([643, 825])
                             else:
-                                traffic_car_2.speed = 0
+                                traffic_car_2.speed -= 1
 
         # collision between players and power ups
 

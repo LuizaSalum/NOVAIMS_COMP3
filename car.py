@@ -63,25 +63,25 @@ class PlayerCar(Car):
 
     # Movement functions for the player car
 
-    def move_up(self , speed_modifier=0):
+    def move_up(self):
         if self.can_move:
             self.rect.y -= self.speed
             if self.rect.y < 0:
                 self.rect.y = 0
 
-    def move_down(self, speed_modifier=0):
+    def move_down(self):
         if self.can_move:
             self.rect.y += self.speed
             if self.rect.y > 950 - self.rect.height:
                 self.rect.y = 950 - self.rect.height
 
-    def move_left(self, speed_modifier=0):
+    def move_left(self):
         if self.can_move:
             self.rect.x -= self.speed
             if self.rect.x < 272:
                 self.rect.x = 272
 
-    def move_right(self, speed_modifier=0):
+    def move_right(self):
         if self.can_move:
             self.rect.x += self.speed
             if self.rect.x > 980 - self.rect.width:
@@ -145,19 +145,19 @@ class TrafficCar(Car):
     def __init__(self, car_type_number, direction, difficulty):
 
         if 1 <= car_type_number <= 6:  # we have cars with equal shape but different colors, so we will use the same speed and health for them
-            speed = 4
+            speed = 14
             health = 1
         elif 7 <= car_type_number <= 12:
-            speed = 1
+            speed = 11
             health = 2
         elif 13 <= car_type_number <= 18:
-            speed = 2
+            speed = 12
             health = 1
         elif 19 <= car_type_number <= 26:
-            speed = 0
+            speed = 10
             health = 2
         elif 27 <= car_type_number <= 32:
-            speed = 3
+            speed = 13
             health = 1
 
         image_path = f'images/cars_{direction}/car{car_type_number}.png'  # getting the image path according to the car type number and the direction (if the car is going up or down)
@@ -169,32 +169,32 @@ class TrafficCar(Car):
 
     # Movement functions for the traffic cars
 
-    def move_up(self, speed_modifier=0):
-        self.rect.y -= (self.speed + speed_modifier)
+    def move_up(self):
+        self.rect.y -= (self.speed)
 
-    def move_down(self, speed_modifier=0):
-        self.rect.y += (self.speed + speed_modifier)
+    def move_down(self):
+        self.rect.y += (self.speed)
 
     # Other functions
 
-    def change_car(self, car_type_number, direction, difficulty):
+    def change_car(self, car_type_number, direction):
 
         # This function will receive a number, change the speed and health of the traffic car according to that number, and return the new image path to the parent class to change it
 
         if 1 <= car_type_number <= 6:
-            speed = 4
+            speed = 14
             health = 1
         elif 7 <= car_type_number <= 12:
-            speed = 1
+            speed = 11
             health = 2
         elif 13 <= car_type_number <= 18:
-            speed = 2
+            speed = 12
             health = 1
         elif 19 <= car_type_number <= 26:
-            speed = 0
+            speed = 10
             health = 2
         elif 27 <= car_type_number <= 32:
-            speed = 3
+            speed = 13
             health = 1
 
         image_path = f'images/cars_{direction}/car{car_type_number}.png'
