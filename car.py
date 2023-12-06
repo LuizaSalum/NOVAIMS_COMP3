@@ -17,9 +17,13 @@ class Car(pygame.sprite.Sprite):
         self.speed += speed
 
     def change_image(self, image_path):
+        current_position = [self.rect.x, self.rect.y]  # storing the current position of the player car
         self.image = pygame.image.load(image_path).convert_alpha()
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
+        
+        self.rect.x = current_position[0]  # replacing the player car in the stored position
+        self.rect.y = current_position[1]
 
     def set_position(self, x, y):
         self.rect.x = x
