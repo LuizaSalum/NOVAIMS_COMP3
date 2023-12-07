@@ -48,6 +48,11 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
     score_bar = pygame.image.load("images/score_bar.png").convert()
 
+    # victory question + story
+
+    victory_question = pygame.image.load("images/victory/victory_question.png").convert_alpha()
+    victory_story = pygame.image.load("images/victory/victory_story.png").convert_alpha()
+
     # Creating and positioning the players cars and their hearts (lives) images. Also adding them to a group
 
     lolly = PlayerCar(lolly_car, difficulty)
@@ -645,6 +650,29 @@ def multi_game(difficulty, lolly_car, bestie_car):
             icon_position += 80
             screen.blit(icon, (0, icon_position))
 
+        # Inserting the Victory Part
+
+        # pause the game and ask if the player wants to pick up the phone (Y for yes, N for no)
+
+        if score >= 6000 and score % 2000 == 0:  # if the score reaches 6000 or every 2000 points after that
+            game_screen = pygame.Surface(size)  # creating a surface with the same size as the screen
+            game_screen.blit(screen, (0, 0))  # copying the screen to the surface
+            pygame.mixer.music.pause()  # pausing the music
+            # displaying the victory question
+            screen.blit(victory_question, (0, 0))
+            pygame.display.flip()
+            # if the player presses Y, then the victory part is played, if the player presses N, then the game resumes
+            while True:
+                for event in pygame.event.get():
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_y:
+                            screen.blit(victory_story, (0, 0))
+                            pygame.time.delay(20000)  # waiting 20 seconds for the player to read the story
+                            victory(difficulty=difficulty, lolly_car=lolly.car_type, bestie_car=bestie.car_type)
+                        elif event.key == pygame.K_n:
+                            pygame.mixer.music.unpause()
+                            break
+
         # Updating the Display
 
         pygame.display.flip()
@@ -872,3 +900,55 @@ def power_ups_bar(besties, diva, growth, tangled, sissy, frosty, toy):
             power_ups.append(pygame.image.load(f"images/power_ups/{power_ups_names[number]}_off.png").convert_alpha())
     
     return power_ups  # returning the list of power ups
+
+def victory(difficulty, lolly, bestie):
+
+    if difficulty == 'easy':
+        dog = 1
+    elif difficulty == 'normal':
+        dog = 2
+    elif difficulty == 'hard':
+        dog = 3
+
+    pygame.mixer.init()
+    pygame.init()
+    size = (1250, 950)
+    screen = pygame.display.set_mode(size)
+    pygame.display.set_caption("Lolly Locket's Dog Chase")
+
+    ''' Loading Images '''
+
+    victory_image = pygame.image.load(f"images/victory/victory_end_{dog}{lolly}{bestie}.png").convert()
+    victory_restart_image = pygame.image.load(f"images/victory/victory_end_restart_{dog}{lolly}{bestie}.png").convert()
+    victory_exit_image = pygame.image.load(f"images/victory/victory_end_exit_{dog}{lolly}{bestie}.png").convert()
+
+    restart_coord = 1088, 1168, 238, 289
+    exit_coord = 1026, 1168, 325, 376
+
+    screen.blit(victory_image, (0, 0))
+    pygame.display.flip()
+
+    carry_on = True
+
+    while carry_on:
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                carry_on = False
+
+            mouse = pygame.mouse.get_pos()
+
+            if restart_coord[0] <= mouse[0] <= restart_coord[1] and restart_coord[2] < mouse[1] < restart_coord[3]:
+                screen.blit(victory_restart_image, (0, 0))
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    carry_on = False
+                    multi_game(difficulty, lolly, bestie)
+            elif exit_coord[0] <= mouse[0] <= exit_coord[1] and exit_coord[2] < mouse[1] < exit_coord[3]:
+                screen.blit(victory_exit_image, (0, 0))
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    carry_on = False
+                    pygame.quit()
+            else:
+                screen.blit(victory_image, (0, 0))
+
+        pygame.display.flip()

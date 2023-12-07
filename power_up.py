@@ -166,7 +166,7 @@ class TangledTwist(PowerUp):  # Players get tangled and their controls are inver
 
         self.affect_both_players(lolly, bestie)
 
-    def coolddown_reseter(self, lolly, bestie):
+    def cooldown_reseter(self, lolly, bestie):
         if not self.active:  # if the power up is not active anymore, the controls will be normal again
             lolly.controls_inverted = False
             bestie.controls_inverted = False
@@ -202,7 +202,7 @@ class SissyThatWalk(PowerUp):  # Players get a speed buff
 
         self.affect_both_players(lolly, bestie)
 
-    def coolddown_reseter(self, lolly, bestie):
+    def cooldown_reseter(self, lolly, bestie):
         if not self.active:  # if the power up is not active anymore, the players will have their normal speed again
             lolly.add_speed(-2)
             bestie.add_speed(-2)
@@ -239,7 +239,7 @@ class DivaDefiance(PowerUp):  # Player can't crash with traffic (invincibility)
 
         self.affect_player(player_that_collided)
     
-    def coolddown_reseter(self, player_that_collided):
+    def cooldown_reseter(self, player_that_collided):
         if not self.active:
             player_that_collided.can_crash = True
         self.cooldown_timer()
