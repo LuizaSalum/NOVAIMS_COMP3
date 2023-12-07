@@ -40,12 +40,7 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         self.can_move = True  # if the power up is set in a new position, it can move
         self.rect.x = x
         self.rect.y = y
-
-    def duration_timer(self):
-        for duration_timer in range(self.duration, -1, -1):  # this is a countdown timer that will run for the duration of the power up
-            if duration_timer == 0:
-                self.active = False  # when the duration is over, the power up will be deactivated
-        
+       
     def cooldown_timer(self):
         for cooldown_timer in range(self.cooldown, -1, -1):  # this is a countdown timer that will run for the cooldown of the power up
             if cooldown_timer == 0:
@@ -91,7 +86,7 @@ class PowerUp(ABC, pygame.sprite.Sprite):
 class BestiesInHarmony(PowerUp):  # Players can't collide with each other
 
     def __init__(self, difficulty):
-        super().__init__('images/power_ups/besties_in_harmony.png', difficulty, 10, 360, 1200)  # speed, duration and cooldown of the power up. for the last two, 60 = 1 second because of the FPS
+        super().__init__('images/power_ups/besties_in_harmony.png', difficulty, 10, 1200, 1200)  # speed, duration and cooldown of the power up. for the last two, 60 = 1 second because of the FPS
 
         if difficulty == 'easy':
             self.add_speed(-1)
@@ -106,7 +101,8 @@ class BestiesInHarmony(PowerUp):  # Players can't collide with each other
             self.add_cooldown(-120)
 
         self.affect_both_players(lolly, bestie)  # calling the method that will affect both players
-        self.duration_timer()  # calling the method that will run the duration timer
+
+    def cooldown_reseter(self, lolly, bestie):
         if not self.active:  # if the power up is not active anymore, the players will be able to collide again
             lolly.can_collide = True
             bestie.can_collide = True
@@ -138,8 +134,6 @@ class GalPalRebirth(PowerUp):  # Eliminated player gets revived
             self.add_cooldown(-120)
 
         self.affect_both_players(lolly, bestie)
-        self.duration_timer()  # this power up doesn't have a duration, so the timer will run for 0 frames
-        self.cooldown_timer()
 
     def affect_both_players(self, lolly, bestie):  # if the players are eliminated, they will be revived
         if lolly.eliminated:
@@ -171,11 +165,13 @@ class TangledTwist(PowerUp):  # Players get tangled and their controls are inver
             self.add_duration(-60)
 
         self.affect_both_players(lolly, bestie)
-        self.duration_timer()
+
+    def coolddown_reseter(self, lolly, bestie):
         if not self.active:  # if the power up is not active anymore, the controls will be normal again
             lolly.controls_inverted = False
             bestie.controls_inverted = False
         self.cooldown_timer()
+
 
     def affect_both_players(self, lolly, bestie):
         lolly.controls_inverted = True
@@ -205,7 +201,8 @@ class SissyThatWalk(PowerUp):  # Players get a speed buff
             self.add_duration(120)
 
         self.affect_both_players(lolly, bestie)
-        self.duration_timer()
+
+    def coolddown_reseter(self, lolly, bestie):
         if not self.active:  # if the power up is not active anymore, the players will have their normal speed again
             lolly.add_speed(-2)
             bestie.add_speed(-2)
@@ -241,8 +238,9 @@ class DivaDefiance(PowerUp):  # Player can't crash with traffic (invincibility)
             self.add_duration(60)
 
         self.affect_player(player_that_collided)
-        self.duration_timer()
-        if not self.active:  # if the power up is not active anymore, the player will be able to crash with the traffic again
+    
+    def coolddown_reseter(self, player_that_collided):
+        if not self.active:
             player_that_collided.can_crash = True
         self.cooldown_timer()
 
@@ -273,7 +271,10 @@ class GlamorousGrowth(PowerUp):  # Player gets a health buff and grows in size
             self.add_duration(60)
 
         self.affect_player(player_that_collided)
-        self.duration_timer()
+
+    def cooldown_reseter(self, player_that_collided):
+        if not self.active:
+            player_that_collided.resize_car(0.5)
         self.cooldown_timer()
 
     def affect_both_players(self):
@@ -307,23 +308,25 @@ class FrostyFrenzy(PowerUp):  # Traffic gets slowed down
 
         if self.difficulty != 'hard':
             self.affect_traffic(traffic_group)
-            self.duration_timer()
-            if not self.active:  # if the power up is not active anymore, the traffic will have its normal speed again
-                for car in traffic_group:
-                    car.add_speed(2)
-            self.cooldown_timer()
 
         elif self.difficulty == 'hard':
 
             self.affect_traffic(traffic_group_left)
             self.affect_traffic(traffic_group_right)
-            self.duration_timer()
-            if not self.active:
-                for car in traffic_group_left:
-                    car.add_speed(2)
-                for car in traffic_group_right:
-                    car.add_speed(2)
-            self.cooldown_timer()
+
+    def cooldown_reseter(self, traffic_group):
+        if not self.active:
+            for car in traffic_group:
+                car.add_speed(2)
+        self.cooldown_timer()
+    
+    def cooldown_reseter(self, left_traffic_group, right_traffic_group):
+        if not self.active:
+            for car in left_traffic_group:
+                car.add_speed(2)
+            for car in right_traffic_group:
+                car.add_speed(2)
+        self.cooldown_timer()
 
     def affect_both_players(self):
         pass
@@ -354,23 +357,25 @@ class ToyTransforminator(PowerUp):  # Traffic decreases in size
 
         if self.difficulty != 'hard':
             self.affect_traffic(traffic_group)
-            self.duration_timer()
-            if not self.active:  # if the power up is not active anymore, the traffic will have its normal size again
-                for car in traffic_group:
-                    car.resize_car(2)
-            self.cooldown_timer()
 
         elif self.difficulty == 'hard':
 
             self.affect_traffic(traffic_group_left)
             self.affect_traffic(traffic_group_right)
-            self.duration_timer()
-            if not self.active:
-                for car in traffic_group_left:
-                    car.resize_car(2)
-                for car in traffic_group_right:
-                    car.resize_car(2)
-            self.cooldown_timer()
+
+    def cooldown_reseter(self, traffic_group):
+        if not self.active:
+            for car in traffic_group:
+                car.resize_car(2)
+        self.cooldown_timer()
+
+    def cooldown_reseter(self, left_traffic_group, right_traffic_group):
+        if not self.active:
+            for car in left_traffic_group:
+                car.resize_car(2)
+            for car in right_traffic_group:
+                car.resize_car(2)
+        self.cooldown_timer()
 
     def affect_both_players(self):
         pass
