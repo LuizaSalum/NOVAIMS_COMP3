@@ -33,6 +33,7 @@ buttons = {
         ('easy', 154, 365, 364, 450),
         ('normal', 492, 702, 364, 450),
         ('hard', 836, 1046, 364, 450),
+        ('choose', 350, 845, 168, 274),
         ('info', 113, 169, 156, 213),
         ('back', 77, 207, 859, 912),
         ('return', 230, 359, 859, 912)
@@ -41,6 +42,7 @@ buttons = {
         ('car1', 170, 363, 357, 763),
         ('car2', 501, 707, 357, 763),
         ('car3', 833, 1028, 357, 763),
+        ('choose', 350, 845, 168, 274),
         ('info', 113, 169, 156, 213),
         ('back', 77, 207, 859, 912),
         ('return', 230, 359, 859, 912)
@@ -461,6 +463,8 @@ def dog_customisation_screen(lolly, mode, difficulty, bestie=None):
 
 def lolly_customisation_screen(mode, lolly, difficulty, bestie=None):
 
+    selected_lolly = lolly  # storing the lolly selected before the customisation screen is opened
+
     pygame.init()
     size = (1250, 950)
     screen = pygame.display.set_mode(size)
@@ -495,20 +499,12 @@ def lolly_customisation_screen(mode, lolly, difficulty, bestie=None):
 
             mouse = pygame.mouse.get_pos()  # getting the mouse position
 
-            for number in range(len(buttons['select_character'])):
-
+            for number in range(len(buttons['select_character']) - 3, len(buttons['select_character'])):
                 if buttons['select_character'][number][1] <= mouse[0] <= buttons['select_character'][number][2] and buttons['select_character'][number][3] <= mouse[1] <= buttons['select_character'][number][4]:
-
-                    if lolly == 'car1':  # there's no left arrow
-                        if number != 0:  # if the user hovers over anything but the left arrow area
-                            button = buttons['select_character'][number][0]
-
-                    elif lolly == 'car2':
-                        button = buttons['select_character'][number][0]
-
-                    elif lolly == 'car3':  # there's no right arrow
-                        if number != 1:  # if the user hovers over anything but the right arrow area
-                            button = buttons['select_character'][number][0]
+                    button = buttons['select_character'][number][0]
+                    break
+            else:
+                button = None
 
             if button == None:
                 lolly_customisation_image = pygame.image.load(f"images/interface/select_character_{lolly}.png").convert_alpha()
@@ -520,56 +516,51 @@ def lolly_customisation_screen(mode, lolly, difficulty, bestie=None):
 
             # if the user clicks on the buttons
 
-            if user_input.type == pygame.MOUSEBUTTONDOWN:  # if the user clicks on the screen
+            if user_input.type == pygame.MOUSEBUTTONDOWN:
 
                 for number in range(len(buttons['select_character'])):
 
                     if buttons['select_character'][number][1] <= user_input.pos[0] <= buttons['select_character'][number][2] and buttons['select_character'][number][3] <= user_input.pos[1] <= buttons['select_character'][number][4]:
 
-                        button_pressed.play()
-
-                        if buttons['select_character'][number][0] == 'left':
-                                
-                            if lolly == 'car2':
-                                lolly = 'car1'
-                                if bestie == 'car1':
-                                    bestie = 'car2'
-
-                            elif lolly == 'car3':
-                                lolly = 'car2'
-                                if bestie == 'car2':
-                                    bestie = 'car3'
-
+                        if buttons['select_character'][number][0] == 'car1':
+                            lolly = 'car1'
+                            button_pressed.play()
+                            # display the car1
                             lolly_customisation_image = pygame.image.load(f"images/interface/select_character_{lolly}.png").convert_alpha()
-                            screen.blit(lolly_customisation_image, (0, 0))
-                            pygame.display.flip()
 
-                        elif buttons['select_character'][number][0] == 'right':
-
-                            if lolly == 'car1':
-                                lolly = 'car2'
-                                if bestie == 'car2':
-                                    bestie = 'car1'
-
-                            elif lolly == 'car2':
-                                lolly = 'car3'
-                                if bestie == 'car3':
-                                    bestie = 'car2'
-
+                        elif buttons['select_character'][number][0] == 'car2':
+                            lolly = 'car2'
+                            button_pressed.play()
+                            # display the car2
                             lolly_customisation_image = pygame.image.load(f"images/interface/select_character_{lolly}.png").convert_alpha()
-                            screen.blit(lolly_customisation_image, (0, 0))
-                            pygame.display.flip()
 
-                        elif buttons['select_character'][number][0] == 'back':
-                            start_screen()
-                            return
-                        
-                        elif buttons['select_character'][number][0] == 'return':
+                        elif buttons['select_character'][number][0] == 'car3':
+                            lolly = 'car3'
+                            button_pressed.play()
+                            # display the car3
+                            lolly_customisation_image = pygame.image.load(f"images/interface/select_character_{lolly}.png").convert_alpha()
 
+                        elif buttons['select_character'][number][0] == 'choose':
+                            button_pressed.play()
                             if mode == 'single':
                                 single_customisation_screen(lolly=lolly, difficulty=difficulty)
                             else:
                                 multi_customisation_screen(lolly=lolly, bestie=bestie, difficulty=difficulty)
+
+                        elif buttons['select_character'][number][0] == 'back':
+                            button_pressed.play()
+                            start_screen()
+                            return
+                        
+                        elif buttons['select_character'][number][0] == 'return':  # reset the lolly to the previously selected one
+
+                            if mode == 'single':
+                                button_pressed.play()
+                                single_customisation_screen(lolly=selected_lolly, difficulty=difficulty)
+                            else:
+                                button_pressed.play()
+                                multi_customisation_screen(lolly=selected_lolly, bestie=bestie, difficulty=difficulty)
+
 
 
 def bestie_customisation_screen(lolly, bestie, difficulty):
@@ -609,81 +600,6 @@ def bestie_customisation_screen(lolly, bestie, difficulty):
             button = None
 
             mouse = pygame.mouse.get_pos()  # getting the mouse position
-
-            for number in range(len(buttons['select_character'])):
-
-                if buttons['select_character'][number][1] <= mouse[0] <= buttons['select_character'][number][2] and buttons['select_character'][number][3] <= mouse[1] <= buttons['select_character'][number][4]:
-
-                    if bestie == 'car1':  # there's no left arrow
-                        if number != 0:  # if the user hovers over anything but the left arrow area
-                            button = buttons['select_character'][number][0]
-
-                    elif bestie == 'car2':
-                        button = buttons['select_character'][number][0]
-
-                    elif bestie == 'car3':  # there's no right arrow
-                        if number != 1:  # if the user hovers over anything but the right arrow area
-                            button = buttons['select_character'][number][0]
-
-            if button == None:
-                bestie_customisation_image = pygame.image.load(f"images/interface/select_character_{bestie}.png").convert_alpha()
-            else:
-                bestie_customisation_image = pygame.image.load(f"images/interface/select_character_{bestie}_{button}.png").convert_alpha()
-
-            screen.blit(bestie_customisation_image, (0, 0))
-            pygame.display.flip()
-
-            # if the user clicks on the buttons
-
-            if user_input.type == pygame.MOUSEBUTTONDOWN:  # if the user clicks on the screen
-
-                for number in range(len(buttons['select_character'])):
-
-                    if buttons['select_character'][number][1] <= user_input.pos[0] <= buttons['select_character'][number][2] and buttons['select_character'][number][3] <= user_input.pos[1] <= buttons['select_character'][number][4]:
-
-                        button_pressed.play()
-
-                        if buttons['select_character'][number][0] == 'left':
-
-                            if bestie == 'car2':
-                                if lolly == 'car1':
-                                    bestie_customisation_image = pygame.image.load(f"images/interface/select_character_{lolly}_blocked.png").convert_alpha()
-                                else:
-                                    bestie = 'car1'
-                                    bestie_customisation_image = pygame.image.load(f"images/interface/select_character_{bestie}.png").convert_alpha()
-
-                            elif bestie == 'car3':
-                                if lolly == 'car2':
-                                    bestie_customisation_image = pygame.image.load(f"images/interface/select_character_{lolly}_blocked.png").convert_alpha()
-                                else:
-                                    bestie = 'car2'
-                                    bestie_customisation_image = pygame.image.load(f"images/interface/select_character_{bestie}.png").convert_alpha()
-
-                        elif buttons['select_character'][number][0] == 'right':
-
-                            if bestie == 'car1':
-                                if lolly == 'car2':
-                                    bestie_customisation_image = pygame.image.load(f"images/interface/select_character_{lolly}_blocked.png").convert_alpha()
-                                else:
-                                    bestie = 'car2'
-                                    bestie_customisation_image = pygame.image.load(f"images/interface/select_character_{bestie}.png").convert_alpha()
-
-                            elif bestie == 'car2':
-                                if lolly == 'car3':
-                                    bestie_customisation_image = pygame.image.load(f"images/interface/select_character_{lolly}_blocked.png").convert_alpha()
-                                else:
-                                    bestie = 'car3'
-                                    bestie_customisation_image = pygame.image.load(f"images/interface/select_character_{bestie}.png").convert_alpha()
-
-                        elif buttons['select_character'][number][0] == 'back':
-                            start_screen()
-                            return
-                        
-                        elif buttons['select_character'][number][0] == 'return':
-                            multi_customisation_screen(lolly=lolly, bestie=bestie, difficulty=difficulty)
-
-                        screen.blit(bestie_customisation_image, (0, 0))
-                        pygame.display.flip()
 
 
 def power_ups_list_screen(mode, lolly, difficulty, bestie=None):
