@@ -164,7 +164,7 @@ class TangledTwist(PowerUp):  # Players get tangled and their controls are inver
 
         if lolly.car_type == 'car1' or bestie.car_type == 'car1':
             self.add_cooldown(120)
-            self.add_duration(-60)
+            self.add_duration(-20)
 
         self.affect_both_players(lolly, bestie)
 
@@ -206,12 +206,12 @@ class SissyThatWalk(PowerUp):  # Players get a speed buff
     def deactivate(self, lolly, bestie):
         self.active = False
         self.duration = self.max_duration # Reset duration to ensure it starts fresh
-        lolly.add_speed(-2)
-        bestie.add_speed(-2)
+        lolly.add_speed(-5)
+        bestie.add_speed(-5)
 
     def affect_both_players(self, lolly, bestie):
-        lolly.add_speed(2)
-        bestie.add_speed(2)
+        lolly.add_speed(5)
+        bestie.add_speed(5)
 
     def affect_player(self):
         pass
@@ -358,9 +358,8 @@ class ToyTransforminator(PowerUp):  # Traffic decreases in size
     def deactivate(self, traffic_group):
         self.active = False
         self.duration = self.max_duration # Reset duration to ensure it starts fresh
-        for car in traffic_group:
+        for car in traffic_group :
             car.resize_car(1)
-        
 
     def affect_both_players(self):
         pass

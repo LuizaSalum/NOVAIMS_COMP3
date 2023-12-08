@@ -155,10 +155,6 @@ def multi_game(difficulty, lolly_car, bestie_car):
     for power_up in power_ups_list:
         all_sprites.add(power_up)
 
-    recent_colide_bestie = False  # this variable is used to prevent the power ups from being activated twice
-    recent_colide_lolly = False
-    active_power_ups2 = []
-
     # Setting up Variables
 
     score = 0
@@ -566,9 +562,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
                     elif power_up == frosty or power_up == toy:
                         power_up.deactivate(incoming_cars)
 
-        print(power_up, power_up.duration)
-
-        if not (lolly.eliminated or bestie.eliminated):
+        if (lolly.eliminated or bestie.eliminated):
             galpal.unavailable = True  # the gal pal rebirth power up is unavailable if both players are alive
         else:
             # if one of the players is eliminated, then the gal pal rebirth power up is available
