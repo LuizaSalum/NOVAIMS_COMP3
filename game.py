@@ -255,9 +255,6 @@ def multi_game(difficulty, lolly_car, bestie_car):
         else:
             road = normal_road3
 
-        if score == 6000:  # if the score reaches 6000, then the game is over
-            game_over(road, difficulty, lolly, bestie)
-
         # scrolling the road according to the active power ups
 
         if sissy.active:
@@ -918,8 +915,8 @@ def victory(game_screen, difficulty, lolly, bestie):
     waiting_1 = pygame.image.load("images/victory/waiting_1.png").convert_alpha()
     waiting_2 = pygame.image.load("images/victory/waiting_2.png").convert_alpha()
     waiting_3 = pygame.image.load("images/victory/waiting_3.png").convert_alpha()
-    victory_story_1 = pygame.image.load("images/victory/victory_story_2.png").convert_alpha()
-    victory_story_2 = pygame.image.load("images/victory/victory_story_3.png").convert_alpha()
+    victory_story_1 = pygame.image.load("images/victory/victory_story_1.png").convert_alpha()
+    victory_story_2 = pygame.image.load("images/victory/victory_story_2.png").convert_alpha()
     victory_image = pygame.image.load(f"images/victory/victory_end_{dog}{lolly[-1]}{bestie[-1]}.png").convert()
     victory_restart_image = pygame.image.load(f"images/victory/victory_end_restart_{dog}{lolly[-1]}{bestie[-1]}.png").convert()
     victory_exit_image = pygame.image.load(f"images/victory/victory_end_exit_{dog}{lolly[-1]}{bestie[-1]}.png").convert()
