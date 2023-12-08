@@ -48,11 +48,6 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
     score_bar = pygame.image.load("images/score_bar.png").convert()
 
-    # victory question + story
-
-    victory_question = pygame.image.load("images/victory/victory_question.png").convert_alpha()
-    victory_story = pygame.image.load("images/victory/victory_story.png").convert_alpha()
-
     # Creating and positioning the players cars and their hearts (lives) images. Also adding them to a group
 
     lolly = PlayerCar(lolly_car, difficulty)
@@ -174,7 +169,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
     #countdown(road)  # countdown function before the game starts
 
-    pygame.mixer.music.load("sounds/music/race.mp3")  # loading the music after the countdown
+    pygame.mixer.music.load("sounds/music/race_v2.mp3")  # loading the music after the countdown
     pygame.mixer.music.set_volume(0.4)
     pygame.mixer.music.play(-1)  # -1 means that the music will loop
 
@@ -652,26 +647,13 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
         # Inserting the Victory Part
 
-        # pause the game and ask if the player wants to pick up the phone (Y for yes, N for no)
-
         if score >= 6000 and score % 2000 == 0:  # if the score reaches 6000 or every 2000 points after that
+            pygame.mixer.music.set_volume(0.05)  # the music volume is decreased
+            # get the current game screen to pause
             game_screen = pygame.Surface(size)  # creating a surface with the same size as the screen
             game_screen.blit(screen, (0, 0))  # copying the screen to the surface
-            pygame.mixer.music.pause()  # pausing the music
-            # displaying the victory question
-            screen.blit(victory_question, (0, 0))
-            pygame.display.flip()
-            # if the player presses Y, then the victory part is played, if the player presses N, then the game resumes
-            while True:
-                for event in pygame.event.get():
-                    if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_y:
-                            screen.blit(victory_story, (0, 0))
-                            pygame.time.delay(20000)  # waiting 20 seconds for the player to read the story
-                            victory(difficulty=difficulty, lolly_car=lolly.car_type, bestie_car=bestie.car_type)
-                        elif event.key == pygame.K_n:
-                            pygame.mixer.music.unpause()
-                            break
+            victory(game_screen, difficulty, lolly.car_type, bestie.car_type)  # the victory function is called
+            pygame.mixer.music.set_volume(0.4)  # the music volume is increased again
 
         # Updating the Display
 
@@ -901,7 +883,9 @@ def power_ups_bar(besties, diva, growth, tangled, sissy, frosty, toy):
     
     return power_ups  # returning the list of power ups
 
-def victory(difficulty, lolly, bestie):
+def victory(game_screen, difficulty, lolly, bestie):
+
+    victory = False
 
     if difficulty == 'easy':
         dog = 1
@@ -916,39 +900,101 @@ def victory(difficulty, lolly, bestie):
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Lolly Locket's Dog Chase")
 
+    ''' Loading Sounds '''
+
+    phone_ring = pygame.mixer.Sound("sounds/victory/phone_ring.mp3")
+    phone_ring.set_volume(0.5)
+    phone_pickup = pygame.mixer.Sound("sounds/victory/phone_pickup.mp3")
+    phone_pickup.set_volume(0.7)
+    talking = pygame.mixer.Sound("sounds/victory/talking.mp3")
+    button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
+    button_pressed.set_volume(0.5)
+
+
     ''' Loading Images '''
 
-    victory_image = pygame.image.load(f"images/victory/victory_end_{dog}{lolly}{bestie}.png").convert()
-    victory_restart_image = pygame.image.load(f"images/victory/victory_end_restart_{dog}{lolly}{bestie}.png").convert()
-    victory_exit_image = pygame.image.load(f"images/victory/victory_end_exit_{dog}{lolly}{bestie}.png").convert()
+    victory_question = pygame.image.load("images/victory/victory_question.png").convert_alpha()
+    waiting_1 = pygame.image.load("images/victory/waiting_1.png").convert_alpha()
+    waiting_2 = pygame.image.load("images/victory/waiting_2.png").convert_alpha()
+    waiting_3 = pygame.image.load("images/victory/waiting_3.png").convert_alpha()
+    victory_story_1 = pygame.image.load("images/victory/victory_story_2.png").convert_alpha()
+    victory_story_2 = pygame.image.load("images/victory/victory_story_3.png").convert_alpha()
+    victory_image = pygame.image.load(f"images/victory/victory_end_{dog}{lolly[-1]}{bestie[-1]}.png").convert()
+    victory_restart_image = pygame.image.load(f"images/victory/victory_end_restart_{dog}{lolly[-1]}{bestie[-1]}.png").convert()
+    victory_exit_image = pygame.image.load(f"images/victory/victory_end_exit_{dog}{lolly[-1]}{bestie[-1]}.png").convert()
 
-    restart_coord = 1088, 1168, 238, 289
-    exit_coord = 1026, 1168, 325, 376
+    restart_coord = 1026, 1168, 325, 376
+    exit_coord = 1088, 1168, 238, 289
 
-    screen.blit(victory_image, (0, 0))
+    screen.blit(game_screen, (0, 0))
+    screen.blit(victory_question, (0, 0))
     pygame.display.flip()
 
     carry_on = True
+
+    phone_ring.play(-1)  # playing the phone ring sound on a loop
 
     while carry_on:
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                carry_on = False
+                pygame.quit()
 
             mouse = pygame.mouse.get_pos()
 
-            if restart_coord[0] <= mouse[0] <= restart_coord[1] and restart_coord[2] < mouse[1] < restart_coord[3]:
-                screen.blit(victory_restart_image, (0, 0))
-                if event.type == pygame.MOUSEBUTTONDOWN:
+            # first, we're displaying the question image, if the user presses Y, we're displaying the story image for 20 seconds, if the user presses N, we're unpausing the game
+
+            if event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_y:
+
+                    phone_ring.stop()  # stopping the phone ring sound
+                    button_pressed.play()
+                    victory = True  # the victory variable is set to True, so that the victory image is displayed
+                    pygame.mixer.music.stop()  # stopping the music
+                    phone_pickup.play()  # playing the phone pickup sound
+                    pygame.time.delay(1000)
+
+                    # displaying three dots while the person is talking
+                    screen.blit(game_screen, (0, 0))
+                    screen.blit(waiting_1, (0, 0))
+                    pygame.display.flip()
+                    talking.play()
+                    pygame.time.delay(500)
+                    screen.blit(waiting_2, (0, 0))
+                    pygame.display.flip()
+                    pygame.time.delay(500)
+                    screen.blit(waiting_3, (0, 0))
+                    pygame.display.flip()
+                    pygame.time.delay(4500)
+
+                    #displaying the story
+                    screen.blit(victory_story_1, (0, 0))
+                    pygame.display.flip()
+                    pygame.time.delay(4000)
+                    screen.blit(victory_story_2, (0, 0))
+                    pygame.display.flip()
+                    pygame.time.delay(4000)
+
+                    screen.blit(victory_image, (0, 0))
+                    pygame.display.flip()
+
+                elif event.key == pygame.K_n:
+                    phone_ring.stop()
                     carry_on = False
-                    multi_game(difficulty, lolly, bestie)
-            elif exit_coord[0] <= mouse[0] <= exit_coord[1] and exit_coord[2] < mouse[1] < exit_coord[3]:
-                screen.blit(victory_exit_image, (0, 0))
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    carry_on = False
-                    pygame.quit()
-            else:
-                screen.blit(victory_image, (0, 0))
+
+            if victory:
+                # if the user hovers and clicks over the buttons
+                if restart_coord[0] <= mouse[0] <= restart_coord[1] and restart_coord[2] < mouse[1] < restart_coord[3]:
+                    screen.blit(victory_restart_image, (0, 0))
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        carry_on = False
+                        multi_game(difficulty, lolly, bestie)
+                elif exit_coord[0] <= mouse[0] <= exit_coord[1] and exit_coord[2] < mouse[1] < exit_coord[3]:
+                    screen.blit(victory_exit_image, (0, 0))
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        pygame.quit()
+                else:
+                    screen.blit(victory_image, (0, 0))
 
         pygame.display.flip()

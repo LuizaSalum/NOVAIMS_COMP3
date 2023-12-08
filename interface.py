@@ -69,7 +69,7 @@ def start_screen(music_started=True):
     pygame.display.set_caption("Lolly Locket's Dog Chase")
 
     if not music_started:
-        pygame.mixer.music.load("sounds/music/start_screen.mp3")
+        pygame.mixer.music.load("sounds/music/start_screen_v2.mp3")
         pygame.mixer.music.set_volume(0.3)
         pygame.mixer.music.play(-1)
         music_started = True
