@@ -226,5 +226,5 @@ class TrafficCar(Car):
         self.mask = pygame.mask.from_surface(self.image)
         self.rect.x = current_position[0]
         self.rect.y = current_position[1]
-          # replacing the traffic car in the stored position
+        # replacing the traffic car in the stored position
         
