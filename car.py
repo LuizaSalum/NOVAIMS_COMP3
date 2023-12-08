@@ -142,6 +142,15 @@ class PlayerCar(Car):
         self.can_move = True  # the player car can move again
         self.rect.x = stored_position[0]  # replacing the player car in the stored position
         self.rect.y = stored_position[1]
+    
+    def resize_car(self, multiplier):
+        # Function that resizes the traffic car according to the multiplier, used for the Toy Transforminator Power Up
+        current_position = [self.rect.x, self.rect.y]  # storing the current position of the traffic car
+        self.image = pygame.transform.scale(self.image, (int(self.image.get_width() * multiplier), int(self.image.get_height() * multiplier)))
+        self.rect = self.image.get_rect()
+        self.mask = pygame.mask.from_surface(self.image)
+        self.rect.x = current_position[0]
+        self.rect.y = current_position[1]
 
 
 class TrafficCar(Car):

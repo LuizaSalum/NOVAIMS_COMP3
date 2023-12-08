@@ -17,6 +17,7 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         self.speed = speed
         self.duration = duration
         self.cooldown = cooldown
+        self.max_duration = duration
 
         self.active = False
         self.on_cooldown = False
@@ -42,9 +43,7 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         self.rect.y = y
        
     def cooldown_timer(self):
-        for cooldown_timer in range(self.cooldown, -1, -1):  # this is a countdown timer that will run for the cooldown of the power up
-            if cooldown_timer == 0:
-                self.on_cooldown = False  # when the cooldown is over, the power up will be available again
+        return  # when the cooldown is over, the power up will be available again
 
     def hide(self):
         self.can_move = False  # if the power up is hidden, it can't move
@@ -60,7 +59,6 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         else:  # if the power up is not on cooldown or unavailable, it will be placed in a random lane
             self.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
             self.add_cooldown(random.randint(-300, 300)) # adding a rnadom value so that teh cooldown is variable
-
 
         '''
         We will do customised cooldowns and durations according to the player car
@@ -102,11 +100,19 @@ class BestiesInHarmony(PowerUp):  # Players can't collide with each other
 
         self.affect_both_players(lolly, bestie)  # calling the method that will affect both players
 
-    def cooldown_reseter(self, lolly, bestie):
-        if not self.active:  # if the power up is not active anymore, the players will be able to collide again
-            lolly.can_collide = True
-            bestie.can_collide = True
-        self.cooldown_timer()  # calling the method that will run the cooldown timer after the power up is inactive again
+    def activate(self):
+        self.active = True
+        # Perform any logic when the power-up is activated
+
+    def deactivate(self):
+        self.active = False
+        self.duration = 0  # Reset duration to ensure it starts fresh
+
+    def update(self):
+        if self.active:
+            self.duration -= 1
+            if self.duration <= 0:
+                self.deactivate()
 
     def affect_both_players(self, lolly, bestie):
         lolly.can_collide = False
@@ -166,12 +172,11 @@ class TangledTwist(PowerUp):  # Players get tangled and their controls are inver
 
         self.affect_both_players(lolly, bestie)
 
-    def cooldown_reseter(self, lolly, bestie):
+    def deactivate(self, lolly, bestie):
         if not self.active:  # if the power up is not active anymore, the controls will be normal again
             lolly.controls_inverted = False
             bestie.controls_inverted = False
         self.cooldown_timer()
-
 
     def affect_both_players(self, lolly, bestie):
         lolly.controls_inverted = True
@@ -202,7 +207,7 @@ class SissyThatWalk(PowerUp):  # Players get a speed buff
 
         self.affect_both_players(lolly, bestie)
 
-    def cooldown_reseter(self, lolly, bestie):
+    def deactivate(self, lolly, bestie):
         if not self.active:  # if the power up is not active anymore, the players will have their normal speed again
             lolly.add_speed(-2)
             bestie.add_speed(-2)
@@ -239,7 +244,7 @@ class DivaDefiance(PowerUp):  # Player can't crash with traffic (invincibility)
 
         self.affect_player(player_that_collided)
     
-    def cooldown_reseter(self, player_that_collided):
+    def deactivate(self, player_that_collided):
         if not self.active:
             player_that_collided.can_crash = True
         self.cooldown_timer()
@@ -272,7 +277,7 @@ class GlamorousGrowth(PowerUp):  # Player gets a health buff and grows in size
 
         self.affect_player(player_that_collided)
 
-    def cooldown_reseter(self, player_that_collided):
+    def deactivate(self, player_that_collided):
         if not self.active:
             player_that_collided.resize_car(0.5)
         self.cooldown_timer()
@@ -314,17 +319,9 @@ class FrostyFrenzy(PowerUp):  # Traffic gets slowed down
             self.affect_traffic(traffic_group_left)
             self.affect_traffic(traffic_group_right)
 
-    def cooldown_reseter(self, traffic_group):
+    def deactivate(self, traffic_group):
         if not self.active:
             for car in traffic_group:
-                car.add_speed(2)
-        self.cooldown_timer()
-    
-    def cooldown_reseter(self, left_traffic_group, right_traffic_group):
-        if not self.active:
-            for car in left_traffic_group:
-                car.add_speed(2)
-            for car in right_traffic_group:
                 car.add_speed(2)
         self.cooldown_timer()
 
@@ -363,17 +360,15 @@ class ToyTransforminator(PowerUp):  # Traffic decreases in size
             self.affect_traffic(traffic_group_left)
             self.affect_traffic(traffic_group_right)
 
-    def cooldown_reseter(self, traffic_group):
+    def deactivate(self, traffic_group):
         if not self.active:
             for car in traffic_group:
                 car.resize_car(2)
         self.cooldown_timer()
 
-    def cooldown_reseter(self, left_traffic_group, right_traffic_group):
+    def deactivate(self, incoming_cars):
         if not self.active:
-            for car in left_traffic_group:
-                car.resize_car(2)
-            for car in right_traffic_group:
+            for car in incoming_cars:
                 car.resize_car(2)
         self.cooldown_timer()
 

@@ -157,6 +157,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
     recent_colide_bestie = False  # this variable is used to prevent the power ups from being activated twice
     recent_colide_lolly = False
+    active_power_ups2 = []
 
     # Setting up Variables
 
@@ -517,7 +518,6 @@ def multi_game(difficulty, lolly_car, bestie_car):
         for power_up in power_ups:
             power_up.move_down()
             if pygame.sprite.collide_rect(lolly, power_up):
-                recent_colide_lolly = True  # this variable is used to prevent the power ups from being activated twice
                 if pygame.sprite.spritecollide(lolly, power_ups, False, pygame.sprite.collide_mask):
                     if power_up == besties or power_up == galpal or power_up == tangled or power_up == sissy:  # these power ups affect both players, and take different arguments
                         power_up.collision(lolly, bestie)  # the collision function is different for each power up
@@ -533,7 +533,6 @@ def multi_game(difficulty, lolly_car, bestie_car):
                             power_up.collision(lolly, bestie, traffic_group_left=incoming_cars_left, traffic_group_right=incoming_cars_right)
                             power_up.active = True
             if pygame.sprite.collide_rect(bestie, power_up):  # same thing as above, but for the Bestie
-                recent_colide_bestie = True
                 if pygame.sprite.spritecollide(bestie, power_ups, False, pygame.sprite.collide_mask):
                     if power_up == besties or power_up == galpal or power_up == tangled or power_up == sissy:
                         power_up.collision(lolly, bestie)
@@ -544,32 +543,24 @@ def multi_game(difficulty, lolly_car, bestie_car):
                             power_up.collision(lolly, bestie, incoming_cars)
                         elif difficulty == 'hard':
                             power_up.collision(lolly, bestie, traffic_group_left=incoming_cars_left, traffic_group_right=incoming_cars_right)
+            
             # if the power up goes off the screen, it is repositioned at the top of the screen
             if power_up.rect.y > 950:
                 power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
 
-        # Power Ups Activation
-        for power_up in power_ups:
-            if power_up.active == True:
-                power_up.duration -= 1  # if the power up is active, then the duration timer decreases by 1 every frame
-                if power_up == besties or power_up == tangled or power_up == sissy:  # these power ups affect both players, and take different arguments
-                    #missing  or power_up == galpal
+            if power_up.active == True:  # if the power up is active, then the duration timer decreases by 1 every frame
+                power_up.duration -= 1
+                if power_up.duration == 0: # if the duration reaches 0, then the power up is deactivated
                     power_up.active = False
-                    power_up.cooldown_reseter(bestie, lolly)  # the cooldown_reseter function is different for each power up
-                elif power_up == diva or power_up == growth:
-                    if recent_colide_lolly == True:
-                        power_up.active  = False
-                        power_up.cooldown_reseter(lolly)
-                    if recent_colide_bestie == True:
-                        power_up.active  = False
-                        power_up.cooldown_reseter(bestie)
-                elif power_up == frosty or power_up == toy:
-                    if difficulty != 'hard':
-                        power_up.active = False
-                        power_up.cooldown_reseter(incoming_cars_left, incoming_cars_right)
-                    elif difficulty == 'hard':
-                        power_up.active = False
-                        power_up.cooldown_reseter()
+                    power_up.duration = power_up.max_duration  # the duration is reset to the max duration
+                    if power_up == besties or power_up == galpal or power_up == tangled or power_up == sissy:
+                        power_up.deactivate(lolly, bestie)
+                    elif power_up == diva or power_up == growth:
+                        power_up.deactivate(lolly)
+                    elif power_up == frosty or power_up == toy:
+                        power_up.deactivate(incoming_cars)
+
+        print(power_up, power_up.duration)
 
         if not (lolly.eliminated or bestie.eliminated):
             galpal.unavailable = True  # the gal pal rebirth power up is unavailable if both players are alive
@@ -585,6 +576,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
         if frosty.active:
             if score < 2000:
                 road = frozen_road
+
             elif score < 4000:
                 road = frozen_road2
             else:
