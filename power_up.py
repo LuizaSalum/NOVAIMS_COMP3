@@ -366,12 +366,6 @@ class ToyTransforminator(PowerUp):  # Traffic decreases in size
                 car.resize_car(2)
         self.cooldown_timer()
 
-    def deactivate(self, incoming_cars):
-        if not self.active:
-            for car in incoming_cars:
-                car.resize_car(2)
-        self.cooldown_timer()
-
     def affect_both_players(self):
         pass
 
