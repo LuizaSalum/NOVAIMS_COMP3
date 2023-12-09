@@ -128,8 +128,7 @@ class PlayerCar(Car):
         image_path = power_ups_images_paths[active_power_ups]  # getting the image path from the dictionary
         super().change_image(image_path)  # changing the image using the parent class' function
 
-        self.rect.x = current_position[0]  # replacing the player car in the stored position
-        self.rect.y = current_position[1]
+        self.set_position(current_position[0], current_position[1])
         
     def die(self):  # this function will be called when the player car dies
         stored_position = [self.rect.x, self.rect.y]  # storing the position of the player car
@@ -150,8 +149,7 @@ class PlayerCar(Car):
         self.image = pygame.transform.scale(self.image, (int(self.image.get_width() * multiplier), int(self.image.get_height() * multiplier)))
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
-        self.rect.x = current_position[0]
-        self.rect.y = current_position[1]
+        self.set_position(current_position[0], current_position[1])
 
 
 class TrafficCar(Car):
@@ -225,7 +223,6 @@ class TrafficCar(Car):
         self.image = pygame.transform.scale(self.image, (int(self.image.get_width() * multiplier), int(self.image.get_height() * multiplier)))
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
-        self.rect.x = current_position[0]
-        self.rect.y = current_position[1]
+        self.set_position(current_position[0], current_position[1])
         # replacing the traffic car in the stored position
         
