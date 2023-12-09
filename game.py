@@ -70,12 +70,30 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
     # Creating, positioning and adding the traffic cars to a group
 
-    if difficulty != 'hard':
+    if difficulty == 'easy':
 
         cars_list = []
         incoming_cars = pygame.sprite.Group()
 
-        left_car1 = TrafficCar(random.randint(1, 32), 'left', 'normal')  # TrafficCar(car_number (we have 32 images), direction of the car (left is for cars going downwards), difficulty)
+        left_car1 = TrafficCar(random.randint(1, 32), 'left', 'easy')  # TrafficCar(car_number (we have 32 images), direction of the car (left is for cars going downwards), difficulty)
+        cars_list.append(left_car1)
+        left_car2 = TrafficCar(random.randint(1, 32), 'left', 'easy')
+        cars_list.append(left_car2)
+        left_car3 = TrafficCar(random.randint(1, 32), 'left', 'easy')
+        cars_list.append(left_car3)
+        left_car4 = TrafficCar(random.randint(1, 32), 'left', 'easy')
+        cars_list.append(left_car4)
+
+        for car in cars_list:
+            car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+            incoming_cars.add(car)
+
+    if difficulty == 'normal':
+
+        cars_list = []
+        incoming_cars = pygame.sprite.Group()
+
+        left_car1 = TrafficCar(random.randint(1, 32), 'left', 'normal')
         cars_list.append(left_car1)
         left_car2 = TrafficCar(random.randint(1, 32), 'left', 'normal')
         cars_list.append(left_car2)
@@ -110,6 +128,35 @@ def multi_game(difficulty, lolly_car, bestie_car):
         for car in cars_list_right:
             car.set_position(random.choice([643, 825]), random.randint(-1500, -100))
             incoming_cars_right.add(car)
+
+    # Creating, positioning and adding the cars that will be added over time to a group
+
+    if difficulty != 'easy':
+
+        added_cars_list = []
+
+        added_car1 = TrafficCar(random.randint(1, 32), 'left', 'easy')
+        added_cars_list.append(added_car1)
+
+    if difficulty == 'normal':
+
+        added_cars_list = []
+
+        added_car1 = TrafficCar(random.randint(1, 32), 'left', 'normal')
+        added_cars_list.append(added_car1)
+        added_car2 = TrafficCar(random.randint(1, 32), 'left', 'normal')
+        added_cars_list.append(added_car2)
+
+    elif difficulty == 'hard':
+
+        added_cars_list_left = []
+        added_cars_list_right = []
+
+        added_car1 = TrafficCar(random.randint(1, 32), 'left', 'hard')
+        added_cars_list_left.append(added_car1)
+        added_car2 = TrafficCar(random.randint(1, 32), 'left', 'hard')
+        added_cars_list_left.append(added_car2)
+
 
     # Creating, positioning and adding the power ups to a group
 
@@ -273,31 +320,37 @@ def multi_game(difficulty, lolly_car, bestie_car):
         # adding cars over time (score)
 
         if difficulty == 'easy':
-            # every 1000 points, a new car is added, until there are 6 cars
-            if score > 1000 and score % 1000 == 0 and len(cars_list) < 6:
-                new_car = TrafficCar(random.randint(1, 32), 'left', 'easy')
-                cars_list.append(new_car)
-                incoming_cars.add(new_car)
-
+            # every 2000 points, a new car is added, until there are 5 cars
+            if score > 2000 and score % 2000 == 0 and len(added_cars_list) != 0:
+                added_car = added_cars_list.pop()  # the last car in the list is removed
+                added_car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))  # the car is repositioned at the top of the screen
+                incoming_cars.add(added_car)  # added to the incoming cars group
+                cars_list.append(added_car)  # and added to the cars list
+                all_sprites.add(added_car)  # and added to the all sprites group
+                
         elif difficulty == 'normal':
-            # every 500 points, a new car is added, until there are 8 cars
-            if score > 500 and score % 500 == 0 and len(cars_list) < 8:
-                new_car = TrafficCar(random.randint(1, 32), 'left', 'normal')
-                cars_list.append(new_car)
-                incoming_cars.add(new_car)
+            # every 1000 points, a new car is added, until there are 6 cars
+            if score > 1000 and score % 1000 == 0 and len(added_cars_list) != 0:
+                added_car = added_cars_list.pop()
+                added_car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+                incoming_cars.add(added_car)
+                cars_list.append(added_car)
+                all_sprites.add(added_car)
 
         elif difficulty == 'hard':
-            # every 500 points, a new car is added, until there are 8 cars randomly on the left or right
-            if len(cars_list_left) + len(cars_list_right) < 8:
-                random_side = random.choice(['left', 'right'])
-                if random_side == 'left':
-                    new_car = TrafficCar(random.randint(1, 32), 'left', 'hard')
-                    cars_list_left.append(new_car)
-                    incoming_cars_left.add(new_car)
-                elif random_side == 'right':
-                    new_car = TrafficCar(random.randint(1, 32), 'right', 'hard')
-                    cars_list_right.append(new_car)
-                    incoming_cars_right.add(new_car)
+            # every 1000 points, a new car is added, until there are 6 cars
+            if score > 1000 and score % 1000 == 0 and len(added_cars_list_left) != 0:
+                added_car = added_cars_list_left.pop()
+                added_car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
+                incoming_cars_left.add(added_car)
+                cars_list_left.append(added_car)
+                all_sprites.add(added_car)
+            if score > 1000 and score % 1000 == 0 and len(added_cars_list_right) != 0:
+                added_car = added_cars_list_right.pop()
+                added_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                incoming_cars_right.add(added_car)
+                cars_list_right.append(added_car)
+                all_sprites.add(added_car)
 
         # if the cars go off the screen, they are repositioned and given a new image
 
@@ -477,7 +530,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
                 for traffic_car_2 in incoming_cars:
                     if traffic_car_1 != traffic_car_2:
                         if pygame.sprite.collide_rect(traffic_car_1, traffic_car_2):  # this time we're only checking for collision between the rectangles
-                            if traffic_car_1.rect.y < -800 or traffic_car_2.rect.y < -100:  # if one of the cars is off screen
+                            if traffic_car_1.rect.y < -800 or traffic_car_2.rect.y < -300:  # if one of the cars is off screen
                                 traffic_car_1.rect.y = random.randint(-2200, -800)  # then it is repositioned at the top of the screen
                                 traffic_car_1.rect.x = random.choice([285, 466, 643, 825])  # and given a new image
                                 if traffic_car_1.rect.y < traffic_car_2.rect.y: #prevent the cars from overlapping
@@ -494,7 +547,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
                 for traffic_car_2 in incoming_cars_left:
                     if traffic_car_1 != traffic_car_2:
                         if pygame.sprite.collide_rect(traffic_car_1, traffic_car_2):
-                            if traffic_car_1.rect.y < -800 or traffic_car_2.rect.y < -100:
+                            if traffic_car_1.rect.y < -800 or traffic_car_2.rect.y < -300:
                                 traffic_car_1.rect.y = random.randint(-2200, -800)
                                 traffic_car_1.rect.x = random.choice([285, 466])
                                 if traffic_car_1.rect.y < traffic_car_2.rect.y: #prevent the cars from overlapping
@@ -508,7 +561,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
                 for traffic_car_2 in incoming_cars_right:
                     if traffic_car_1 != traffic_car_2:
                         if pygame.sprite.collide_rect(traffic_car_1, traffic_car_2):
-                            if traffic_car_1.rect.y < 1350 or traffic_car_2.rect.y < 2050:
+                            if traffic_car_1.rect.y < 1550 or traffic_car_2.rect.y < 2050:
                                 traffic_car_1.rect.y = random.randint(1350, 2750)
                                 traffic_car_1.rect.x = random.choice([643, 825])
                             else:
