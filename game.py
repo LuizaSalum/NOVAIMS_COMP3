@@ -415,6 +415,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
             for traffic_car in incoming_cars_right:
                 if pygame.sprite.collide_rect(lolly, traffic_car):
                     if pygame.sprite.spritecollide(lolly, incoming_cars_right, False, pygame.sprite.collide_mask):
+                        lolly.add_health(-1)
                         traffic_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
                         if lolly.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
                             lolly.add_health(-1)
@@ -430,9 +431,9 @@ def multi_game(difficulty, lolly_car, bestie_car):
             for traffic_car in incoming_cars:
                 if pygame.sprite.collide_rect(bestie, traffic_car):
                     if pygame.sprite.spritecollide(bestie, incoming_cars, False, pygame.sprite.collide_mask):
+                        bestie.add_health(-1)
                         traffic_car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
                         if bestie.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
-                            bestie.add_health(-1)                            
                             if bestie.health == 0 and lolly.health != 0:
                                 bestie.die()
                             elif bestie.health <= 0 and lolly.health <= 0:
@@ -445,9 +446,9 @@ def multi_game(difficulty, lolly_car, bestie_car):
             for traffic_car in incoming_cars_left:
                 if pygame.sprite.collide_rect(bestie, traffic_car):
                     if pygame.sprite.spritecollide(bestie, incoming_cars_left, False, pygame.sprite.collide_mask):
+                        bestie.add_health(-1)
                         traffic_car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
                         if bestie.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
-                            bestie.add_health(-1)                       
                             if bestie.health == 0 and lolly.health != 0:
                                 bestie.die()
                             elif bestie.health <= 0 and lolly.health <= 0:
@@ -458,9 +459,9 @@ def multi_game(difficulty, lolly_car, bestie_car):
             for traffic_car in incoming_cars_right:
                 if pygame.sprite.collide_rect(bestie, traffic_car):
                     if pygame.sprite.spritecollide(bestie, incoming_cars_right, False, pygame.sprite.collide_mask):
+                        bestie.add_health(-1)
                         traffic_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
                         if bestie.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
-                            bestie.add_health(-1)
                             if bestie.health == 0 and lolly.health != 0:
                                 bestie.die()
                             elif bestie.health <= 0 and lolly.health <= 0:
