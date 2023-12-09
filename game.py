@@ -438,14 +438,14 @@ def multi_game(difficulty, lolly_car, bestie_car):
             for traffic_car in incoming_cars:
                 if pygame.sprite.collide_rect(lolly, traffic_car):
                     if pygame.sprite.spritecollide(lolly, incoming_cars, False, pygame.sprite.collide_mask):
-                        lolly.add_health(-1)
                         traffic_car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
                         if lolly.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
+                            lolly.add_health(-1)
                             if lolly.health == 0 and bestie.health != 0:
                                 lolly.die()  # if the Lolly is eliminated, then the die function is called,
                                 # this function moves the car off screen and turns the can_move variable to False
                                 # also, it stores the position of the car, so that it can be respawned later
-                            elif lolly.health == 0 and bestie.health == 0:  # if both players are eliminated, then the game is over
+                            elif lolly.health <= 0 and bestie.health <= 0:  # if both players are eliminated, then the game is over
                                 game_over(road, difficulty, lolly, bestie)
                         else:
                             pass
@@ -455,12 +455,12 @@ def multi_game(difficulty, lolly_car, bestie_car):
             for traffic_car in incoming_cars_left:
                 if pygame.sprite.collide_rect(lolly, traffic_car):
                     if pygame.sprite.spritecollide(lolly, incoming_cars_left, False, pygame.sprite.collide_mask):
-                        lolly.add_health(-1)
                         traffic_car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
                         if lolly.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
+                            lolly.add_health(-1)
                             if lolly.health == 0 and bestie.health != 0:
                                 lolly.die()
-                            elif lolly.health == 0 and bestie.health == 0:
+                            elif lolly.health <= 0 and bestie.health <= 0:
                                 game_over(road, difficulty, lolly, bestie)
                         else:
                             pass
@@ -468,12 +468,12 @@ def multi_game(difficulty, lolly_car, bestie_car):
             for traffic_car in incoming_cars_right:
                 if pygame.sprite.collide_rect(lolly, traffic_car):
                     if pygame.sprite.spritecollide(lolly, incoming_cars_right, False, pygame.sprite.collide_mask):
-                        lolly.add_health(-1)
                         traffic_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
                         if lolly.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
+                            lolly.add_health(-1)
                             if lolly.health == 0 and bestie.health != 0:
                                 lolly.die()
-                            elif lolly.health == 0 and bestie.health == 0:
+                            elif lolly.health <= 0 and bestie.health <= 0:
                                 game_over(road, difficulty, lolly, bestie)
                         else:
                             pass
@@ -483,12 +483,12 @@ def multi_game(difficulty, lolly_car, bestie_car):
             for traffic_car in incoming_cars:
                 if pygame.sprite.collide_rect(bestie, traffic_car):
                     if pygame.sprite.spritecollide(bestie, incoming_cars, False, pygame.sprite.collide_mask):
-                        bestie.add_health(-1)
                         traffic_car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
                         if bestie.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
+                            bestie.add_health(-1)                            
                             if bestie.health == 0 and lolly.health != 0:
                                 bestie.die()
-                            elif bestie.health == 0 and lolly.health == 0:
+                            elif bestie.health <= 0 and lolly.health <= 0:
                                 game_over(road, difficulty, lolly, bestie)
                         else:
                             pass
@@ -498,12 +498,12 @@ def multi_game(difficulty, lolly_car, bestie_car):
             for traffic_car in incoming_cars_left:
                 if pygame.sprite.collide_rect(bestie, traffic_car):
                     if pygame.sprite.spritecollide(bestie, incoming_cars_left, False, pygame.sprite.collide_mask):
-                        bestie.add_health(-1)
                         traffic_car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
                         if bestie.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
+                            bestie.add_health(-1)                       
                             if bestie.health == 0 and lolly.health != 0:
                                 bestie.die()
-                            elif bestie.health == 0 and lolly.health == 0:
+                            elif bestie.health <= 0 and lolly.health <= 0:
                                 game_over(road, difficulty, lolly, bestie)
                         else:
                             pass
@@ -511,12 +511,12 @@ def multi_game(difficulty, lolly_car, bestie_car):
             for traffic_car in incoming_cars_right:
                 if pygame.sprite.collide_rect(bestie, traffic_car):
                     if pygame.sprite.spritecollide(bestie, incoming_cars_right, False, pygame.sprite.collide_mask):
-                        bestie.add_health(-1)
                         traffic_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
                         if bestie.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
+                            bestie.add_health(-1)
                             if bestie.health == 0 and lolly.health != 0:
                                 bestie.die()
-                            elif bestie.health == 0 and lolly.health == 0:
+                            elif bestie.health <= 0 and lolly.health <= 0:
                                 game_over(road, difficulty, lolly, bestie)
                         else:
                             pass
@@ -568,6 +568,9 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
         # collision between players and power ups
 
+        for car in incoming_cars:
+            pygame.draw.rect(screen, (255, 0, 0), car.rect, 2)
+
         for power_up in power_ups:
             if not power_up.on_cooldown:
                 power_up.move_down()
@@ -576,17 +579,13 @@ def multi_game(difficulty, lolly_car, bestie_car):
                 if pygame.sprite.spritecollide(lolly, power_ups, False, pygame.sprite.collide_mask):
                     if power_up == besties or power_up == galpal or power_up == tangled or power_up == sissy:  # these power ups affect both players, and take different arguments
                         power_up.collision(lolly, bestie)  # the collision function is different for each power up
-                        power_up.active = True  # the power up is active
                     elif power_up == diva or power_up == growth:
                         power_up.collision(lolly)
-                        power_up.active  = True
                     elif power_up == frosty or power_up == toy:
                         if difficulty != 'hard':
-                            power_up.collision(lolly, bestie, incoming_cars)
-                            power_up.active = True
+                            power_up.collision(lolly, bestie, traffic_group= incoming_cars)
                         elif difficulty == 'hard':
                             power_up.collision(lolly, bestie, traffic_group_left=incoming_cars_left, traffic_group_right=incoming_cars_right)
-                            power_up.active = True
 
             if pygame.sprite.collide_rect(bestie, power_up):  # same thing as above, but for the Bestie
                 if pygame.sprite.spritecollide(bestie, power_ups, False, pygame.sprite.collide_mask):
@@ -596,7 +595,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
                         power_up.collision(bestie)
                     elif power_up == frosty or power_up == toy:
                         if difficulty != 'hard':
-                            power_up.collision(lolly, bestie, incoming_cars)
+                            power_up.collision(lolly, bestie, traffic_group=incoming_cars)
                         elif difficulty == 'hard':
                             power_up.collision(lolly, bestie, traffic_group_left=incoming_cars_left, traffic_group_right=incoming_cars_right)
             
@@ -617,23 +616,22 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
             # now we're checking if the power up is available or not, and if it's not, then we're decreasing the cooldown timer by 1 every frame
             # if the cooldown reaches 0, then the power up is available again
-            if not power_up.active:
+            if power_up.on_cooldown:
                 power_up.cooldown -= 1
                 if power_up.cooldown == 0:
                     power_up.on_cooldown = False
                     power_up.add_cooldown(60)
-
-        print(f'Besties: {besties.on_cooldown}, Gal Pal: {galpal.on_cooldown}, Tangled: {tangled.on_cooldown}, Sissy: {sissy.on_cooldown}, Diva: {diva.on_cooldown}, Growth: {growth.on_cooldown}, Frosty: {frosty.on_cooldown}, Toy: {toy.on_cooldown}') 
-        print(f"Besties: {besties.cooldown}, Gal Pal: {galpal.cooldown}, Tangled: {tangled.cooldown}, Sissy: {sissy.cooldown}, Diva: {diva.cooldown}, Growth: {growth.cooldown}, Frosty: {frosty.cooldown}, Toy: {toy.cooldown}")
-
-        if (lolly.eliminated or bestie.eliminated):
-            galpal.unavailable = True  # the gal pal rebirth power up is unavailable if both players are alive
-        else:
-            # if one of the players is eliminated, then the gal pal rebirth power up is available
-            galpal.unavailable = False
-            # but besties in harmony and tangled twist are unavailable
-            besties.unavailable = True
-            tangled.unavailable = True
+                    power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+                    power_up.can_move = True
+                                    
+            if (lolly.eliminated or bestie.eliminated):
+                galpal.unavailable = True  # the gal pal rebirth power up is unavailable if both players are alive
+            else:
+                # if one of the players is eliminated, then the gal pal rebirth power up is available
+                galpal.unavailable = False
+                # but besties in harmony and tangled twist are unavailable
+                besties.unavailable = True
+                tangled.unavailable = True
 
         # Drawing the Sprites
 
