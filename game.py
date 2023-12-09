@@ -326,6 +326,9 @@ def multi_game(difficulty, lolly_car, bestie_car):
             if score > 2000 and score % 2000 == 0 and len(added_cars_list) != 0:
                 added_car = added_cars_list.pop()  # the last car in the list is removed
                 added_car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))  # the car is repositioned at the top of the screen
+                for car in incoming_cars:
+                    if added_car.rect.x == car.rect.x and ((car.rect.y - added_car.rect.y) < 400 or (car.rect.y - added_car.rect.y) > -400):  # if the car is too close to another car
+                        added_car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
                 incoming_cars.add(added_car)  # added to the incoming cars group
                 cars_list.append(added_car)  # and added to the cars list
                 all_sprites.add(added_car)  # and added to the all sprites group
@@ -335,6 +338,9 @@ def multi_game(difficulty, lolly_car, bestie_car):
             if score > 1000 and score % 1000 == 0 and len(added_cars_list) != 0:
                 added_car = added_cars_list.pop()
                 added_car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+                for car in incoming_cars:
+                    if added_car.rect.x == car.rect.x and ((car.rect.y - added_car.rect.y) < 400 or (car.rect.y - added_car.rect.y) > -400):
+                        added_car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
                 incoming_cars.add(added_car)
                 cars_list.append(added_car)
                 all_sprites.add(added_car)
@@ -344,12 +350,18 @@ def multi_game(difficulty, lolly_car, bestie_car):
             if score > 1000 and score % 1000 == 0 and len(added_cars_list_left) != 0:
                 added_car = added_cars_list_left.pop()
                 added_car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
+                for car in incoming_cars_left:
+                    if added_car.rect.x == car.rect.x and ((car.rect.y - added_car.rect.y) < 400 or (car.rect.y - added_car.rect.y) > -400):
+                        added_car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
                 incoming_cars_left.add(added_car)
                 cars_list_left.append(added_car)
                 all_sprites.add(added_car)
             if score > 1000 and score % 1000 == 0 and len(added_cars_list_right) != 0:
                 added_car = added_cars_list_right.pop()
                 added_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                for car in incoming_cars_right:
+                    if added_car.rect.x == car.rect.x and ((car.rect.y - added_car.rect.y) < 400 or (car.rect.y - added_car.rect.y) > -400):
+                        added_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
                 incoming_cars_right.add(added_car)
                 cars_list_right.append(added_car)
                 all_sprites.add(added_car)
@@ -364,6 +376,9 @@ def multi_game(difficulty, lolly_car, bestie_car):
                     car.change_car(new_car_number, 'left')  # the car is given a new image
                     car.add_speed(random.randint(-1, 3))  # the car is given a new speed buff or debuff
                     car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))  # the car is repositioned at the top of the screen
+                    for car2 in cars_list:
+                        if car.rect.x == car2.rect.x and ((car2.rect.y - car.rect.y) < 400 or (car2.rect.y - car.rect.y) > -400):
+                            car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
 
         elif difficulty == 'hard':  # same thing as above, but for cars on the left and right
             for car in cars_list_left:
@@ -375,8 +390,14 @@ def multi_game(difficulty, lolly_car, bestie_car):
                     car.add_speed(random.randint(-1, 3))
                     if random_side == 'left':
                         car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
+                        for car2 in cars_list_left:
+                            if car.rect.x == car2.rect.x and ((car2.rect.y - car.rect.y) < 400 or (car2.rect.y - car.rect.y) > -400):
+                                car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
                     elif random_side == 'right':
                         car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                        for car2 in cars_list_right:
+                            if car.rect.x == car2.rect.x and ((car2.rect.y - car.rect.y) < 400 or (car2.rect.y - car.rect.y) > -400):
+                                car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
             for car in cars_list_right:
                 car.move_up()
                 if car.rect.y < -100:
@@ -386,8 +407,14 @@ def multi_game(difficulty, lolly_car, bestie_car):
                     car.add_speed(random.randint(-1, 3))
                     if random_side == 'left':
                         car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
+                        for car2 in cars_list_left:
+                            if car.rect.x == car2.rect.x and ((car2.rect.y - car.rect.y) < 400 or (car2.rect.y - car.rect.y) > -400):
+                                car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
                     elif random_side == 'right':
                         car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                        for car2 in cars_list_right:
+                            if car.rect.x == car2.rect.x and ((car2.rect.y - car.rect.y) < 400 or (car2.rect.y - car.rect.y) > -400):
+                                car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
 
         # Collision Detection
 
@@ -535,9 +562,9 @@ def multi_game(difficulty, lolly_car, bestie_car):
                                 traffic_car_1.rect.y = random.randint(-2200, -800)  # then it is repositioned at the top of the screen
                                 traffic_car_1.rect.x = random.choice([285, 466, 643, 825])  # and given a new image
                                 if traffic_car_1.rect.y < traffic_car_2.rect.y: #prevent the cars from overlapping
-                                    traffic_car_1.rect.y = traffic_car_2.rect.y - traffic_car_1.rect.height #then move the car 1 behind the car 2
-                                elif traffic_car_1.rect.y > traffic_car_2.rect.y: #check if the collision is happening when the traffica car 2 is behind
-                                    traffic_car_2.rect.y = traffic_car_1.rect.y - traffic_car_2.rect.height 
+                                    traffic_car_1.rect.y = traffic_car_2.rect.y - 2*traffic_car_1.rect.height #then move the car 1 behind the car 2
+                                elif traffic_car_1.rect.y > traffic_car_2.rect.y: #check if the collision is happening when the traffic car 2 is behind
+                                    traffic_car_2.rect.y = traffic_car_1.rect.y - 2*traffic_car_2.rect.height 
                             else:  # if both cars are on screen
                                 traffic_car_2.speed = traffic_car_1.speed # then the car behind will slow down
 
@@ -552,9 +579,9 @@ def multi_game(difficulty, lolly_car, bestie_car):
                                 traffic_car_1.rect.y = random.randint(-2200, -800)
                                 traffic_car_1.rect.x = random.choice([285, 466])
                                 if traffic_car_1.rect.y < traffic_car_2.rect.y: #prevent the cars from overlapping
-                                    traffic_car_1.rect.y = traffic_car_2.rect.y - traffic_car_1.rect.height #then move the car 1 behind the car 2
-                                elif traffic_car_1.rect.y > traffic_car_2.rect.y: #check if the collision is happening when the traffica car 2 is behind
-                                    traffic_car_2.rect.y = traffic_car_1.rect.y - traffic_car_2.rect.height 
+                                    traffic_car_1.rect.y = traffic_car_2.rect.y - 2*traffic_car_1.rect.height #then move the car 1 behind the car 2
+                                elif traffic_car_1.rect.y > traffic_car_2.rect.y: #check if the collision is happening when the traffic car 2 is behind
+                                    traffic_car_2.rect.y = traffic_car_1.rect.y - 2*traffic_car_2.rect.height 
                             else:
                                 traffic_car_2.speed = traffic_car_1.speed
 
