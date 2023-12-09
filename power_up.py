@@ -25,7 +25,7 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         self.can_move = True  # if the power up can move
         
     def move_down(self):
-        if self.can_move:  # if the power up can move, it will move down
+        if self.can_move or not self.unavailable:  # if the power up can move, it will move down
             self.rect.y += self.speed
 
     def add_speed(self, speed):
@@ -49,13 +49,12 @@ class PowerUp(ABC, pygame.sprite.Sprite):
     @abstractmethod
     def collision(self):  # this method will be called when the power up collides with a player car
         self.active = True  # the power up will be active after the collision
-        self.on_cooldown = True  # the power up will go on cooldown as well
+        # self.on_cooldown = False # the power up will be off cooldown after the collision
 
         if self.active or self.on_cooldown or self.unavailable:  # if the power up is on cooldown or unavailable, it will be hidden
             self.hide()
         else:  # if the power up is not on cooldown or unavailable, it will be placed in a random lane
             self.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
-            self.add_cooldown(random.randint(-300, 300)) # adding a rnadom value so that teh cooldown is variable
 
         '''
         We will do customised cooldowns and durations according to the player car
@@ -66,7 +65,6 @@ class PowerUp(ABC, pygame.sprite.Sprite):
     @abstractmethod
     def add_cooldown_prob(self):
         self.on_cooldown = True  # the power up is on cooldown
-        pass
 
     @abstractmethod
     def affect_both_players(self, lolly, bestie):
@@ -95,7 +93,7 @@ class BestiesInHarmony(PowerUp):  # Players can't collide with each other
 
     def deactivate(self, lolly, bestie):
         self.active = False
-        self.duration = self.max_duration # Reset duration to ensure it starts fresh
+        self.duration = self.max_duration # Reset duration to ensure it starts from the beginning
         lolly.can_collide = True
         bestie.can_collide = True
 
@@ -103,12 +101,14 @@ class BestiesInHarmony(PowerUp):  # Players can't collide with each other
         super().collision()  # calling the parent class' collision method
 
         if lolly.car_type == 'car1' or bestie.car_type == 'car1':  # if the player has the car with the power ups buff
-            self.add_duration(60)
-            self.add_cooldown(-120)
+            self.add_duration(6)
+            self.add_cooldown(-12)
 
         self.affect_both_players(lolly, bestie)  # calling the method that will affect both players
 
     def add_cooldown_prob(self): 
+        super().add_cooldown_prob()  # calling the parent class' add_cooldown_prob method
+        
         self.cooldown = random.randint(50, 100)  # the cooldown will be a random value between 50 and 100
     
     def affect_both_players(self, lolly, bestie):
@@ -128,7 +128,7 @@ class GalPalRebirth(PowerUp):  # Eliminated player gets revived
 
         if difficulty == 'easy':
             self.add_speed(-1)
-            self.add_cooldown(-60)
+            self.add_cooldown(-6)
     
     def add_cooldown_prob(self): 
         self.cooldown = random.randint(50, 100)  # the cooldown will be a random value between 50 and 100
@@ -141,7 +141,9 @@ class GalPalRebirth(PowerUp):  # Eliminated player gets revived
 
         self.affect_both_players(lolly, bestie)
     
-    def add_cooldown_prob(self): 
+    def add_cooldown_prob(self):
+        super().add_cooldown_prob()  # calling the parent class' add_cooldown_prob method
+
         self.cooldown = random.randint(50, 100)  # the cooldown will be a random value between 50 and 100
 
     def affect_both_players(self, lolly, bestie):  # if the players are eliminated, they will be revived
@@ -163,8 +165,8 @@ class TangledTwist(PowerUp):  # Players get tangled and their controls are inver
 
         if difficulty == 'easy':
             self.add_speed(-1)
-            self.add_cooldown(60)
-            self.add_duration(-120)
+            self.add_cooldown(6)
+            self.add_duration(-12)
 
     def deactivate(self, lolly, bestie):
         self.active = False
@@ -176,15 +178,18 @@ class TangledTwist(PowerUp):  # Players get tangled and their controls are inver
         super().collision()
 
         if lolly.car_type == 'car1' or bestie.car_type == 'car1':
-            self.add_cooldown(120)
-            self.add_duration(-20)
+            self.add_cooldown(12)
+            self.add_duration(-2)
 
         self.affect_both_players(lolly, bestie)   
 
     def add_cooldown_prob(self): 
+        super().add_cooldown_prob()  # calling the parent class' add_cooldown_prob method
+
         self.cooldown = random.randint(50, 100)  # the cooldown will be a random value between 50 and 100
 
-    def add_cooldown_prob(self): 
+    def add_cooldown_prob(self):
+        self.on_cooldown = True  # the power up is on cooldown 
         self.cooldown = random.randint(50, 100)  # the cooldown will be a random value between 50 and 100
 
     def affect_both_players(self, lolly, bestie):
@@ -217,12 +222,14 @@ class SissyThatWalk(PowerUp):  # Players get a speed buff
         super().collision()
 
         if lolly.car_type == 'car1' or bestie.car_type == 'car1':
-            self.add_cooldown(-120)
-            self.add_duration(120)
+            self.add_cooldown(-12)
+            self.add_duration(12)
 
         self.affect_both_players(lolly, bestie)
     
     def add_cooldown_prob(self): 
+        super().add_cooldown_prob()  # calling the parent class' add_cooldown_prob method        
+
         self.cooldown = random.randint(50, 100)  # the cooldown will be a random value between 50 and 100
 
     def affect_both_players(self, lolly, bestie):
@@ -257,12 +264,14 @@ class DivaDefiance(PowerUp):  # Player can't crash with traffic (invincibility)
         super().collision()
 
         if player_that_collided.car_type == 'car1':
-            self.add_cooldown(-60)
-            self.add_duration(60)
+            self.add_cooldown(-2)
+            self.add_duration(2)
 
         self.affect_player(player_that_collided)
     
     def add_cooldown_prob(self): 
+        super().add_cooldown_prob()  # calling the parent class' add_cooldown_prob method
+
         self.cooldown = random.randint(50, 100)  # the cooldown will be a random value between 50 and 100
 
     def affect_both_players(self):
@@ -293,12 +302,14 @@ class GlamorousGrowth(PowerUp):  # Player gets a health buff and grows in size
         super().collision()
 
         if player_that_collided.car_type == 'car1':
-            self.add_cooldown(-120)
-            self.add_duration(60)
+            self.add_cooldown(-12)
+            self.add_duration(6)
 
         self.affect_player(player_that_collided)
     
     def add_cooldown_prob(self): 
+        super().add_cooldown_prob()  # calling the parent class' add_cooldown_prob method
+
         self.cooldown = random.randint(50, 100)  # the cooldown will be a random value between 50 and 10
 
     def affect_both_players(self):
@@ -330,11 +341,11 @@ class FrostyFrenzy(PowerUp):  # Traffic gets slowed down
             car.add_speed(2)
 
     def collision(self, lolly, bestie, traffic_group=None, traffic_group_left=None, traffic_group_right=None):
-        super().collision()
+        super().collision()                        
 
         if lolly.car_type == 'car1' or bestie.car_type == 'car1':
-            self.add_cooldown(-120)
-            self.add_duration(60)
+            self.add_cooldown(-12)
+            self.add_duration(6)
 
         if self.difficulty != 'hard':
             self.affect_traffic(traffic_group)
@@ -344,6 +355,8 @@ class FrostyFrenzy(PowerUp):  # Traffic gets slowed down
             self.affect_traffic(traffic_group_right)
         
     def add_cooldown_prob(self): 
+        super().add_cooldown_prob()  # calling the parent class' add_cooldown_prob method
+
         self.cooldown = random.randint(50, 100)  # the cooldown will be a random value between 50 and 100
 
     def affect_both_players(self):
@@ -363,8 +376,8 @@ class ToyTransforminator(PowerUp):  # Traffic decreases in size
 
         if difficulty == 'easy':
             self.add_speed(-1)
-            self.add_cooldown(-60)
-            self.add_duration(120)
+            self.add_cooldown(-6)
+            self.add_duration(12)
 
     def deactivate(self, traffic_group):
         self.active = False
@@ -376,8 +389,8 @@ class ToyTransforminator(PowerUp):  # Traffic decreases in size
         super().collision()
 
         if lolly.car_type == 'car1' or bestie.car_type == 'car1':
-            self.add_cooldown(-120)
-            self.add_duration(120)
+            self.add_cooldown(-10)
+            self.add_duration(12)
 
         if self.difficulty != 'hard':
             self.affect_traffic(traffic_group)
@@ -387,7 +400,9 @@ class ToyTransforminator(PowerUp):  # Traffic decreases in size
             self.affect_traffic(traffic_group_left)
             self.affect_traffic(traffic_group_right)
     
-    def add_cooldown_prob(self): 
+    def add_cooldown_prob(self):
+        super().add_cooldown_prob()  # calling the parent class' add_cooldown_prob method
+
         self.cooldown = random.randint(50, 100)  # the cooldown will be a random value between 50 and 100
 
     def affect_both_players(self):
