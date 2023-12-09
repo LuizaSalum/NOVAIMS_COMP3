@@ -70,8 +70,8 @@ class PlayerCar(Car):
     def move_up(self):
         if self.can_move:
             self.rect.y -= self.speed
-            if self.rect.y < 0:
-                self.rect.y = 0
+            if self.rect.y < 100:
+                self.rect.y = 100
 
     def move_down(self):
         if self.can_move:
