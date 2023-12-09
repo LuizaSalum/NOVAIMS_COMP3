@@ -25,9 +25,9 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         self.can_move = True  # if the power up can move
         
     def move_down(self):
-        if self.can_move or not self.unavailable:  # if the power up can move, it will move down
+        if self.can_move:  # if the power up can move, it will move down
             self.rect.y += self.speed
-
+            
     def add_speed(self, speed):
         self.speed += speed
 

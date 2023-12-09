@@ -648,16 +648,23 @@ def multi_game(difficulty, lolly_car, bestie_car):
                     power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
                     power_up.can_move = True
                                     
-            if lolly.eliminated or bestie.eliminated:
-                galpal.unavailable = True  # the gal pal rebirth power up is unavailable if both players are alive
-                besties.unavailable = False
-                tangled.unavailable = False
-            else:
-                # if one of the players is eliminated, then the gal pal rebirth power up is available
-                galpal.unavailable = False
-                # but besties in harmony and tangled twist are unavailable
-                besties.unavailable = True
-                tangled.unavailable = True
+        if lolly.eliminated or bestie.eliminated:
+            galpal.can_move = True
+            tangled.can_move = False
+            tangled.hide()
+            besties.can_move = False
+            besties.hide()
+        else:
+            # if one of the players is eliminated, then the gal pal rebirth power up is available
+            galpal.can_move = False
+            galpal.hide()
+            tangled.can_move = True
+            besties.can_move = True
+
+        print(f"Bestie: bestie.eliminated = {bestie.eliminated}, bestie.can_move = {bestie.can_move}")
+        print(f"galpal: galpal.can_move = {galpal.can_move}")
+        print(f"tangled: tangled.can_move = {tangled.can_move}")
+        print(f"besties: besties.can_move = {besties.can_move}")
 
         # Drawing the Sprites
 
