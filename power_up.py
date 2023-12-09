@@ -124,7 +124,7 @@ class BestiesInHarmony(PowerUp):  # Players can't collide with each other
 class GalPalRebirth(PowerUp):  # Eliminated player gets revived
 
     def __init__(self, difficulty):
-        super().__init__('images/power_ups/gal_pal_rebirth.png', difficulty, 10, 0, 2400)
+        super().__init__('images/power_ups/gal_pal_rebirth.png', difficulty, 10, 0, 30)
 
         if difficulty == 'easy':
             self.add_speed(-1)
@@ -137,7 +137,7 @@ class GalPalRebirth(PowerUp):  # Eliminated player gets revived
         super().collision()
 
         if lolly.car_type == 'car1' or bestie.car_type == 'car1':
-            self.add_cooldown(-120)
+            self.add_cooldown(-12)
 
         self.affect_both_players(lolly, bestie)
     
@@ -317,7 +317,7 @@ class GlamorousGrowth(PowerUp):  # Player gets a health buff and grows in size
 
     def affect_player(self, player):  # the player will grow in size and get an extra health point, the size growth is done in the game file
         player.add_health(1)
-
+    
     def affect_traffic(self):
         pass
 
