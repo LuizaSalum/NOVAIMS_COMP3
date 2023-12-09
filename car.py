@@ -138,11 +138,10 @@ class PlayerCar(Car):
         self.eliminated = True  # the player car has been eliminated
         return stored_position  # returning the stored position
     
-    def respawn(self, stored_position):  # this function will be called when the player car respawns (used for the Gal Pal Rebirth Power Up)
+    def respawn(self):  # this function will be called when the player car respawns (used for the Gal Pal Rebirth Power Up)
         self.health = self.max_health - 1  # the player car will have one less health point than the maximum
         self.can_move = True  # the player car can move again
-        self.rect.x = stored_position[0]  # replacing the player car in the stored position
-        self.rect.y = stored_position[1]
+        self.set_position(285, (950 - self.rect.height))
         self.eliminated = False  # the player car has not been eliminated anymore
     
     def resize_car(self, multiplier):
