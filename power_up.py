@@ -248,20 +248,33 @@ class DivaDefiance(PowerUp):  # Player can't crash with traffic (invincibility)
 
     def __init__(self, difficulty):
         super().__init__('images/power_ups/diva_defiance.png', difficulty, 10, 60, 120)
+        self.active_lolly = False
+        self.active_bestie = False
 
         if difficulty == 'easy':
             self.add_speed(-1)
             self.add_cooldown(-120)
             self.add_duration(60)
     
-    def deactivate(self, player_that_collided):
+    def deactivate(self, name, player_that_collided):
         self.active = False
+
+        if name == 'lolly':
+            self.active_lolly = False
+        elif name == 'bestie':
+            self.active_bestie = False
+
         self.duration = self.max_duration # Reset duration to ensure it starts fresh
         player_that_collided.can_crash = True
 
 
-    def collision(self, player_that_collided):
+    def collision(self, name, player_that_collided):
         super().collision()
+
+        if name == 'lolly':
+            self.active_lolly = True
+        elif name == 'bestie':
+            self.active_bestie = True
 
         if player_that_collided.car_type == 'car1':
             self.add_cooldown(-2)
@@ -287,19 +300,32 @@ class GlamorousGrowth(PowerUp):  # Player gets a health buff and grows in size
 
     def __init__(self, difficulty):
         super().__init__('images/power_ups/glamorous_growth.png', difficulty, 10, 60, 120)
+        self.active_lolly = False
+        self.active_bestie = False
 
         if difficulty == 'easy':
             self.add_speed(-1)
             self.add_cooldown(-60)
             self.add_duration(60)
 
-    def deactivate(self, player_that_collided):
+    def deactivate(self, name, player_that_collided):
         self.active = False
+
+        if name == 'lolly':
+            self.active_lolly = False
+        elif name == 'bestie':
+            self.active_bestie = False
+
         self.duration = self.max_duration # Reset duration to ensure it starts fresh
         player_that_collided.resize_car(0.5)
 
-    def collision(self, player_that_collided):
+    def collision(self, name, player_that_collided):
         super().collision()
+
+        if name == 'lolly':
+            self.active_lolly = True
+        elif name == 'bestie':
+            self.active_bestie = True
 
         if player_that_collided.car_type == 'car1':
             self.add_cooldown(-12)
