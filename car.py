@@ -135,6 +135,7 @@ class PlayerCar(Car):
         stored_position = [self.rect.x, self.rect.y]  # storing the position of the player car
         self.can_move = False  # the player car can't move anymore
         self.rect.x = -2000  # moving the player car out of the screen
+        self.eliminated = True  # the player car has been eliminated
         return stored_position  # returning the stored position
     
     def respawn(self, stored_position):  # this function will be called when the player car respawns (used for the Gal Pal Rebirth Power Up)
@@ -142,6 +143,7 @@ class PlayerCar(Car):
         self.can_move = True  # the player car can move again
         self.rect.x = stored_position[0]  # replacing the player car in the stored position
         self.rect.y = stored_position[1]
+        self.eliminated = False  # the player car has not been eliminated anymore
     
     def resize_car(self, multiplier):
         # Function that resizes the traffic car according to the multiplier, used for the Toy Transforminator Power Up
