@@ -661,11 +661,6 @@ def multi_game(difficulty, lolly_car, bestie_car):
             tangled.can_move = True
             besties.can_move = True
 
-        print(f"Bestie: bestie.eliminated = {bestie.eliminated}, bestie.can_move = {bestie.can_move}")
-        print(f"galpal: galpal.can_move = {galpal.can_move}")
-        print(f"tangled: tangled.can_move = {tangled.can_move}")
-        print(f"besties: besties.can_move = {besties.can_move}")
-
         # Drawing the Sprites
 
         if frosty.active:
