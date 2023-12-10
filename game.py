@@ -600,9 +600,6 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
         # collision between players and power ups
 
-        for car in incoming_cars:
-            pygame.draw.rect(screen, (255, 0, 0), car.rect, 2)
-
         for power_up in power_ups:
             if not power_up.on_cooldown:
                 power_up.move_down()
@@ -635,7 +632,10 @@ def multi_game(difficulty, lolly_car, bestie_car):
                         power_up.deactivate('lolly', lolly)
                         power_up.deactivate('bestie', bestie)
                     elif power_up == frosty or power_up == toy:
-                        power_up.deactivate(incoming_cars)
+                        if difficulty != 'hard':
+                            power_up.deactivate(incoming_cars)
+                        elif difficulty == 'hard':
+                            power_up.deactivate(traffic_group_left=incoming_cars_left, traffic_group_right=incoming_cars_right)
                     power_up.add_cooldown_prob() # give the power up a cooldown probability (the probability of the power up being available again)
 
             # now we're checking if the power up is available or not, and if it's not, then we're decreasing the cooldown timer by 1 every frame

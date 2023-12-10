@@ -360,11 +360,19 @@ class FrostyFrenzy(PowerUp):  # Traffic gets slowed down
             self.add_cooldown(-60)
             self.add_duration(120)
 
-    def deactivate(self, traffic_group):
+    def deactivate(self, traffic_group=None, traffic_group_left=None, traffic_group_right=None):
         self.active = False
         self.duration = self.max_duration # Reset duration to ensure it starts fresh
-        for car in traffic_group:
-            car.add_speed(2)
+
+        if self.difficulty != 'hard':
+            for car in traffic_group:
+                car.add_speed(2)
+
+        elif self.difficulty == 'hard':
+            for car in traffic_group_left:
+                car.add_speed(2)
+            for car in traffic_group_right:
+                car.add_speed(2)
 
     def collision(self, lolly, bestie, traffic_group=None, traffic_group_left=None, traffic_group_right=None):
         super().collision()                        
@@ -405,11 +413,19 @@ class ToyTransforminator(PowerUp):  # Traffic decreases in size
             self.add_cooldown(-6)
             self.add_duration(12)
 
-    def deactivate(self, traffic_group):
+    def deactivate(self, traffic_group=None, traffic_group_left=None, traffic_group_right=None):
         self.active = False
         self.duration = self.max_duration # Reset duration to ensure it starts fresh
-        for car in traffic_group :
-            car.resize_car(1)
+
+        if self.difficulty != 'hard':
+            for car in traffic_group :
+                car.resize_car(1)
+
+        elif self.difficulty == 'hard':
+            for car in traffic_group_left:
+                car.resize_car(1)
+            for car in traffic_group_right:
+                car.resize_car(1)
 
     def collision(self, lolly, bestie, traffic_group=None, traffic_group_left=None, traffic_group_right=None):
         super().collision()
