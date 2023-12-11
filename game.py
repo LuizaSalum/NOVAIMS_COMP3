@@ -206,9 +206,6 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
     # Setting up Variables
 
-    bestie_effect = []
-    lolly_effect = []
-
     score = 0
     road_y = 0
 
@@ -598,6 +595,11 @@ def multi_game(difficulty, lolly_car, bestie_car):
                             else:
                                 traffic_car_2.speed = traffic_car_1.speed
 
+        #print the diva active
+        if diva.active:
+            print('diva active')
+        
+        print('lolly health: ', lolly.health)
         # collision between players and power ups
 
         for power_up in power_ups:

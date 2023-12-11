@@ -94,13 +94,11 @@ class PlayerCar(Car):
     # Other functions
 
     def add_health(self, health):
-        if self.health < self.max_health:  # if the player car has not reached the maximum health points
+        if health > 0:  # if the health points to be added are negative, we will subtract them instead
+            if self.health < self.max_health:  # if the player car has not reached the maximum health points
+                self.health += health
+        elif health < 0:
             self.health += health
-
-    def check_health(self):
-        if self.health <= 0:  # if the player car has no health points left, we only added "less than" to make sure
-            self.eliminated = True
-            self.die()  # the die function will return the position of the player car so we can respawn it later
 
     def change_image(self, active_power_ups):  # this function will change the image of the player car according to the active power ups
 
