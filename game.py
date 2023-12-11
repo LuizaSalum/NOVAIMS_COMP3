@@ -558,7 +558,7 @@ def single_game(difficulty, lolly_car):
         # Drawing the Power Ups Bar (on the left side of the screen)
 
         icon_position = 30  # the y position of the first icon
-        for icon in power_ups_bar(besties.active, diva.active, growth.active, tangled.active, sissy.active, frosty.active, toy.active):
+        for icon in power_ups_bar(diva.active, growth.active, sissy.active, frosty.active, toy.active):
             icon_position += 80
             screen.blit(icon, (0, icon_position))
 
@@ -569,7 +569,7 @@ def single_game(difficulty, lolly_car):
             # get the current game screen to pause
             game_screen = pygame.Surface(size)  # creating a surface with the same size as the screen
             game_screen.blit(screen, (0, 0))  # copying the screen to the surface
-            victory(game_screen, difficulty, lolly.car_type, bestie.car_type)  # the victory function is called
+            victory(game_screen, difficulty, lolly.car_type)  # the victory function is called
             pygame.mixer.music.set_volume(0.4)  # the music volume is increased again
 
         # Updating the Display
@@ -1515,69 +1515,79 @@ def active_power_ups(player, diva, growth, tangled= None, besties= None):
 
     active_combination = 'normal'
 
-    if player == 'lolly':
-        if besties.active and not diva.active_lolly and not growth.active_lolly and not tangled.active:  # if the besties in harmony power up is active
-            active_combination = 'besties'
-        if besties.active and not diva.active_lolly and not growth.active_lolly and tangled.active:  # if the besties in harmony and tangled twist power ups are active
-            active_combination = 'besties_tangled'
-        if besties.active and not diva.active_lolly and growth.active_lolly and not tangled.active:  # if the besties in harmony and glamorous growth power ups are active
-            active_combination = 'besties_growth'
-        if besties.active and not diva.active_lolly and growth.active_lolly and tangled.active:  # if the besties in harmony, glamorous growth and tangled twist power ups are active
-            active_combination = 'besties_tangled_growth'
-        if besties.active and diva.active_lolly and not growth.active_lolly and not tangled.active:  # if the besties in harmony and diva defiance power ups are active
-            active_combination = 'besties_diva'
-        if besties.active and diva.active_lolly and not growth.active_lolly and tangled.active:  # if the besties in harmony, diva defiance and tangled twist power ups are active
-            active_combination = 'besties_diva_tangled'
-        if besties.active and diva.active_lolly and growth.active_lolly and not tangled.active:  # if the besties in harmony, diva defiance and glamorous growth power ups are active
-            active_combination = 'besties_diva_growth'
-        if besties.active and diva.active_lolly and growth.active_lolly and tangled.active:  # if the besties in harmony, diva defiance, glamorous growth and tangled twist power ups are active
-            active_combination = 'besties_diva_tangled_growth'
-        if not besties.active and not diva.active_lolly and growth.active_lolly and not tangled.active:  # if the glamorous growth power up is active
-            active_combination = 'growth'
-        if not besties.active and not diva.active_lolly and not growth.active_lolly and tangled.active:  # if the tangled twist power up is active
-            active_combination = 'tangled'
-        if not besties.active and not diva.active_lolly and growth.active_lolly and tangled.active:  # if the glamorous growth and tangled twist power ups are active
-            active_combination = 'tangled_growth'
-        if not besties.active and diva.active_lolly and not growth.active_lolly and not tangled.active:  # if the diva defiance power up is active
+    if tangled == None and besties == None: # if its the single player game
+        if diva.active_lolly and not growth.active_lolly:  # if the diva defiance power up is active
             active_combination = 'diva'
-        if not besties.active and diva.active_lolly and not growth.active_lolly and tangled.active:  # if the diva defiance and tangled twist power ups are active
-            active_combination = 'diva_tangled'
-        if not besties.active and diva.active_lolly and growth.active_lolly and not tangled.active:  # if the diva defiance and glamorous growth power ups are active
+        elif growth.active_lolly and not diva.active_lolly:  # if the glamorous growth power up is active
+            active_combination = 'growth'
+        elif diva.active_lolly and growth.active_lolly:  # if the diva defiance and glamorous growth power ups are active
             active_combination = 'diva_growth'
-        if not besties.active and diva.active_lolly and growth.active_lolly and tangled.active:  # if the diva defiance, glamorous growth and tangled twist power ups are active
-            active_combination = 'diva_tangled_growth'
+        
+    else: # if its the multiplayer game
+        
+        if player == 'lolly':
+            if besties.active and not diva.active_lolly and not growth.active_lolly and not tangled.active:  # if the besties in harmony power up is active
+                active_combination = 'besties'
+            if besties.active and not diva.active_lolly and not growth.active_lolly and tangled.active:  # if the besties in harmony and tangled twist power ups are active
+                active_combination = 'besties_tangled'
+            if besties.active and not diva.active_lolly and growth.active_lolly and not tangled.active:  # if the besties in harmony and glamorous growth power ups are active
+                active_combination = 'besties_growth'
+            if besties.active and not diva.active_lolly and growth.active_lolly and tangled.active:  # if the besties in harmony, glamorous growth and tangled twist power ups are active
+                active_combination = 'besties_tangled_growth'
+            if besties.active and diva.active_lolly and not growth.active_lolly and not tangled.active:  # if the besties in harmony and diva defiance power ups are active
+                active_combination = 'besties_diva'
+            if besties.active and diva.active_lolly and not growth.active_lolly and tangled.active:  # if the besties in harmony, diva defiance and tangled twist power ups are active
+                active_combination = 'besties_diva_tangled'
+            if besties.active and diva.active_lolly and growth.active_lolly and not tangled.active:  # if the besties in harmony, diva defiance and glamorous growth power ups are active
+                active_combination = 'besties_diva_growth'
+            if besties.active and diva.active_lolly and growth.active_lolly and tangled.active:  # if the besties in harmony, diva defiance, glamorous growth and tangled twist power ups are active
+                active_combination = 'besties_diva_tangled_growth'
+            if not besties.active and not diva.active_lolly and growth.active_lolly and not tangled.active:  # if the glamorous growth power up is active
+                active_combination = 'growth'
+            if not besties.active and not diva.active_lolly and not growth.active_lolly and tangled.active:  # if the tangled twist power up is active
+                active_combination = 'tangled'
+            if not besties.active and not diva.active_lolly and growth.active_lolly and tangled.active:  # if the glamorous growth and tangled twist power ups are active
+                active_combination = 'tangled_growth'
+            if not besties.active and diva.active_lolly and not growth.active_lolly and not tangled.active:  # if the diva defiance power up is active
+                active_combination = 'diva'
+            if not besties.active and diva.active_lolly and not growth.active_lolly and tangled.active:  # if the diva defiance and tangled twist power ups are active
+                active_combination = 'diva_tangled'
+            if not besties.active and diva.active_lolly and growth.active_lolly and not tangled.active:  # if the diva defiance and glamorous growth power ups are active
+                active_combination = 'diva_growth'
+            if not besties.active and diva.active_lolly and growth.active_lolly and tangled.active:  # if the diva defiance, glamorous growth and tangled twist power ups are active
+                active_combination = 'diva_tangled_growth'
 
-    elif player == 'bestie':
-        if besties.active and not diva.active_bestie and not growth.active_bestie and not tangled.active:  # if the besties in harmony power up is active
-            active_combination = 'besties'
-        if besties.active and not diva.active_bestie and not growth.active_bestie and tangled.active:  # if the besties in harmony and tangled twist power ups are active
-            active_combination = 'besties_tangled'
-        if besties.active and not diva.active_bestie and growth.active_bestie and not tangled.active:
-            active_combination = 'besties_growth'
-        if besties.active and not diva.active_bestie and growth.active_bestie and tangled.active:
-            active_combination = 'besties_tangled_growth'
-        if besties.active and diva.active_bestie and not growth.active_bestie and not tangled.active:
-            active_combination = 'besties_diva'
-        if besties.active and diva.active_bestie and not growth.active_bestie and tangled.active:
-            active_combination = 'besties_diva_tangled'
-        if besties.active and diva.active_bestie and growth.active_bestie and not tangled.active:
-            active_combination = 'besties_diva_growth'
-        if besties.active and diva.active_bestie and growth.active_bestie and tangled.active:
-            active_combination = 'besties_diva_tangled_growth'
-        if not besties.active and not diva.active_bestie and growth.active_bestie and not tangled.active:
-            active_combination = 'growth'
-        if not besties.active and not diva.active_bestie and not growth.active_bestie and tangled.active:
-            active_combination = 'tangled'
-        if not besties.active and not diva.active_bestie and growth.active_bestie and tangled.active:
-            active_combination = 'tangled_growth'
-        if not besties.active and diva.active_bestie and not growth.active_bestie and not tangled.active:
-            active_combination = 'diva'
-        if not besties.active and diva.active_bestie and not growth.active_bestie and tangled.active:
-            active_combination = 'diva_tangled'
-        if not besties.active and diva.active_bestie and growth.active_bestie and not tangled.active:
-            active_combination = 'diva_growth'
-        if not besties.active and diva.active_bestie and growth.active_bestie and tangled.active:
-            active_combination = 'diva_tangled_growth'
+        elif player == 'bestie':
+            if besties.active and not diva.active_bestie and not growth.active_bestie and not tangled.active:  # if the besties in harmony power up is active
+                active_combination = 'besties'
+            if besties.active and not diva.active_bestie and not growth.active_bestie and tangled.active:  # if the besties in harmony and tangled twist power ups are active
+                active_combination = 'besties_tangled'
+            if besties.active and not diva.active_bestie and growth.active_bestie and not tangled.active:
+                active_combination = 'besties_growth'
+            if besties.active and not diva.active_bestie and growth.active_bestie and tangled.active:
+                active_combination = 'besties_tangled_growth'
+            if besties.active and diva.active_bestie and not growth.active_bestie and not tangled.active:
+                active_combination = 'besties_diva'
+            if besties.active and diva.active_bestie and not growth.active_bestie and tangled.active:
+                active_combination = 'besties_diva_tangled'
+            if besties.active and diva.active_bestie and growth.active_bestie and not tangled.active:
+                active_combination = 'besties_diva_growth'
+            if besties.active and diva.active_bestie and growth.active_bestie and tangled.active:
+                active_combination = 'besties_diva_tangled_growth'
+            if not besties.active and not diva.active_bestie and growth.active_bestie and not tangled.active:
+                active_combination = 'growth'
+            if not besties.active and not diva.active_bestie and not growth.active_bestie and tangled.active:
+                active_combination = 'tangled'
+            if not besties.active and not diva.active_bestie and growth.active_bestie and tangled.active:
+                active_combination = 'tangled_growth'
+            if not besties.active and diva.active_bestie and not growth.active_bestie and not tangled.active:
+                active_combination = 'diva'
+            if not besties.active and diva.active_bestie and not growth.active_bestie and tangled.active:
+                active_combination = 'diva_tangled'
+            if not besties.active and diva.active_bestie and growth.active_bestie and not tangled.active:
+                active_combination = 'diva_growth'
+            if not besties.active and diva.active_bestie and growth.active_bestie and tangled.active:
+                active_combination = 'diva_tangled_growth'
 
     return active_combination
 
