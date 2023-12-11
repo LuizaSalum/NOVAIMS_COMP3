@@ -133,7 +133,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
     # Creating, positioning and adding the cars that will be added over time to a group
 
-    if difficulty != 'easy':
+    if difficulty == 'easy':
 
         added_cars_list = []
 
@@ -726,13 +726,32 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
         # Inserting the Victory Part
 
-        if score >= 6000 and score % 2000 == 0:  # if the score reaches 6000 or every 2000 points after that
-            pygame.mixer.music.set_volume(0.05)  # the music volume is decreased
-            # get the current game screen to pause
-            game_screen = pygame.Surface(size)  # creating a surface with the same size as the screen
-            game_screen.blit(screen, (0, 0))  # copying the screen to the surface
-            victory(game_screen, difficulty, lolly.car_type, bestie.car_type)  # the victory function is called
-            pygame.mixer.music.set_volume(0.4)  # the music volume is increased again
+        if difficulty == 'easy':
+            if score >= 6000 and score % 3000 == 0:  # if the score reaches 6000 or every 2000 points after that
+                pygame.mixer.music.set_volume(0.05)  # the music volume is decreased
+                # get the current game screen to pause
+                game_screen = pygame.Surface(size)  # creating a surface with the same size as the screen
+                game_screen.blit(screen, (0, 0))  # copying the screen to the surface
+                victory(game_screen, difficulty, lolly.car_type, bestie.car_type)  # the victory function is called
+                pygame.mixer.music.set_volume(0.4)  # the music volume is increased again
+
+        elif difficulty == 'normal':
+            if score >= 6000 and score % 2000 == 0:  # if the score reaches 6000 or every 2000 points after that
+                pygame.mixer.music.set_volume(0.05)  # the music volume is decreased
+                # get the current game screen to pause
+                game_screen = pygame.Surface(size)  # creating a surface with the same size as the screen
+                game_screen.blit(screen, (0, 0))  # copying the screen to the surface
+                victory(game_screen, difficulty, lolly.car_type, bestie.car_type)  # the victory function is called
+                pygame.mixer.music.set_volume(0.4)  # the music volume is increased again
+
+        elif difficulty == 'hard':
+            if score >= 6000 and score % 1000 == 0:  # if the score reaches 6000 or every 2000 points after that
+                pygame.mixer.music.set_volume(0.05)
+                # get the current game screen to pause
+                game_screen = pygame.Surface(size)  # creating a surface with the same size as the screen
+                game_screen.blit(screen, (0, 0))  # copying the screen to the surface
+                victory(game_screen, difficulty, lolly.car_type, bestie.car_type)  # the victory function is called
+                pygame.mixer.music.set_volume(0.4)  # the music volume is increased again
 
         # Updating the Display
 
@@ -921,14 +940,11 @@ def active_power_ups(player, besties, diva, growth, tangled):
 
     active_combination = 'normal'
 
-    if besties.active and not diva.active and not growth.active and not tangled.active:  # if the besties in harmony power up is active
-        active_combination = 'besties'
-    if besties.active and not diva.active and not growth.active and tangled.active:  # if the besties in harmony and tangled twist power ups are active
-        active_combination = 'besties_tangled'
-    if not besties.active and not diva.active and not growth.active and tangled.active:  # if the tangled twist power up is active
-        active_combination = 'tangled'
-
     if player == 'lolly':
+        if besties.active and not diva.active_lolly and not growth.active_lolly and not tangled.active:  # if the besties in harmony power up is active
+            active_combination = 'besties'
+        if besties.active and not diva.active_lolly and not growth.active_lolly and tangled.active:  # if the besties in harmony and tangled twist power ups are active
+            active_combination = 'besties_tangled'
         if besties.active and not diva.active_lolly and growth.active_lolly and not tangled.active:  # if the besties in harmony and glamorous growth power ups are active
             active_combination = 'besties_growth'
         if besties.active and not diva.active_lolly and growth.active_lolly and tangled.active:  # if the besties in harmony, glamorous growth and tangled twist power ups are active
@@ -943,6 +959,8 @@ def active_power_ups(player, besties, diva, growth, tangled):
             active_combination = 'besties_diva_tangled_growth'
         if not besties.active and not diva.active_lolly and growth.active_lolly and not tangled.active:  # if the glamorous growth power up is active
             active_combination = 'growth'
+        if not besties.active and not diva.active_lolly and not growth.active_lolly and tangled.active:  # if the tangled twist power up is active
+            active_combination = 'tangled'
         if not besties.active and not diva.active_lolly and growth.active_lolly and tangled.active:  # if the glamorous growth and tangled twist power ups are active
             active_combination = 'tangled_growth'
         if not besties.active and diva.active_lolly and not growth.active_lolly and not tangled.active:  # if the diva defiance power up is active
@@ -955,6 +973,10 @@ def active_power_ups(player, besties, diva, growth, tangled):
             active_combination = 'diva_tangled_growth'
 
     elif player == 'bestie':
+        if besties.active and not diva.active_bestie and not growth.active_bestie and not tangled.active:  # if the besties in harmony power up is active
+            active_combination = 'besties'
+        if besties.active and not diva.active_bestie and not growth.active_bestie and tangled.active:  # if the besties in harmony and tangled twist power ups are active
+            active_combination = 'besties_tangled'
         if besties.active and not diva.active_bestie and growth.active_bestie and not tangled.active:
             active_combination = 'besties_growth'
         if besties.active and not diva.active_bestie and growth.active_bestie and tangled.active:
@@ -969,6 +991,8 @@ def active_power_ups(player, besties, diva, growth, tangled):
             active_combination = 'besties_diva_tangled_growth'
         if not besties.active and not diva.active_bestie and growth.active_bestie and not tangled.active:
             active_combination = 'growth'
+        if not besties.active and not diva.active_bestie and not growth.active_bestie and tangled.active:
+            active_combination = 'tangled'
         if not besties.active and not diva.active_bestie and growth.active_bestie and tangled.active:
             active_combination = 'tangled_growth'
         if not besties.active and diva.active_bestie and not growth.active_bestie and not tangled.active:
