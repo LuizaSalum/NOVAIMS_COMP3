@@ -212,27 +212,27 @@ class SissyThatWalk(PowerUp):  # Players get a speed buff
             self.add_cooldown(-60)
             self.add_duration(120)
 
-    def deactivate(self, lolly, bestie):
+    def deactivate(self, lolly, bestie = None):
         self.active = False
         self.duration = self.max_duration # Reset duration to ensure it starts fresh
         lolly.add_speed(-5)
         bestie.add_speed(-5)
 
-    def collision(self, lolly, bestie):
+    def collision(self, lolly, bestie = None):
         super().collision()
 
         if lolly.car_type == 'car1' or bestie.car_type == 'car1':
             self.add_cooldown(-12)
             self.add_duration(12)
 
-        self.affect_both_players(lolly, bestie)
+        self.affect_both_players(lolly, bestie = None)  # calling the method that will affect both players
     
     def add_cooldown_prob(self): 
         super().add_cooldown_prob()  # calling the parent class' add_cooldown_prob method        
 
         self.cooldown = random.randint(50, 100)  # the cooldown will be a random value between 50 and 100
 
-    def affect_both_players(self, lolly, bestie):
+    def affect_both_players(self, lolly, bestie = None):
         lolly.add_speed(5)
         bestie.add_speed(5)
 
@@ -374,7 +374,7 @@ class FrostyFrenzy(PowerUp):  # Traffic gets slowed down
             for car in traffic_group_right:
                 car.add_speed(2)
 
-    def collision(self, lolly, bestie, traffic_group=None, traffic_group_left=None, traffic_group_right=None):
+    def collision(self, lolly, bestie= None, traffic_group=None, traffic_group_left=None, traffic_group_right=None):
         super().collision()                        
 
         if lolly.car_type == 'car1' or bestie.car_type == 'car1':
@@ -427,7 +427,7 @@ class ToyTransforminator(PowerUp):  # Traffic decreases in size
             for car in traffic_group_right:
                 car.resize_car(1)
 
-    def collision(self, lolly, bestie, traffic_group=None, traffic_group_left=None, traffic_group_right=None):
+    def collision(self, lolly, bestie= None, traffic_group=None, traffic_group_left=None, traffic_group_right=None):
         super().collision()
 
         if lolly.car_type == 'car1' or bestie.car_type == 'car1':

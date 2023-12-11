@@ -3,6 +3,581 @@ import random
 from car import *
 from power_up import *
 
+def single_game(difficulty, lolly_car):
+
+    pygame.mixer.init() # for sound
+    pygame.init() # for pygame
+    pygame.font.init() # for text
+
+    menu_open = pygame.mixer.Sound("sounds/menu_open.mp3")  # sound for when the menu opens
+    menu_open.set_volume(0.7)
+
+    # Setting up the screen
+
+    size = (1250, 950)
+    screen = pygame.display.set_mode(size)
+    pygame.display.set_caption("Lolly Locket's Dog Chase")
+    icon = pygame.image.load("images/icon.png")
+    pygame.display.set_icon(icon)
+
+    # Importing Images
+
+    # road
+
+    normal_road = pygame.image.load("images/road.png").convert()
+    normal_road2 = pygame.image.load("images/road2.png").convert()
+    normal_road3 = pygame.image.load("images/road3.png").convert()
+    road = normal_road
+
+    # frozen road (for frosty frenzy power up)
+
+    frozen_road = pygame.image.load("images/power_ups_visuals/frosty/road_snow.png").convert()
+    frozen_road2 = pygame.image.load("images/power_ups_visuals/frosty/road2_snow.png").convert()
+    frozen_road3 = pygame.image.load("images/power_ups_visuals/frosty/road3_snow.png").convert()
+    snow_sky = pygame.image.load("images/power_ups_visuals/frosty/snow_sky.png").convert_alpha()
+    snow_snowflakes = pygame.image.load("images/power_ups_visuals/frosty/snow_snowflakes.png").convert_alpha()
+
+    # speed lines (for sissy that walk power up)
+
+    speed_images = [
+        pygame.image.load("images/power_ups_visuals/sissy/sissy1.png").convert_alpha(),
+        pygame.image.load("images/power_ups_visuals/sissy/sissy2.png").convert_alpha(),
+        pygame.image.load("images/power_ups_visuals/sissy/sissy3.png").convert_alpha()
+    ]  # this is a list because we will be randomising the speed lines when the power up is active
+
+    # score bar
+
+    score_bar = pygame.image.load("images/score_bar.png").convert()
+
+    # Creating and positioning the players cars and their hearts (lives) images. Also adding them to a group
+
+    lolly = PlayerCar(lolly_car, difficulty)
+    lolly.heart_on = pygame.image.load(f"images/hearts/heart{lolly_car[-1]}.png").convert_alpha()  # the lolly_car[-1] gives me the car number equivalent to the heart (1, 2 or 3)
+    lolly.heart_off = pygame.image.load(f"images/hearts/heart{lolly_car[-1]}_loss.png").convert_alpha()
+    lolly.set_position(285, (950 - lolly.rect.height))  # the x position is different for each player car, set_position is a function from the Car class
+   
+    sprite_lolly = pygame.sprite.Group()
+    players_cars = pygame.sprite.Group()
+    sprite_lolly.add(lolly)
+    players_cars.add(lolly)
+
+    # Creating, positioning and adding the traffic cars to a group
+
+    if difficulty == 'easy':
+
+        cars_list = []
+        incoming_cars = pygame.sprite.Group()
+
+        left_car1 = TrafficCar(random.randint(1, 32), 'left', 'easy')  # TrafficCar(car_number (we have 32 images), direction of the car (left is for cars going downwards), difficulty)
+        cars_list.append(left_car1)
+        left_car2 = TrafficCar(random.randint(1, 32), 'left', 'easy')
+        cars_list.append(left_car2)
+        left_car3 = TrafficCar(random.randint(1, 32), 'left', 'easy')
+        cars_list.append(left_car3)
+        left_car4 = TrafficCar(random.randint(1, 32), 'left', 'easy')
+        cars_list.append(left_car4)
+
+        for car in cars_list:
+            car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+            incoming_cars.add(car)
+
+    if difficulty == 'normal':
+
+        cars_list = []
+        incoming_cars = pygame.sprite.Group()
+
+        left_car1 = TrafficCar(random.randint(1, 32), 'left', 'normal')
+        cars_list.append(left_car1)
+        left_car2 = TrafficCar(random.randint(1, 32), 'left', 'normal')
+        cars_list.append(left_car2)
+        left_car3 = TrafficCar(random.randint(1, 32), 'left', 'normal')
+        cars_list.append(left_car3)
+        left_car4 = TrafficCar(random.randint(1, 32), 'left', 'normal')
+        cars_list.append(left_car4)
+
+        for car in cars_list:
+            car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+            incoming_cars.add(car)
+
+    elif difficulty == 'hard':
+
+        cars_list_left = []
+        cars_list_right = []
+        incoming_cars_left = pygame.sprite.Group()
+        incoming_cars_right = pygame.sprite.Group()
+
+        left_car1 = TrafficCar(random.randint(1, 32), 'left', 'hard')
+        cars_list_left.append(left_car1)
+        left_car2 = TrafficCar(random.randint(1, 32), 'left', 'hard')
+        cars_list_left.append(left_car2)
+        right_car1 = TrafficCar(random.randint(1, 32), 'right', 'hard')
+        cars_list_right.append(right_car1)
+        right_car2 = TrafficCar(random.randint(1, 32), 'right', 'hard')
+        cars_list_right.append(right_car2)
+
+        for car in cars_list_left:
+            car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
+            incoming_cars_left.add(car)
+        for car in cars_list_right:
+            car.set_position(random.choice([643, 825]), random.randint(-1500, -100))
+            incoming_cars_right.add(car)
+
+    # Creating, positioning and adding the cars that will be added over time to a group
+
+    if difficulty != 'easy':
+
+        added_cars_list = []
+
+        added_car1 = TrafficCar(random.randint(1, 32), 'left', 'easy')
+        added_cars_list.append(added_car1)
+
+    if difficulty == 'normal':
+
+        added_cars_list = []
+
+        added_car1 = TrafficCar(random.randint(1, 32), 'left', 'normal')
+        added_cars_list.append(added_car1)
+        added_car2 = TrafficCar(random.randint(1, 32), 'left', 'normal')
+        added_cars_list.append(added_car2)
+
+    elif difficulty == 'hard':
+
+        added_cars_list_left = []
+        added_cars_list_right = []
+
+        added_car1 = TrafficCar(random.randint(1, 32), 'left', 'hard')
+        added_cars_list_left.append(added_car1)
+        added_car2 = TrafficCar(random.randint(1, 32), 'left', 'hard')
+        added_cars_list_left.append(added_car2)
+
+
+    # Creating, positioning and adding the power ups to a group
+
+    power_ups_list = []
+    power_ups = pygame.sprite.Group()
+
+    sissy = SissyThatWalk(difficulty)
+    power_ups_list.append(sissy)
+    diva = DivaDefiance(difficulty)
+    power_ups_list.append(diva)
+    growth = GlamorousGrowth(difficulty)
+    power_ups_list.append(growth)
+    frosty = FrostyFrenzy(difficulty)
+    power_ups_list.append(frosty)
+    toy = ToyTransforminator(difficulty)
+    power_ups_list.append(toy)
+
+    for power_up in power_ups_list:
+        power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+        power_ups.add(power_up)
+
+    # Adding sprites to the all_sprites group
+
+    all_sprites = pygame.sprite.Group()
+    all_sprites.add(lolly)
+
+    if difficulty != 'hard':
+        for car in cars_list:
+            all_sprites.add(car)
+    elif difficulty == 'hard':
+        for car in cars_list_left:
+            all_sprites.add(car)
+        for car in cars_list_right:
+            all_sprites.add(car)
+
+    for power_up in power_ups_list:
+        all_sprites.add(power_up)
+
+    # Setting up Variables
+
+    score = 0
+    road_y = 0
+
+    carryOn = True
+
+    clock = pygame.time.Clock()
+
+    #countdown(road)  # countdown function before the game starts
+
+    pygame.mixer.music.load("sounds/music/race_v2.mp3")  # loading the music after the countdown
+    pygame.mixer.music.set_volume(0.4)
+    pygame.mixer.music.play(-1)  # -1 means that the music will loop
+
+    while carryOn:
+
+        clock.tick(60)
+
+        if difficulty == 'easy':
+            score += 3  # the score increases by 2 every frame
+        elif difficulty == 'normal':
+            score += 2 # the score increases by 1 every frame
+        elif difficulty == 'hard':
+            score += 1  # the score increases by 1 every frame
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                carryOn = False
+
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_ESCAPE]:
+            game_screen = pygame.Surface(size)  # creating a surface with the same size as the screen
+            game_screen.blit(screen, (0, 0))  # copying the screen to the surface
+            menu_open.play()  # playing the sound for when the menu opens
+            pygame.time.delay(200)  # delaying the menu opening by 200 milliseconds, just so it looks smooth
+            pygame.mixer.music.pause()  # pausing the music
+            pause_menu(game_screen)  # calling the pause menu function
+            pygame.mixer.music.unpause()  # unpausing the music
+
+        # Player Car Movement
+
+        if keys[pygame.K_w]:
+            lolly.move_up()
+        if keys[pygame.K_s]:
+            lolly.move_down()
+        if keys[pygame.K_a]:
+            lolly.move_left()
+        if keys[pygame.K_d]:
+            lolly.move_right()
+
+        # Updating the sprites so that they move on the screen after the player presses a key to move
+
+        all_sprites.update()
+
+        # Road Scroll and changes according to score
+
+        # defining the road image
+
+        if score < 2000:
+            road = normal_road
+        elif 2000 < score < 4000:
+            road = normal_road2
+        else:
+            road = normal_road3
+
+        # scrolling the road according to the active power ups
+
+        if sissy.active:
+            scroll_speed = 5000
+        elif frosty.active:
+            scroll_speed = 2000
+        else:
+            scroll_speed = 3000
+        
+        road_y += scroll_speed * clock.tick(60) / 1000  # we're multiplying the scroll speed by the clock tick to make the scrolling speed independent of the frame rate
+
+        if road_y > 950:
+            road_y = 0  # if the road goes off the screen, it is repositioned at the top of the screen
+
+        screen.blit(road, (0, road_y))  # blitting the road twice so that there's no gap between the two images
+        screen.blit(road, (0, road_y - 950))  # the second image is blitted at the top of the screen
+
+        # Incoming Cars
+
+        # adding cars over time (score)
+
+        if difficulty == 'easy':
+            # every 2000 points, a new car is added, until there are 5 cars
+            if score > 2000 and score % 2000 == 0 and len(added_cars_list) != 0:
+                added_car = added_cars_list.pop()  # the last car in the list is removed
+                added_car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))  # the car is repositioned at the top of the screen
+                for car in incoming_cars:
+                    if added_car.rect.x == car.rect.x and ((car.rect.y - added_car.rect.y) < 400 or (car.rect.y - added_car.rect.y) > -400):  # if the car is too close to another car
+                        added_car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+                incoming_cars.add(added_car)  # added to the incoming cars group
+                cars_list.append(added_car)  # and added to the cars list
+                all_sprites.add(added_car)  # and added to the all sprites group
+                
+        elif difficulty == 'normal':
+            # every 1000 points, a new car is added, until there are 6 cars
+            if score > 1000 and score % 1000 == 0 and len(added_cars_list) != 0:
+                added_car = added_cars_list.pop()
+                added_car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+                for car in incoming_cars:
+                    if added_car.rect.x == car.rect.x and ((car.rect.y - added_car.rect.y) < 400 or (car.rect.y - added_car.rect.y) > -400):
+                        added_car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+                incoming_cars.add(added_car)
+                cars_list.append(added_car)
+                all_sprites.add(added_car)
+
+        elif difficulty == 'hard':
+            # every 1000 points, a new car is added, until there are 6 cars
+            if score > 1000 and score % 1000 == 0 and len(added_cars_list_left) != 0:
+                added_car = added_cars_list_left.pop()
+                added_car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
+                for car in incoming_cars_left:
+                    if added_car.rect.x == car.rect.x and ((car.rect.y - added_car.rect.y) < 400 or (car.rect.y - added_car.rect.y) > -400):
+                        added_car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
+                incoming_cars_left.add(added_car)
+                cars_list_left.append(added_car)
+                all_sprites.add(added_car)
+            if score > 1000 and score % 1000 == 0 and len(added_cars_list_right) != 0:
+                added_car = added_cars_list_right.pop()
+                added_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                for car in incoming_cars_right:
+                    if added_car.rect.x == car.rect.x and ((car.rect.y - added_car.rect.y) < 400 or (car.rect.y - added_car.rect.y) > -400):
+                        added_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                incoming_cars_right.add(added_car)
+                cars_list_right.append(added_car)
+                all_sprites.add(added_car)
+
+        # if the cars go off the screen, they are repositioned and given a new image
+
+        if difficulty != 'hard':
+            for car in cars_list:
+                car.move_down()  # the cars move down the screen at a random speed between 10 and 13
+                if car.rect.y > 950:  # if the car goes off the screen
+                    new_car_number = random.randint(1, 32)
+                    car.change_car(new_car_number, 'left')  # the car is given a new image
+                    car.add_speed(random.randint(-1, 3))  # the car is given a new speed buff or debuff
+                    car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))  # the car is repositioned at the top of the screen
+                    for car2 in cars_list:
+                        if car.rect.x == car2.rect.x and ((car2.rect.y - car.rect.y) < 400 or (car2.rect.y - car.rect.y) > -400):
+                            car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+
+        elif difficulty == 'hard':  # same thing as above, but for cars on the left and right
+            for car in cars_list_left:
+                car.move_down()
+                if car.rect.y > 950:
+                    new_car_number = random.randint(1, 32)
+                    random_side = random.choice(['left', 'right'])
+                    car.change_car(new_car_number, random_side)
+                    car.add_speed(random.randint(-1, 3))
+                    if random_side == 'left':
+                        car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
+                        for car2 in cars_list_left:
+                            if car.rect.x == car2.rect.x and ((car2.rect.y - car.rect.y) < 400 or (car2.rect.y - car.rect.y) > -400):
+                                car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
+                    elif random_side == 'right':
+                        car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                        for car2 in cars_list_right:
+                            if car.rect.x == car2.rect.x and ((car2.rect.y - car.rect.y) < 400 or (car2.rect.y - car.rect.y) > -400):
+                                car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+            for car in cars_list_right:
+                car.move_up()
+                if car.rect.y < -100:
+                    new_car_number = random.randint(1, 32)
+                    random_side = random.choice(['left', 'right'])
+                    car.change_car(new_car_number, random_side)
+                    car.add_speed(random.randint(-1, 3))
+                    if random_side == 'left':
+                        car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
+                        for car2 in cars_list_left:
+                            if car.rect.x == car2.rect.x and ((car2.rect.y - car.rect.y) < 400 or (car2.rect.y - car.rect.y) > -400):
+                                car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
+                    elif random_side == 'right':
+                        car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                        for car2 in cars_list_right:
+                            if car.rect.x == car2.rect.x and ((car2.rect.y - car.rect.y) < 400 or (car2.rect.y - car.rect.y) > -400):
+                                car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+
+        # Collision Detection
+
+        # collision between players and traffic cars
+
+        if difficulty != 'hard':
+
+            for traffic_car in incoming_cars:
+                if pygame.sprite.collide_rect(lolly, traffic_car):
+                    if pygame.sprite.spritecollide(lolly, incoming_cars, False, pygame.sprite.collide_mask):
+                        traffic_car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+                        if lolly.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
+                            lolly.add_health(-1)
+                            if lolly.health == 0:
+                                game_over(road, difficulty, lolly)
+                        else:
+                            pass
+
+        elif difficulty == 'hard':
+
+            for traffic_car in incoming_cars_left:
+                if pygame.sprite.collide_rect(lolly, traffic_car):
+                    if pygame.sprite.spritecollide(lolly, incoming_cars_left, False, pygame.sprite.collide_mask):
+                        traffic_car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
+                        if lolly.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
+                            lolly.add_health(-1)
+                            if lolly.health == 0:
+                                game_over(road, difficulty, lolly)
+                        else:
+                            pass
+
+            for traffic_car in incoming_cars_right:
+                if pygame.sprite.collide_rect(lolly, traffic_car):
+                    if pygame.sprite.spritecollide(lolly, incoming_cars_right, False, pygame.sprite.collide_mask):
+                        traffic_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                        if lolly.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
+                            lolly.add_health(-1)
+                            if lolly.health == 0:
+                                game_over(road, difficulty, lolly)
+                        else:
+                            pass
+
+        # collision between traffic cars
+
+        if difficulty != 'hard':
+
+            for traffic_car_1 in incoming_cars:
+                for traffic_car_2 in incoming_cars:
+                    if traffic_car_1 != traffic_car_2:
+                        if pygame.sprite.collide_rect(traffic_car_1, traffic_car_2):  # this time we're only checking for collision between the rectangles
+                            if traffic_car_1.rect.y < -800 or traffic_car_2.rect.y < -300:  # if one of the cars is off screen
+                                traffic_car_1.rect.y = random.randint(-2200, -800)  # then it is repositioned at the top of the screen
+                                traffic_car_1.rect.x = random.choice([285, 466, 643, 825])  # and given a new image
+                                if traffic_car_1.rect.y < traffic_car_2.rect.y: #prevent the cars from overlapping
+                                    traffic_car_1.rect.y = traffic_car_2.rect.y - 2*traffic_car_1.rect.height #then move the car 1 behind the car 2
+                                elif traffic_car_1.rect.y > traffic_car_2.rect.y: #check if the collision is happening when the traffic car 2 is behind
+                                    traffic_car_2.rect.y = traffic_car_1.rect.y - 2*traffic_car_2.rect.height 
+                            else:  # if both cars are on screen
+                                traffic_car_2.speed = traffic_car_1.speed # then the car behind will slow down
+
+
+        elif difficulty == 'hard':  # same thing as above, but for cars on the left and right
+
+            for traffic_car_1 in incoming_cars_left:
+                for traffic_car_2 in incoming_cars_left:
+                    if traffic_car_1 != traffic_car_2:
+                        if pygame.sprite.collide_rect(traffic_car_1, traffic_car_2):
+                            if traffic_car_1.rect.y < -800 or traffic_car_2.rect.y < -300:
+                                traffic_car_1.rect.y = random.randint(-2200, -800)
+                                traffic_car_1.rect.x = random.choice([285, 466])
+                                if traffic_car_1.rect.y < traffic_car_2.rect.y: #prevent the cars from overlapping
+                                    traffic_car_1.rect.y = traffic_car_2.rect.y - 2*traffic_car_1.rect.height #then move the car 1 behind the car 2
+                                elif traffic_car_1.rect.y > traffic_car_2.rect.y: #check if the collision is happening when the traffic car 2 is behind
+                                    traffic_car_2.rect.y = traffic_car_1.rect.y - 2*traffic_car_2.rect.height 
+                            else:
+                                traffic_car_2.speed = traffic_car_1.speed
+
+            for traffic_car_1 in incoming_cars_right:
+                for traffic_car_2 in incoming_cars_right:
+                    if traffic_car_1 != traffic_car_2:
+                        if pygame.sprite.collide_rect(traffic_car_1, traffic_car_2):
+                            if traffic_car_1.rect.y < 1550 or traffic_car_2.rect.y < 2050:
+                                traffic_car_1.rect.y = random.randint(1350, 2750)
+                                traffic_car_1.rect.x = random.choice([643, 825])
+                            else:
+                                traffic_car_2.speed = traffic_car_1.speed
+
+        # collision between players and power ups
+
+        for power_up in power_ups:
+            if not power_up.on_cooldown:
+                power_up.move_down()
+
+            if pygame.sprite.collide_rect(lolly, power_up):
+                if pygame.sprite.spritecollide(lolly, power_ups, False, pygame.sprite.collide_mask):
+                    if power_up == sissy:
+                        power_up.collision(lolly)
+                    elif power_up == diva or power_up == growth:
+                        if pygame.sprite.spritecollide(lolly, power_ups, False, pygame.sprite.collide_mask):
+                            power_up.collision('lolly', lolly)
+                    elif power_up == frosty or power_up == toy:
+                        if difficulty != 'hard':
+                            power_up.collision(lolly, traffic_group=incoming_cars)
+                        elif difficulty == 'hard':
+                            power_up.collision(lolly, traffic_group_left=incoming_cars_left, traffic_group_right=incoming_cars_right) 
+            
+            # if the power up goes off the screen, it is repositioned at the top of the screen
+            if power_up.rect.y > 950:
+                power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+
+            if power_up.active:  # if the power up is active, then the duration timer decreases by 1 every frame
+                power_up.duration -= 1
+                if power_up.duration == 0: # if the duration reaches 0, then the power up is deactivated
+                    if power_up == sissy:
+                        power_up.deactivate(lolly)
+                    elif power_up == diva or power_up == growth:
+                        power_up.deactivate('lolly', lolly)
+                    elif power_up == frosty or power_up == toy:
+                        if difficulty != 'hard':
+                            power_up.deactivate(incoming_cars)
+                        elif difficulty == 'hard':
+                            power_up.deactivate(traffic_group_left=incoming_cars_left, traffic_group_right=incoming_cars_right)
+                    power_up.add_cooldown_prob() # give the power up a cooldown probability (the probability of the power up being available again)
+
+            # now we're checking if the power up is available or not, and if it's not, then we're decreasing the cooldown timer by 1 every frame
+            # if the cooldown reaches 0, then the power up is available again
+            if power_up.on_cooldown:
+                power_up.cooldown -= 1
+                if power_up.cooldown == 0:
+                    power_up.on_cooldown = False
+                    power_up.add_cooldown(60)
+                    power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+                    power_up.can_move = True
+                                    
+        # Drawing the Sprites
+
+        if frosty.active:
+            if score < 2000:
+                road = frozen_road
+            elif score < 4000:
+                road = frozen_road2
+            else:
+                road = frozen_road3
+
+        lolly.change_image(active_power_ups('lolly', diva, growth))
+
+        all_sprites.update()  # updating the sprites again, so that the images are changed
+        all_sprites.draw(screen)  # drawing the sprites on the screen
+
+        # Drawing the Power Ups that change the road and screen
+
+        if frosty.active:
+            screen.blit(snow_sky, (0, 0))
+            screen.blit(snow_snowflakes, (0, 0))
+
+        if sissy.active:
+            screen.blit(random.choice(speed_images), (0, 0))
+
+        # Drawing the Score Bar
+
+        score_bar_font = pygame.font.SysFont('comic_sans', 55)  # yes Liah, we're using comic sans
+        border_colour = (55, 18, 26)
+
+        score_text = score_bar_font.render(f"{score}", True, (255, 255, 255))
+        offsets = [
+            (-3, -3), (-2, -3), (-1, -3), (0, -3), (1, -3), (2, -3), (3, -3),
+            (-3, -2), (3, -2), (-3, -1), (3, -1), (-3, 0), (3, 0), (-3, 1), (3, 1),
+            (-3, 2), (3, 2), (-3, 3), (-2, 3), (-1, 3), (0, 3), (1, 3), (2, 3), (3, 3)
+        ]  # this is a list of tuples, each tuple is a coordinate offset for the score text
+
+        screen.blit(score_bar, (0, 0))
+
+        for offset in offsets:  # this for loop draws the score text with the offsets, so that it looks like it has a border
+            screen.blit(score_bar_font.render(f"{score}", True, border_colour), (170 + offset[0], offset[1]))
+
+        screen.blit(score_text, (170, 0))
+
+        # Drawing the Hearts (Lives)
+
+        for HP in range(lolly.max_health):
+            if HP < lolly.health:
+                screen.blit(lolly.heart_on, (870 + HP * 75, 5))
+            else:
+                screen.blit(lolly.heart_off, (870 + HP * 75, 5))
+
+        # Drawing the Power Ups Bar (on the left side of the screen)
+
+        icon_position = 30  # the y position of the first icon
+        for icon in power_ups_bar(besties.active, diva.active, growth.active, tangled.active, sissy.active, frosty.active, toy.active):
+            icon_position += 80
+            screen.blit(icon, (0, icon_position))
+
+        # Inserting the Victory Part
+
+        if score >= 6000 and score % 2000 == 0:  # if the score reaches 6000 or every 2000 points after that
+            pygame.mixer.music.set_volume(0.05)  # the music volume is decreased
+            # get the current game screen to pause
+            game_screen = pygame.Surface(size)  # creating a surface with the same size as the screen
+            game_screen.blit(screen, (0, 0))  # copying the screen to the surface
+            victory(game_screen, difficulty, lolly.car_type, bestie.car_type)  # the victory function is called
+            pygame.mixer.music.set_volume(0.4)  # the music volume is increased again
+
+        # Updating the Display
+
+        pygame.display.flip()
+
+    pygame.quit()
+
 
 def multi_game(difficulty, lolly_car, bestie_car):
 
@@ -669,8 +1244,8 @@ def multi_game(difficulty, lolly_car, bestie_car):
             else:
                 road = frozen_road3
 
-        lolly.change_image(active_power_ups('lolly', besties, diva, growth, tangled))
-        bestie.change_image(active_power_ups('bestie', besties, diva, growth, tangled))
+        lolly.change_image(active_power_ups('lolly', diva=diva, growth=growth, tangled=tangled, besties=besties))
+        bestie.change_image(active_power_ups('bestie', diva=diva, growth=growth, tangled=tangled, besties=besties))
 
         all_sprites.update()  # updating the sprites again, so that the images are changed
         all_sprites.draw(screen)  # drawing the sprites on the screen
@@ -917,7 +1492,7 @@ def pause_menu(game_screen):
                     
         pygame.display.flip()
 
-def active_power_ups(player, besties, diva, growth, tangled):
+def active_power_ups(player, diva, growth, tangled= None, besties= None):
 
     active_combination = 'normal'
 
