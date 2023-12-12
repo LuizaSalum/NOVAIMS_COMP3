@@ -5,6 +5,73 @@ from abc import ABC, abstractmethod
 
 class PowerUp(ABC, pygame.sprite.Sprite):
 
+    """
+    Represents a power-up in the game.
+
+    Parameters
+    ----------
+    image_path : str
+        The path to the image file of the power-up.
+    difficulty : int
+        The difficulty level of the power-up.
+    speed : int, optional
+        The speed of the power-up. Defaults to 10.
+    duration : int, optional
+        The duration of the power-up. Defaults to 0.
+    cooldown : int, optional
+        The cooldown of the power-up. Defaults to 0.
+
+    Attributes
+    ----------
+    image : pygame.Surface
+        The image of the power-up.
+    rect : pygame.Rect
+        The rectangle that encloses the power-up.
+    mask : pygame.Mask
+        The mask of the power-up.
+    speed : int
+        The speed of the power-up.
+    duration : int
+        The duration of the power-up.
+    cooldown : int
+        The cooldown of the power-up.
+    max_duration : int
+        The maximum duration of the power-up.
+    active : bool
+        Whether the power-up is active.
+    on_cooldown : bool
+        Whether the power-up is on cooldown.
+    unavailable : bool
+        Whether the power-up is unavailable.
+    can_move : bool
+        Whether the power-up can move.
+
+    Methods
+    -------
+    move_down()
+        Moves the power-up down.
+    add_speed(speed)
+        Adds the given speed to the power-up.
+    add_cooldown(cooldown)
+        Adds the given cooldown to the power-up.
+    add_duration(duration)
+        Adds the given duration to the power-up.
+    set_position(x, y)
+        Sets the position of the power-up to the given coordinates.
+    hide()
+        Hides the power-up.
+    collision()
+        Handles the collision of the power-up.
+    add_cooldown_prob()
+        Adds a random cooldown to the power-up.
+    affect_both_players(lolly, bestie)
+        Affects both players.
+    affect_player(player)
+        Affects the given player.
+    affect_traffic(traffic_group)
+        Affects the given traffic group.
+    """
+
     def __init__(self, image_path, difficulty, speed=10, duration=0, cooldown=0):
         super().__init__()
 

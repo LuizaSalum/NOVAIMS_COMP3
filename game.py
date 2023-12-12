@@ -5,6 +5,18 @@ from power_up import *
 
 def single_game(difficulty, lolly_car):
 
+    """
+    Run the singleplayer version of Lolly Locket's Dog Chase.
+
+    Parameters
+    ----------
+    difficulty : str
+        The difficulty level of the game ('easy', 'normal', 'hard').
+    lolly_car : str
+        The image file name of the player car.
+
+    """
+
     pygame.mixer.init() # for sound
     pygame.init() # for pygame
     pygame.font.init() # for text
@@ -580,6 +592,19 @@ def single_game(difficulty, lolly_car):
 
 
 def multi_game(difficulty, lolly_car, bestie_car):
+
+    """
+    Function to start and run the multiplayer game.
+
+    Parameters
+    ----------
+    difficulty : str
+        The difficulty level of the game ('easy', 'normal', 'hard').
+    lolly_car : str
+        The image file name of the player car for Lolly.
+    bestie_car : str
+        The image file name of the player car for Bestie.
+    """
 
     pygame.mixer.init() # for sound
     pygame.init() # for pygame
@@ -1244,7 +1269,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
             else:
                 road = frozen_road3
 
-        lolly.change_image(active_power_ups('lolly', diva=diva, growth=growth, tangled=tangled, besties=besties))
+        lolly.change_image(active_power_ups('lolly', diva=diva, growth=growth, tangled=tangled, besties=besties))  # changing the image of the player cars according to the active power ups
         bestie.change_image(active_power_ups('bestie', diva=diva, growth=growth, tangled=tangled, besties=besties))
 
         all_sprites.update()  # updating the sprites again, so that the images are changed
@@ -1302,7 +1327,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
         # Inserting the Victory Part
 
         if difficulty == 'easy':
-            if score >= 6000 and score % 3000 == 0:  # if the score reaches 6000 or every 2000 points after that
+            if score >= 6000 and score % 3000 == 0:  # if the score reaches 6000 or every 3000 points after that
                 pygame.mixer.music.set_volume(0.05)  # the music volume is decreased
                 # get the current game screen to pause
                 game_screen = pygame.Surface(size)  # creating a surface with the same size as the screen
@@ -1312,21 +1337,19 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
         elif difficulty == 'normal':
             if score >= 6000 and score % 2000 == 0:  # if the score reaches 6000 or every 2000 points after that
-                pygame.mixer.music.set_volume(0.05)  # the music volume is decreased
-                # get the current game screen to pause
-                game_screen = pygame.Surface(size)  # creating a surface with the same size as the screen
-                game_screen.blit(screen, (0, 0))  # copying the screen to the surface
-                victory(game_screen, difficulty, lolly.car_type, bestie.car_type)  # the victory function is called
-                pygame.mixer.music.set_volume(0.4)  # the music volume is increased again
+                pygame.mixer.music.set_volume(0.05)
+                game_screen = pygame.Surface(size)
+                game_screen.blit(screen, (0, 0))
+                victory(game_screen, difficulty, lolly.car_type, bestie.car_type)
+                pygame.mixer.music.set_volume(0.4)
 
         elif difficulty == 'hard':
-            if score >= 6000 and score % 1000 == 0:  # if the score reaches 6000 or every 2000 points after that
+            if score >= 6000 and score % 1000 == 0:  # if the score reaches 6000 or every 1000 points after that
                 pygame.mixer.music.set_volume(0.05)
-                # get the current game screen to pause
-                game_screen = pygame.Surface(size)  # creating a surface with the same size as the screen
-                game_screen.blit(screen, (0, 0))  # copying the screen to the surface
-                victory(game_screen, difficulty, lolly.car_type, bestie.car_type)  # the victory function is called
-                pygame.mixer.music.set_volume(0.4)  # the music volume is increased again
+                game_screen = pygame.Surface(size)
+                game_screen.blit(screen, (0, 0))
+                victory(game_screen, difficulty, lolly.car_type, bestie.car_type)
+                pygame.mixer.music.set_volume(0.4)
 
         # Updating the Display
 
@@ -1334,9 +1357,18 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
     pygame.quit()
 
-def countdown(game_screen):  # this function is called before the game starts
+def countdown(game_screen):
 
+    """
+    Display a countdown animation before the game starts.
 
+    Parameters
+    ----------
+    game_screen : pygame.Surface
+        The game screen surface.
+    """
+
+    # Initialising the game and setting the screen, done in the same way as the game function
     pygame.mixer.init()
     pygame.init()
     size = (1250, 950)
@@ -1345,26 +1377,26 @@ def countdown(game_screen):  # this function is called before the game starts
     icon = pygame.image.load("images/icon.png")
     pygame.display.set_icon(icon)
 
+    # Loading the countdown sounds
     beeps = pygame.mixer.Sound("sounds/countdown/beeps.mp3")
     go = pygame.mixer.Sound("sounds/countdown/go.mp3")
     beeps.set_volume(0.5)
     go.set_volume(0.5)
 
-    ''' Loading Images '''
-
+    # Loading the countdown images
     countdown_3 = pygame.image.load("images/countdown/countdown_3.png").convert_alpha()
     countdown_2 = pygame.image.load("images/countdown/countdown_2.png").convert_alpha()
     countdown_1 = pygame.image.load("images/countdown/countdown_1.png").convert_alpha()
     countdown_go = pygame.image.load("images/countdown/countdown_go.png").convert_alpha()
 
-    screen.blit(game_screen, (0, 0))
-    screen.blit(countdown_3, (0, 0))
+    screen.blit(game_screen, (0, 0))  # blitting the game screen
+    screen.blit(countdown_3, (0, 0))  # blitting the countdown image on top of the game screen
     beeps.play()  # playing the beeps sound
     pygame.display.flip()
 
     pygame.time.wait(1000)  # waiting 1 second before blitting the next image
     screen.blit(game_screen, (0, 0))
-    screen.blit(countdown_2, (0, 0))
+    screen.blit(countdown_2, (0, 0))  # blitting the next image
     beeps.play()
     pygame.display.flip()
 
@@ -1384,7 +1416,23 @@ def countdown(game_screen):  # this function is called before the game starts
     return  # returning to the game function
 
 def game_over(road, difficulty, lolly, bestie = None):
+    
+    """
+    Display the game over screen and handle user input for restarting or exiting the game.
 
+    Parameters
+    ----------
+    road : pygame.Surface
+        The image of the road background.
+    difficulty : str
+        The difficulty level of the game.
+    lolly Car : object
+        The player's car object.
+    bestie Car : object, optional
+        The second player's car object in multiplayer mode. Defaults to None.
+    """
+
+    # Initialising the game and setting the screen, done in the same way as the game function
     pygame.mixer.init()
     pygame.init()
     size = (1250, 950)
@@ -1394,7 +1442,6 @@ def game_over(road, difficulty, lolly, bestie = None):
     pygame.display.set_icon(icon)
 
     ''' Loading Images '''
-
     game_over_image = pygame.image.load("images/game_over/game_over.png").convert_alpha()
     game_over_restart_image = pygame.image.load("images/game_over/game_over_restart.png").convert_alpha()
     game_over_exit_image = pygame.image.load("images/game_over/game_over_exit.png").convert_alpha()
@@ -1416,6 +1463,7 @@ def game_over(road, difficulty, lolly, bestie = None):
             if event.type == pygame.QUIT:
                 carry_on = False
 
+        # Same scrolling background as in the game function, same logic as well
         screen.blit(road, (0, 0))
         scroll_speed = 3000
         dt = clock.tick(60) / 1000.0
@@ -1429,19 +1477,18 @@ def game_over(road, difficulty, lolly, bestie = None):
 
         mouse = pygame.mouse.get_pos()
 
-        if restart_button_coor[0] <= mouse[0] <= restart_button_coor[2] and restart_button_coor[1] < mouse[1] < restart_button_coor[3]:
-            screen.blit(game_over_restart_image, center_game_over_coord)
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                carry_on = False
+        if restart_button_coor[0] <= mouse[0] <= restart_button_coor[2] and restart_button_coor[1] < mouse[1] < restart_button_coor[3]:  # if the user hovers over the restart button
+            screen.blit(game_over_restart_image, center_game_over_coord)  # the restart image is blitted
+            if event.type == pygame.MOUSEBUTTONDOWN:  # if the user clicks on the restart button
                 if bestie == None:
                     single_game(difficulty, lolly.car_type)  # calling the single_game function with the same difficulty and car types as before
                 else:
                     multi_game(difficulty, lolly.car_type, bestie.car_type)  # calling the multi_game function with the same difficulty and car types as before
+
         elif exit_button_coor[0] <= mouse[0] <= exit_button_coor[2] and exit_button_coor[1] < mouse[1] < exit_button_coor[3]:
             screen.blit(game_over_exit_image, center_game_over_coord)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 carry_on = False
-                pygame.quit()  # quitting the game
         
         else:
             screen.blit(game_over_image, center_game_over_coord)  # if the user hovers over anywhere else, then the normal game over image is blitted
@@ -1450,21 +1497,24 @@ def game_over(road, difficulty, lolly, bestie = None):
 
     pygame.quit()
 
-    return
-
 def pause_menu(game_screen):
+
+    """
+    Display a pause menu on the game screen.
+
+    Parameters
+    ----------
+    game_screen : pygame.Surface
+        The game screen surface.
+    """
 
     menu_position = [451, 799, 326, 624]  # x1, x2, y1, y2
     buttons = (
         ['done', 544, 709, 376, 447],
         ['exit', 528, 723, 501, 572]
-        )
-
-    button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
-    button_pressed.set_volume(0.5)
-    exit_pressed = pygame.mixer.Sound("sounds/exit_button.mp3")
-    exit_pressed.set_volume(0.2)
+        )  # name, x1, x2, y1, y2
     
+    # Initialising the game and setting the screen, done in the same way as the game function
     pygame.mixer.init()
     pygame.init()
     size = (1250, 950)
@@ -1473,8 +1523,13 @@ def pause_menu(game_screen):
     icon = pygame.image.load("images/icon.png")
     pygame.display.set_icon(icon)
 
-    ''' Loading Images '''
+    # Loading the sounds
+    button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
+    button_pressed.set_volume(0.5)
+    exit_pressed = pygame.mixer.Sound("sounds/exit_button.mp3")
+    exit_pressed.set_volume(0.2)
 
+    # Loading the images
     pause_menu_image = pygame.image.load("images/interface/pause.png").convert_alpha()
     pause_menu_done_image = pygame.image.load("images/interface/pause_done.png").convert_alpha()
     pause_menu_exit_image = pygame.image.load("images/interface/pause_exit.png").convert_alpha()
@@ -1514,56 +1569,75 @@ def pause_menu(game_screen):
                     
         pygame.display.flip()
 
-def active_power_ups(player, diva, growth, tangled= None, besties= None):
+def active_power_ups(player, diva, growth, tangled=None, besties=None):
+
+    """
+    Determine the active combination of power-ups based on the player and power-up states.
+
+    Parameters
+    ----------
+    player : str
+        The player's name 'lolly' or 'bestie'.
+    diva : object
+        The Diva power-up object.
+    growth : object
+        The Glamorous Growth power-up object.
+    tangled : object, optional
+        The Tangled Twist power-up object. Defaults to None.
+    besties : object, optional
+        The Besties in Harmony power-up object. Defaults to None.
+
+    Returns
+    -------
+    active_combination : str
+        The active combination of power-ups.
+    """
 
     active_combination = 'normal'
 
-    if tangled == None and besties == None: # if its the single player game
-        if diva.active_lolly and not growth.active_lolly:  # if the diva defiance power up is active
+    if tangled is None and besties is None:  # if it's the single player game
+        if diva.active_lolly and not growth.active_lolly:  # if the Diva Defiance power-up is active
             active_combination = 'diva'
-        elif growth.active_lolly and not diva.active_lolly:  # if the glamorous growth power up is active
+        elif growth.active_lolly and not diva.active_lolly:  # if the Glamorous Growth power-up is active
             active_combination = 'growth'
-        elif diva.active_lolly and growth.active_lolly:  # if the diva defiance and glamorous growth power ups are active
+        elif diva.active_lolly and growth.active_lolly:  # if the Diva Defiance and Glamorous Growth power-ups are active
             active_combination = 'diva_growth'
-        
-    else: # if its the multiplayer game
-        
+    else:  # if it's the multiplayer game
         if player == 'lolly':
-            if besties.active and not diva.active_lolly and not growth.active_lolly and not tangled.active:  # if the besties in harmony power up is active
+            if besties.active and not diva.active_lolly and not growth.active_lolly and not tangled.active:  # if the Besties in Harmony power-up is active
                 active_combination = 'besties'
-            if besties.active and not diva.active_lolly and not growth.active_lolly and tangled.active:  # if the besties in harmony and tangled twist power ups are active
+            if besties.active and not diva.active_lolly and not growth.active_lolly and tangled.active:  # if the Besties in Harmony and Tangled Twist power-ups are active
                 active_combination = 'besties_tangled'
-            if besties.active and not diva.active_lolly and growth.active_lolly and not tangled.active:  # if the besties in harmony and glamorous growth power ups are active
+            if besties.active and not diva.active_lolly and growth.active_lolly and not tangled.active:  # if the Besties in Harmony and Glamorous Growth power-ups are active
                 active_combination = 'besties_growth'
-            if besties.active and not diva.active_lolly and growth.active_lolly and tangled.active:  # if the besties in harmony, glamorous growth and tangled twist power ups are active
+            if besties.active and not diva.active_lolly and growth.active_lolly and tangled.active:  # if the Besties in Harmony, Glamorous Growth, and Tangled Twist power-ups are active
                 active_combination = 'besties_tangled_growth'
-            if besties.active and diva.active_lolly and not growth.active_lolly and not tangled.active:  # if the besties in harmony and diva defiance power ups are active
+            if besties.active and diva.active_lolly and not growth.active_lolly and not tangled.active:  # if the Besties in Harmony and Diva Defiance power-ups are active
                 active_combination = 'besties_diva'
-            if besties.active and diva.active_lolly and not growth.active_lolly and tangled.active:  # if the besties in harmony, diva defiance and tangled twist power ups are active
+            if besties.active and diva.active_lolly and not growth.active_lolly and tangled.active:  # if the Besties in Harmony, Diva Defiance, and Tangled Twist power-ups are active
                 active_combination = 'besties_diva_tangled'
-            if besties.active and diva.active_lolly and growth.active_lolly and not tangled.active:  # if the besties in harmony, diva defiance and glamorous growth power ups are active
+            if besties.active and diva.active_lolly and growth.active_lolly and not tangled.active:  # if the Besties in Harmony, Diva Defiance, and Glamorous Growth power-ups are active
                 active_combination = 'besties_diva_growth'
-            if besties.active and diva.active_lolly and growth.active_lolly and tangled.active:  # if the besties in harmony, diva defiance, glamorous growth and tangled twist power ups are active
+            if besties.active and diva.active_lolly and growth.active_lolly and tangled.active:  # if the Besties in Harmony, Diva Defiance, Glamorous Growth, and Tangled Twist power-ups are active
                 active_combination = 'besties_diva_tangled_growth'
-            if not besties.active and not diva.active_lolly and growth.active_lolly and not tangled.active:  # if the glamorous growth power up is active
+            if not besties.active and not diva.active_lolly and growth.active_lolly and not tangled.active:  # if the Glamorous Growth power-up is active
                 active_combination = 'growth'
-            if not besties.active and not diva.active_lolly and not growth.active_lolly and tangled.active:  # if the tangled twist power up is active
+            if not besties.active and not diva.active_lolly and not growth.active_lolly and tangled.active:  # if the Tangled Twist power-up is active
                 active_combination = 'tangled'
-            if not besties.active and not diva.active_lolly and growth.active_lolly and tangled.active:  # if the glamorous growth and tangled twist power ups are active
+            if not besties.active and not diva.active_lolly and growth.active_lolly and tangled.active:  # if the Glamorous Growth and Tangled Twist power-ups are active
                 active_combination = 'tangled_growth'
-            if not besties.active and diva.active_lolly and not growth.active_lolly and not tangled.active:  # if the diva defiance power up is active
+            if not besties.active and diva.active_lolly and not growth.active_lolly and not tangled.active:  # if the Diva Defiance power-up is active
                 active_combination = 'diva'
-            if not besties.active and diva.active_lolly and not growth.active_lolly and tangled.active:  # if the diva defiance and tangled twist power ups are active
+            if not besties.active and diva.active_lolly and not growth.active_lolly and tangled.active:  # if the Diva Defiance and Tangled Twist power-ups are active
                 active_combination = 'diva_tangled'
-            if not besties.active and diva.active_lolly and growth.active_lolly and not tangled.active:  # if the diva defiance and glamorous growth power ups are active
+            if not besties.active and diva.active_lolly and growth.active_lolly and not tangled.active:  # if the Diva Defiance and Glamorous Growth power-ups are active
                 active_combination = 'diva_growth'
-            if not besties.active and diva.active_lolly and growth.active_lolly and tangled.active:  # if the diva defiance, glamorous growth and tangled twist power ups are active
+            if not besties.active and diva.active_lolly and growth.active_lolly and tangled.active:  # if the Diva Defiance, Glamorous Growth, and Tangled Twist power-ups are active
                 active_combination = 'diva_tangled_growth'
-
-        elif player == 'bestie':
-            if besties.active and not diva.active_bestie and not growth.active_bestie and not tangled.active:  # if the besties in harmony power up is active
+        elif player == 'bestie':  # same thing as above, but for the bestie
+            if besties.active and not diva.active_bestie and not growth.active_bestie and not tangled.active:
                 active_combination = 'besties'
-            if besties.active and not diva.active_bestie and not growth.active_bestie and tangled.active:  # if the besties in harmony and tangled twist power ups are active
+            if besties.active and not diva.active_bestie and not growth.active_bestie and tangled.active:
                 active_combination = 'besties_tangled'
             if besties.active and not diva.active_bestie and growth.active_bestie and not tangled.active:
                 active_combination = 'besties_growth'
@@ -1596,14 +1670,37 @@ def active_power_ups(player, diva, growth, tangled= None, besties= None):
 
 def power_ups_bar(diva, growth, sissy, frosty, toy, tangled=None, besties=None):
 
+    """
+    Generate a list of power-up images based on the given boolean values.
+
+    Parameters
+    ----------
+    diva : bool
+        Whether the "diva_defiance" power-up is active.
+    growth : bool
+        Whether the "glamorous_growth" power-up is active.
+    sissy : bool
+        Whether the "sissy_that_walk" power-up is active.
+    frosty : bool
+        Whether the "frosty_frenzy" power-up is active.
+    toy : bool
+        Whether the "toy_transforminator" power-up is active.
+    tangled : bool, optional
+        Whether the "tangled_twist" power-up is active. Defaults to None.
+    besties : bool, optional
+        Whether the "besties_in_harmony" power-up is active. Defaults to None.
+
+    Returns
+    -------
+    list
+        A list of power-up images.
+    """
+
     power_ups = []
-    if tangled == None and besties == None:  # if its the single player game
-        
+    if tangled == None and besties == None:  # if it's the single player game
         power_ups_names = ["diva_defiance", "glamorous_growth", "sissy_that_walk", "frosty_frenzy", "toy_transforminator"]
         power_ups_boolean_list = [diva, growth, sissy, frosty, toy]
-
-    else:  # if its the multiplayer game
-
+    else:  # if it's the multiplayer game
         power_ups_names = ["besties_in_harmony", "diva_defiance", "frosty_frenzy", "gal_pal_rebirth", "tangled_twist", "glamorous_growth", "sissy_that_walk", "toy_transforminator"]
         power_ups_boolean_list = [diva, growth, sissy, frosty, toy, tangled, besties]
 
@@ -1626,6 +1723,7 @@ def victory(game_screen, difficulty, lolly, bestie = None):
     elif difficulty == 'hard':
         dog = 3
 
+    # Initialising the game and setting the screen, done in the same way as the game function
     pygame.mixer.init()
     pygame.init()
     size = (1250, 950)
@@ -1634,8 +1732,7 @@ def victory(game_screen, difficulty, lolly, bestie = None):
     icon = pygame.image.load("images/icon.png")
     pygame.display.set_icon(icon)
 
-    ''' Loading Sounds '''
-
+    # Loading the sounds
     phone_ring = pygame.mixer.Sound("sounds/victory/phone_ring.mp3")
     phone_ring.set_volume(0.5)
     phone_pickup = pygame.mixer.Sound("sounds/victory/phone_pickup.mp3")
@@ -1644,19 +1741,24 @@ def victory(game_screen, difficulty, lolly, bestie = None):
     button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
     button_pressed.set_volume(0.5)
 
-
-    ''' Loading Images '''
-
+    # Loading the images
     victory_question = pygame.image.load("images/victory/victory_question.png").convert_alpha()
     waiting_1 = pygame.image.load("images/victory/waiting_1.png").convert_alpha()
     waiting_2 = pygame.image.load("images/victory/waiting_2.png").convert_alpha()
     waiting_3 = pygame.image.load("images/victory/waiting_3.png").convert_alpha()
     victory_story_1 = pygame.image.load("images/victory/victory_story_1.png").convert_alpha()
     victory_story_2 = pygame.image.load("images/victory/victory_story_2.png").convert_alpha()
-    victory_image = pygame.image.load(f"images/victory/victory_end_{dog}{lolly[-1]}{bestie[-1]}.png").convert()
-    victory_restart_image = pygame.image.load(f"images/victory/victory_end_restart_{dog}{lolly[-1]}{bestie[-1]}.png").convert()
-    victory_exit_image = pygame.image.load(f"images/victory/victory_end_exit_{dog}{lolly[-1]}{bestie[-1]}.png").convert()
 
+    if bestie != None:  # if it's the multiplayer game
+        victory_image = pygame.image.load(f"images/victory/victory_end_{dog}{lolly[-1]}{bestie[-1]}.png").convert()
+        victory_restart_image = pygame.image.load(f"images/victory/victory_end_restart_{dog}{lolly[-1]}{bestie[-1]}.png").convert()
+        victory_exit_image = pygame.image.load(f"images/victory/victory_end_exit_{dog}{lolly[-1]}{bestie[-1]}.png").convert()
+    else:  # if it's the single player game
+        victory_image = pygame.image.load(f"images/victory/victory_end_{dog}{lolly[-1]}.png").convert()
+        victory_restart_image = pygame.image.load(f"images/victory/victory_end_restart_{dog}{lolly[-1]}.png").convert()
+        victory_exit_image = pygame.image.load(f"images/victory/victory_end_exit_{dog}{lolly[-1]}.png").convert()
+
+    # Loading the images for the buttons (restart and exit)
     restart_coord = 1026, 1168, 325, 376
     exit_coord = 1088, 1168, 238, 289
 
@@ -1718,12 +1820,14 @@ def victory(game_screen, difficulty, lolly, bestie = None):
                     carry_on = False
 
             if victory:
+                
                 # if the user hovers and clicks over the buttons
                 if restart_coord[0] <= mouse[0] <= restart_coord[1] and restart_coord[2] < mouse[1] < restart_coord[3]:
                     screen.blit(victory_restart_image, (0, 0))
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         carry_on = False
                         multi_game(difficulty, lolly, bestie)
+
                 elif exit_coord[0] <= mouse[0] <= exit_coord[1] and exit_coord[2] < mouse[1] < exit_coord[3]:
                     screen.blit(victory_exit_image, (0, 0))
                     if event.type == pygame.MOUSEBUTTONDOWN:
