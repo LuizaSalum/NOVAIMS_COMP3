@@ -215,8 +215,11 @@ class SissyThatWalk(PowerUp):  # Players get a speed buff
     def deactivate(self, lolly, bestie = None):
         self.active = False
         self.duration = self.max_duration # Reset duration to ensure it starts fresh
-        lolly.add_speed(-5)
-        bestie.add_speed(-5)
+        if bestie == None:
+            lolly.add_speed(-5)
+        else:
+            lolly.add_speed(-5)
+            bestie.add_speed(-5)
 
     def collision(self, lolly, bestie = None):
         super().collision()
