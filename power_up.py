@@ -233,8 +233,11 @@ class SissyThatWalk(PowerUp):  # Players get a speed buff
         self.cooldown = random.randint(50, 100)  # the cooldown will be a random value between 50 and 100
 
     def affect_both_players(self, lolly, bestie = None):
-        lolly.add_speed(5)
-        bestie.add_speed(5)
+        if bestie == None:
+            lolly.add_speed(5)
+        else:
+            lolly.add_speed(5)
+            bestie.add_speed(5)
 
     def affect_player(self):
         pass

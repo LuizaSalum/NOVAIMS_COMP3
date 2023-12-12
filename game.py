@@ -1591,11 +1591,18 @@ def active_power_ups(player, diva, growth, tangled= None, besties= None):
 
     return active_combination
 
-def power_ups_bar(besties, diva, growth, tangled, sissy, frosty, toy):
+def power_ups_bar(diva, growth, sissy, frosty, toy, tangled=None, besties=None):
 
     power_ups = []
-    power_ups_names = ["besties_in_harmony", "diva_defiance", "frosty_frenzy", "gal_pal_rebirth", "tangled_twist", "glamorous_growth", "sissy_that_walk", "toy_transforminator"]
-    power_ups_boolean_list = [besties, diva, frosty, tangled, growth, sissy, toy]
+    if tangled == None and besties == None:  # if its the single player game
+        
+        power_ups_names = ["diva_defiance", "glamorous_growth", "sissy_that_walk", "frosty_frenzy", "toy_transforminator"]
+        power_ups_boolean_list = [diva, growth, sissy, frosty, toy]
+
+    else:  # if its the multiplayer game
+
+        power_ups_names = ["besties_in_harmony", "diva_defiance", "frosty_frenzy", "gal_pal_rebirth", "tangled_twist", "glamorous_growth", "sissy_that_walk", "toy_transforminator"]
+        power_ups_boolean_list = [diva, growth, sissy, frosty, toy, tangled, besties]
 
     for number in range(len(power_ups_boolean_list)):  # this for loop adds the power ups to the list, according to the boolean values
         if power_ups_boolean_list[number]:  # if the power up is active
