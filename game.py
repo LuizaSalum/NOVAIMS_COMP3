@@ -1383,7 +1383,7 @@ def countdown(game_screen):  # this function is called before the game starts
     pygame.time.wait(1500)  # waiting 1.5 seconds before the game starts
     return  # returning to the game function
 
-def game_over(road, difficulty, lolly, bestie):
+def game_over(road, difficulty, lolly, bestie = None):
 
     pygame.mixer.init()
     pygame.init()
@@ -1433,7 +1433,10 @@ def game_over(road, difficulty, lolly, bestie):
             screen.blit(game_over_restart_image, center_game_over_coord)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 carry_on = False
-                multi_game(difficulty, lolly.car_type, bestie.car_type)  # calling the multi_game function with the same difficulty and car types as before
+                if bestie == None:
+                    single_game(difficulty, lolly.car_type)  # calling the single_game function with the same difficulty and car types as before
+                else:
+                    multi_game(difficulty, lolly.car_type, bestie.car_type)  # calling the multi_game function with the same difficulty and car types as before
         elif exit_button_coor[0] <= mouse[0] <= exit_button_coor[2] and exit_button_coor[1] < mouse[1] < exit_button_coor[3]:
             screen.blit(game_over_exit_image, center_game_over_coord)
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -1612,7 +1615,7 @@ def power_ups_bar(diva, growth, sissy, frosty, toy, tangled=None, besties=None):
     
     return power_ups  # returning the list of power ups
 
-def victory(game_screen, difficulty, lolly, bestie):
+def victory(game_screen, difficulty, lolly, bestie = None):
 
     victory = False
 
