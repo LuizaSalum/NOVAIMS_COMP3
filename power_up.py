@@ -282,15 +282,24 @@ class SissyThatWalk(PowerUp):  # Players get a speed buff
     def deactivate(self, lolly, bestie = None):
         self.active = False
         self.duration = self.max_duration # Reset duration to ensure it starts fresh
-        lolly.add_speed(-5)
-        bestie.add_speed(-5)
+
+        if bestie != None:
+            lolly.add_speed(-5)
+            bestie.add_speed(-5)
+        else:
+            lolly.add_speed(-5)
 
     def collision(self, lolly, bestie = None):
         super().collision()
 
-        if lolly.car_type == 'car1' or bestie.car_type == 'car1':
-            self.add_cooldown(-12)
-            self.add_duration(12)
+        if bestie != None:
+            if lolly.car_type == 'car1' or bestie.car_type == 'car1':  # if the player has the car with the power ups buff
+                self.add_duration(12)
+                self.add_cooldown(-12)
+        else:
+            if lolly.car_type == 'car1':
+                self.add_duration(12)
+                self.add_cooldown(12)
 
         self.affect_both_players(lolly, bestie = None)  # calling the method that will affect both players
     
@@ -447,9 +456,14 @@ class FrostyFrenzy(PowerUp):  # Traffic gets slowed down
     def collision(self, lolly, bestie= None, traffic_group=None, traffic_group_left=None, traffic_group_right=None):
         super().collision()                        
 
-        if lolly.car_type == 'car1' or bestie.car_type == 'car1':
-            self.add_cooldown(-12)
-            self.add_duration(6)
+        if bestie != None:
+            if lolly.car_type == 'car1' or bestie.car_type == 'car1':  # if the player has the car with the power ups buff
+                self.add_duration(6)
+                self.add_cooldown(-12)
+        else:
+            if lolly.car_type == 'car1':
+                self.add_duration(6)
+                self.add_cooldown(-12)
 
         if self.difficulty != 'hard':
             self.affect_traffic(traffic_group)
@@ -500,9 +514,14 @@ class ToyTransforminator(PowerUp):  # Traffic decreases in size
     def collision(self, lolly, bestie= None, traffic_group=None, traffic_group_left=None, traffic_group_right=None):
         super().collision()
 
-        if lolly.car_type == 'car1' or bestie.car_type == 'car1':
-            self.add_cooldown(-10)
-            self.add_duration(12)
+        if bestie != None:
+            if lolly.car_type == 'car1' or bestie.car_type == 'car1':
+                self.add_cooldown(-10)
+                self.add_duration(12)
+        else:
+            if lolly.car_type == 'car1':
+                self.add_cooldown(-10)
+                self.add_duration(12)
 
         if self.difficulty != 'hard':
             self.affect_traffic(traffic_group)

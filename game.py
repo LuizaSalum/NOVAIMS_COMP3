@@ -1826,7 +1826,10 @@ def victory(game_screen, difficulty, lolly, bestie = None):
                     screen.blit(victory_restart_image, (0, 0))
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         carry_on = False
-                        multi_game(difficulty, lolly, bestie)
+                        if bestie == None:
+                            single_game(difficulty, lolly, bestie)
+                        else:
+                            multi_game(difficulty, lolly, bestie)
 
                 elif exit_coord[0] <= mouse[0] <= exit_coord[1] and exit_coord[2] < mouse[1] < exit_coord[3]:
                     screen.blit(victory_exit_image, (0, 0))
