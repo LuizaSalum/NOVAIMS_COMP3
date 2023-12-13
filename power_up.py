@@ -293,21 +293,21 @@ class SissyThatWalk(PowerUp):  # Players get a speed buff
             if lolly.car_type == 'car1' or bestie.car_type == 'car1':  # if the player has the car with the power ups buff
                 self.add_duration(120)
                 self.add_cooldown(-120)
-            self.affect_player(lolly) # calling the method twice so it will affect both players
-            self.affect_player(bestie) 
+            self.affect_both_players(lolly, bestie)
         else:
             if lolly.car_type == 'car1':
                 self.add_duration(120)
                 self.add_cooldown(120)
-            self.affect_player(lolly) # calling the method once so it will affect only one player
+            self.affect_player(lolly)
     
     def add_cooldown_prob(self): 
         super().add_cooldown_prob()  # calling the parent class' add_cooldown_prob method        
 
         self.cooldown = random.randint(200, 400)  # the cooldown will be a random value between 50 and 100
 
-    def affect_both_players(self):
-        pass
+    def affect_both_players(self, lolly, bestie):
+        lolly.add_speed(5)
+        bestie.add_speed(5)
 
     def affect_player(self, player):
         player.add_speed(5)
