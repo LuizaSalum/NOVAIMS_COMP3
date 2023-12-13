@@ -1195,6 +1195,8 @@ def multi_game(difficulty, lolly_car, bestie_car):
                                 traffic_car_2.speed = traffic_car_1.speed
 
         # collision between players and power ups
+        print(bestie.speed)
+        print(lolly.speed)
 
         for power_up in power_ups:
             if not power_up.on_cooldown:
@@ -1203,7 +1205,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
             if pygame.sprite.collide_rect(lolly, power_up) or pygame.sprite.collide_rect(bestie, power_up):
                 if pygame.sprite.spritecollide(lolly, power_ups, False, pygame.sprite.collide_mask) or pygame.sprite.spritecollide(bestie, power_ups, False, pygame.sprite.collide_mask):
                     if power_up == besties or power_up == galpal or power_up == tangled or power_up == sissy:
-                        power_up.collision(lolly, bestie)
+                        power_up.collision(lolly= lolly, bestie = bestie)
                     elif power_up == diva or power_up == growth:
                         if pygame.sprite.spritecollide(lolly, power_ups, False, pygame.sprite.collide_mask):
                             power_up.collision('lolly', lolly)
@@ -1217,13 +1219,13 @@ def multi_game(difficulty, lolly_car, bestie_car):
             
             # if the power up goes off the screen, it is repositioned at the top of the screen
             if power_up.rect.y > 950:
-                power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+                power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-5000, -200))
 
             if power_up.active:  # if the power up is active, then the duration timer decreases by 1 every frame
                 power_up.duration -= 1
                 if power_up.duration == 0: # if the duration reaches 0, then the power up is deactivated
                     if power_up == besties or power_up == galpal or power_up == tangled or power_up == sissy:
-                        power_up.deactivate(lolly, bestie)
+                        power_up.deactivate(lolly= lolly, bestie = bestie)
                     elif power_up == diva or power_up == growth:
                         power_up.deactivate('lolly', lolly)
                         power_up.deactivate('bestie', bestie)
