@@ -41,8 +41,6 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         Whether the power-up is active.
     on_cooldown : bool
         Whether the power-up is on cooldown.
-    unavailable : bool
-        Whether the power-up is unavailable.
     can_move : bool
         Whether the power-up can move.
 
@@ -88,7 +86,6 @@ class PowerUp(ABC, pygame.sprite.Sprite):
 
         self.active = False
         self.on_cooldown = True  # if the power up is on cooldown
-        self.unavailable = False  # if the power up is unavailable (used in the game file)
         self.can_move = True  # if the power up can move
         
     def move_down(self):
@@ -118,9 +115,9 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         self.active = True  # the power up will be active after the collision
         # self.on_cooldown = False # the power up will be off cooldown after the collision
 
-        if self.active or self.on_cooldown or self.unavailable:  # if the power up is on cooldown or unavailable, it will be hidden
+        if self.active or self.on_cooldown:  # if the power up is on cooldown, it will be hidden
             self.hide()
-        else:  # if the power up is not on cooldown or unavailable, it will be placed in a random lane
+        else:  # if the power up is not on cooldown, it will be placed in a random lane
             self.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
 
         '''
@@ -425,7 +422,7 @@ class GlamorousGrowth(PowerUp):  # Player gets a health buff and grows in size
 class FrostyFrenzy(PowerUp):  # Traffic gets slowed down
 
     def __init__(self, difficulty):
-        super().__init__('images/power_ups/frosty_frenzy.png', difficulty, 10, 140, random.randint(100, 500))
+        super().__init__('images/power_ups/frosty_frenzy.png', difficulty, 10, 90, random.randint(100, 500))
 
         self.difficulty = difficulty
         if difficulty == 'easy':

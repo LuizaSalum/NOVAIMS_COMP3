@@ -1234,17 +1234,18 @@ def multi_game(difficulty, lolly_car, bestie_car):
                             power_up.deactivate(incoming_cars)
                         elif difficulty == 'hard':
                             power_up.deactivate(traffic_group_left=incoming_cars_left, traffic_group_right=incoming_cars_right)
-                    power_up.add_cooldown_prob() # give the power up a cooldown probability (the probability of the power up being available again)
+                    power_up.add_cooldown_prob() # give the power up a cooldown probability
 
-            # now we're checking if the power up is available or not, and if it's not, then we're decreasing the cooldown timer by 1 every frame
+            # if the power up is not active (on cooldown), then the cooldown timer decreases by 1 every frame
             # if the cooldown reaches 0, then the power up is available again
             if power_up.on_cooldown:
                 power_up.cooldown -= 1
                 if power_up.cooldown == 0:
                     power_up.on_cooldown = False
-                    power_up.add_cooldown(60)
+                    power_up.add_cooldown(random.randint(60, 120)) # the cooldown is reset to a random number between 1000 and 3000
                     power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
                     power_up.can_move = True
+                    # the power up is repositioned at the top of the screen and can move again
                                     
         if lolly.eliminated or bestie.eliminated:
             galpal.can_move = True
