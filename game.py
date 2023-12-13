@@ -577,13 +577,30 @@ def single_game(difficulty, lolly_car):
 
         # Inserting the Victory Part
 
-        if score >= 6000 and score % 2000 == 0:  # if the score reaches 6000 or every 2000 points after that
-            pygame.mixer.music.set_volume(0.05)  # the music volume is decreased
-            # get the current game screen to pause
-            game_screen = pygame.Surface(size)  # creating a surface with the same size as the screen
-            game_screen.blit(screen, (0, 0))  # copying the screen to the surface
-            victory(game_screen, difficulty, lolly.car_type)  # the victory function is called
-            pygame.mixer.music.set_volume(0.4)  # the music volume is increased again
+        if difficulty == 'easy':
+            if score >= 6000 and score % 3000 == 0:  # if the score reaches 6000 or every 3000 points after that
+                pygame.mixer.music.set_volume(0.05)  # the music volume is decreased
+                # get the current game screen to pause
+                game_screen = pygame.Surface(size)  # creating a surface with the same size as the screen
+                game_screen.blit(screen, (0, 0))  # copying the screen to the surface
+                victory(game_screen, difficulty, lolly.car_type)  # the victory function is called
+                pygame.mixer.music.set_volume(0.4)  # the music volume is increased again
+
+        elif difficulty == 'normal':
+            if score >= 6000 and score % 2000 == 0:  # if the score reaches 6000 or every 2000 points after that
+                pygame.mixer.music.set_volume(0.05)
+                game_screen = pygame.Surface(size)
+                game_screen.blit(screen, (0, 0))
+                victory(game_screen, difficulty, lolly.car_type)
+                pygame.mixer.music.set_volume(0.4)
+
+        elif difficulty == 'hard':
+            if score >= 6000 and score % 1000 == 0:  # if the score reaches 6000 or every 1000 points after that
+                pygame.mixer.music.set_volume(0.05)
+                game_screen = pygame.Surface(size)
+                game_screen.blit(screen, (0, 0))
+                victory(game_screen, difficulty, lolly.car_type)
+                pygame.mixer.music.set_volume(0.4)
 
         # Updating the Display
 
@@ -1742,6 +1759,8 @@ def victory(game_screen, difficulty, lolly, bestie = None):
     talking = pygame.mixer.Sound("sounds/victory/talking.mp3")
     button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
     button_pressed.set_volume(0.5)
+    exit_pressed = pygame.mixer.Sound("sounds/exit_button.mp3")
+    exit_pressed.set_volume(0.2)
 
     # Loading the images
     victory_question = pygame.image.load("images/victory/victory_question.png").convert_alpha()
@@ -1829,13 +1848,15 @@ def victory(game_screen, difficulty, lolly, bestie = None):
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         carry_on = False
                         if bestie == None:
-                            single_game(difficulty, lolly, bestie)
+                            single_game(difficulty, lolly)
                         else:
                             multi_game(difficulty, lolly, bestie)
 
                 elif exit_coord[0] <= mouse[0] <= exit_coord[1] and exit_coord[2] < mouse[1] < exit_coord[3]:
                     screen.blit(victory_exit_image, (0, 0))
                     if event.type == pygame.MOUSEBUTTONDOWN:
+                        exit_pressed.play()
+                        pygame.time.delay(800)
                         pygame.quit()
                 else:
                     screen.blit(victory_image, (0, 0))
