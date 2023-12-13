@@ -82,7 +82,7 @@ Maria Luiza Salum Alves Corrêa - 20221902
 <hr>
 <h2>How to Use the Project</h2>
 <h3>Images and Sounds</h3>
-<p>Every image is located in the "images" folder, and every sound is located in the "sounds" folder</p>
+<p>Every image is located in the "images" folder, and every sound is located in the "sounds" folder.</p>
 <h3>Code</h3>
 <p>The code is divided into five files:
 <ul>
@@ -129,3 +129,8 @@ Maria Luiza Salum Alves Corrêa - 20221902
         <li>ToyTransforminator</li>
     </ul>
 </ul>
+<hr>
+<h2>Unresolved Issues</h2>
+<p>Sometimes the victory story is not displayed; The game freezes in the "..." part and unfreezes in the victory screen. We tried changing the delay to clock tick and things like that, but nothing seemed to work.</p>
+<p>There are rare occasions where two traffic cars scroll down on top of each other. We have NO IDEA why that's happening, and we've spent a good amount of time trying to find our mistake to no avail.</p>
+<p>There are moments where a traffic car gets its position reset after already being a few pixels in (so the player can see the car disappearing out of nowhere). We couldn't find where the problem lies haha.</p>
