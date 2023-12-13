@@ -62,9 +62,12 @@ Maria Luiza Salum Alves Corrêa - 20221902
 </ul>
 <br>
 <h3>Game Story</h3>
-<p><em><strong>Lolly (Player 1)</strong> was with her <strong>Bestie (Player 2)</strong> in the local park playing with her dog, when a sudden noise scared the poor thing! The puppy started running and escaped, so now Lolly needs to rescue her baby!</em></p>
+<p><em>Our friend <strong>Lolly (Player 1)</strong> was hanging out with her <strong>Bestie (Player 2)</strong> in the local park, playing with her dog, when a sudden noise scared the poor thing! The puppy started running and escaped, so now Lolly needs help rescuing her baby!</em></p>
 <p>In the Home Screen, it's explained that Lolly moves with WASD and Bestie with the Arrow Keys.</p>
+<p>Win Scenario:</p>
+<p><em>The player accepts the phone call and finds out that Lolly's puppy was brought to the <strong>Local Vet Clinic</strong> by a good samaritan, and they were able to contact Lolly thanks to the fact that the dog was chipped!</em></p>
 <hr>
+<br>
 <h1> Files Created </h1>
 main.py<br>
 game.py<br>

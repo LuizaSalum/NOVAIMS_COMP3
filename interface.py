@@ -60,7 +60,8 @@ buttons = {
     }
 
 
-def start_screen(music_started=True):
+def start_screen(music_started=True):  # Start/Home Screen - the first screen the user sees when they open the game.
+    # Can be accessed from the credits, singleplayer, multiplayer, dog, lolly, bestie and power ups list screens and the menu.
 
     pygame.mixer.init()
     pygame.init()
@@ -143,7 +144,8 @@ def start_screen(music_started=True):
                             exit()
 
 
-def credits_screen():
+def credits_screen():  # Credits Screen - the screen that displays the credits of the game.
+    # Can be accessed from the start screen and the menu
 
     pygame.mixer.init()
     pygame.init()
@@ -200,7 +202,8 @@ def credits_screen():
                     start_screen()
 
 
-def single_customisation_screen(lolly, difficulty):
+def single_customisation_screen(lolly, difficulty):  # Singleplayer Customisation Screen - the screen that allows the user to customise their singleplayer game.
+    # Can be accessed from the start, dog, lolly and power ups list screens.
 
     pygame.mixer.init()
     pygame.init()
@@ -280,7 +283,8 @@ def single_customisation_screen(lolly, difficulty):
                             difficulty = 'normal'
 
 
-def multi_customisation_screen(lolly, bestie, difficulty):
+def multi_customisation_screen(lolly, bestie, difficulty):  # Multiplayer Customisation Screen - the screen that allows the user to customise their multiplayer game.
+    # Can be accessed from the start, dog, lolly, bestie and power ups list screens.
 
     pygame.init()
     size = (1250, 950)
@@ -363,7 +367,8 @@ def multi_customisation_screen(lolly, bestie, difficulty):
                             difficulty = 'normal'
 
 
-def dog_customisation_screen(lolly, mode, difficulty, bestie=None):
+def dog_customisation_screen(lolly, mode, difficulty, bestie=None):  # Dog Customisation Screen - the screen that allows the user to customise their dog.
+    # Can be accessed from the singleplayer or multiplayer screen.
 
     selected_difficulty = difficulty  # storing the difficulty selected before the customisation screen is opened
 
@@ -475,7 +480,8 @@ def dog_customisation_screen(lolly, mode, difficulty, bestie=None):
                                     multi_customisation_screen(lolly=lolly, bestie=bestie, difficulty=selected_difficulty)
 
 
-def lolly_customisation_screen(mode, lolly, difficulty, bestie=None):
+def lolly_customisation_screen(mode, lolly, difficulty, bestie=None):  # Lolly Customisation Screen - the screen that allows the user to customise their lolly.
+    # Can be accessed from the singleplayer or multiplayer screen.
 
     selected_lolly = lolly  # storing the lolly selected before the customisation screen is opened
 
@@ -589,7 +595,8 @@ def lolly_customisation_screen(mode, lolly, difficulty, bestie=None):
                                 multi_customisation_screen(lolly=selected_lolly, bestie=bestie, difficulty=difficulty)
 
 
-def bestie_customisation_screen(lolly, bestie, difficulty):
+def bestie_customisation_screen(lolly, bestie, difficulty):  # Bestie Customisation Screen - the screen that allows the user to customise their bestie.
+    # Can be accessed from the multiplayer screen.
 
     selected_bestie = bestie  # storing the bestie selected before the customisation screen is opened
 
@@ -695,7 +702,8 @@ def bestie_customisation_screen(lolly, bestie, difficulty):
                             multi_customisation_screen(lolly=lolly, bestie=selected_bestie, difficulty=difficulty)
 
 
-def power_ups_list_screen(mode, lolly, difficulty, bestie=None):
+def power_ups_list_screen(mode, lolly, difficulty, bestie=None):  # Power Ups List Screen - the screen that displays the power ups list.
+    # Can be accessed from the singleplayer or multiplayer screen.
 
     pygame.init()
     size = (1250, 950)
@@ -777,7 +785,8 @@ def power_ups_list_screen(mode, lolly, difficulty, bestie=None):
                                 multi_customisation_screen(lolly=lolly, bestie=bestie, difficulty=difficulty)
 
 
-def menu(screen_image):
+def menu(screen_image):  # Menu - the screen that displays the menu on top of the current screen.
+    # Can be accessed from the start, credits, singleplayer, multiplayer, dog, lolly, bestie and power ups list screens.
 
     menu_position = (451, 799, 201, 749)  # (min_x, max_x, mix_y, max_y)
 

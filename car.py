@@ -3,6 +3,32 @@ import pygame
 
 class Car(pygame.sprite.Sprite):
 
+    """
+    A class representing a car in the game.
+
+    Attributes
+    ----------
+        image : pygame.Surface
+            The image of the car.
+        rect : pygame.Rect
+            The rectangle of the car's image.
+        mask : pygame.Mask
+            The mask for collision detection.
+        speed : int
+            The speed of the car.
+        health : int
+            The health points of the car.
+
+    Methods
+    -------
+        add_speed
+            Add speed to the car.
+        change_image
+            Change the image of the car.
+        set_position
+            Set the position of the car.
+    """
+
     def __init__(self, image_path, speed=0, health=0):
         super().__init__()
 
@@ -30,6 +56,48 @@ class Car(pygame.sprite.Sprite):
         self.rect.y = y
 
 class PlayerCar(Car):
+
+    """
+    A class representing a player's car in the game.
+
+    Attributes
+    ----------
+    car_type : str
+        The type of the car.
+    max_health : int
+        The maximum health points of the car.
+    can_collide : bool
+        If the car can collide with other players.
+    can_crash : bool
+        If the car can crash with traffic cars.
+    eliminated : bool
+        If the car has been eliminated.
+    can_move : bool
+        If the car can move.
+    controls_inverted : bool
+        If the controls are inverted.
+
+    Methods
+    -------
+    move_up()
+        Move the car up.
+    move_down()
+        Move the car down.
+    move_left()
+        Move the car left.
+    move_right()
+        Move the car right.
+    add_health()
+        Add health points to the car.
+    change_image()
+        Change the image of the car based on active power-ups.
+    die()
+        Perform actions when the car dies.
+    respawn()
+        Perform actions when the car respawns.
+    resize_car()
+        Resize the car based on a multiplier.
+    """
 
     def __init__(self, car_type, difficulty):
 
@@ -150,6 +218,37 @@ class PlayerCar(Car):
         self.set_position(current_position[0], current_position[1])
 
 class TrafficCar(Car):
+
+    """
+    A class representing a traffic car in the game.
+
+    Parameters
+    ----------
+    car_type_number : int
+        The number representing the car type.
+    direction : str
+        The direction of the car.
+    difficulty : str
+        The difficulty level of the game.
+
+    Attributes
+    ----------
+    speed : int
+        The speed of the car.
+    health : int
+        The health points of the car.
+
+    Methods
+    -------
+    move_up()
+        Move the car up.
+    move_down()
+        Move the car down.
+    change_car(car_type_number, direction)
+        Change the car's attributes based on car type and direction.
+    resize_car(multiplier)
+        Resize the car based on a multiplier.
+    """
 
     def __init__(self, car_type_number, direction, difficulty):
 
