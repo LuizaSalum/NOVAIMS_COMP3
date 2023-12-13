@@ -589,7 +589,6 @@ def lolly_customisation_screen(mode, lolly, difficulty, bestie=None):
                                 multi_customisation_screen(lolly=selected_lolly, bestie=bestie, difficulty=difficulty)
 
 
-
 def bestie_customisation_screen(lolly, bestie, difficulty):
 
     selected_bestie = bestie  # storing the bestie selected before the customisation screen is opened

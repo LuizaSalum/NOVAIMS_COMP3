@@ -590,7 +590,6 @@ def single_game(difficulty, lolly_car):
 
     pygame.quit()
 
-
 def multi_game(difficulty, lolly_car, bestie_car):
 
     """

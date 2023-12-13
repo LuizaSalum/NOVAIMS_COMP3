@@ -149,7 +149,6 @@ class PlayerCar(Car):
         self.mask = pygame.mask.from_surface(self.image)
         self.set_position(current_position[0], current_position[1])
 
-
 class TrafficCar(Car):
 
     def __init__(self, car_type_number, direction, difficulty):
@@ -223,4 +222,3 @@ class TrafficCar(Car):
         self.mask = pygame.mask.from_surface(self.image)
         self.set_position(current_position[0], current_position[1])
         # replacing the traffic car in the stored position
-        

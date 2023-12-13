@@ -145,7 +145,6 @@ class PowerUp(ABC, pygame.sprite.Sprite):
     def affect_traffic(self, traffic_group):
         pass
 
-
 ''' Power Ups that affect both players '''
 
 class BestiesInHarmony(PowerUp):  # Players can't collide with each other
