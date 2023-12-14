@@ -24,6 +24,9 @@ def single_game(difficulty, lolly_car):
 
     menu_open = pygame.mixer.Sound("sounds/menu_open.mp3")  # sound for when the menu opens
     menu_open.set_volume(0.7)
+    hp_loss = pygame.mixer.Sound("sounds/hp_loss.mp3")
+    hp_diva = pygame.mixer.Sound("sounds/hp_diva.mp3")
+    powerup_sound = pygame.mixer.Sound("sounds/powerup_sound.mp3")
 
     # Setting up the screen
 
@@ -162,7 +165,6 @@ def single_game(difficulty, lolly_car):
         added_cars_list_left.append(added_car1)
         added_car2 = TrafficCar(random.randint(1, 32), 'left', 'hard')
         added_cars_list_left.append(added_car2)
-
 
     # Creating, positioning and adding the power ups to a group
 
@@ -398,7 +400,10 @@ def single_game(difficulty, lolly_car):
                             lolly.add_health(-1)
                             if lolly.health == 0:
                                 game_over(road, difficulty, lolly)
+                            else:
+                                hp_loss.play()
                         else:
+                            hp_diva.play()
                             pass
 
         elif difficulty == 'hard':
@@ -411,7 +416,10 @@ def single_game(difficulty, lolly_car):
                             lolly.add_health(-1)
                             if lolly.health == 0:
                                 game_over(road, difficulty, lolly)
+                            else:
+                                hp_loss.play()
                         else:
+                            hp_diva.play()
                             pass
 
             for traffic_car in incoming_cars_right:
@@ -422,7 +430,10 @@ def single_game(difficulty, lolly_car):
                             lolly.add_health(-1)
                             if lolly.health == 0:
                                 game_over(road, difficulty, lolly)
+                            else:
+                                hp_loss.play()
                         else:
+                            hp_diva.play()
                             pass
 
         # collision between traffic cars
@@ -478,6 +489,7 @@ def single_game(difficulty, lolly_car):
 
             if pygame.sprite.collide_rect(lolly, power_up):
                 if pygame.sprite.spritecollide(lolly, power_ups, False, pygame.sprite.collide_mask):
+                    powerup_sound.play()
                     if power_up == sissy:
                         power_up.collision(lolly)
                     elif power_up == diva or power_up == growth:
@@ -629,6 +641,10 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
     menu_open = pygame.mixer.Sound("sounds/menu_open.mp3")  # sound for when the menu opens
     menu_open.set_volume(0.7)
+    hp_loss = pygame.mixer.Sound("sounds/hp_loss.mp3")
+    hp_die = pygame.mixer.Sound("sounds/hp_die.mp3")
+    hp_diva = pygame.mixer.Sound("sounds/hp_diva.mp3")
+    powerup_sound = pygame.mixer.Sound("sounds/powerup_sound.mp3")
 
     # Setting up the screen
 
@@ -1088,12 +1104,16 @@ def multi_game(difficulty, lolly_car, bestie_car):
                         if lolly.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
                             lolly.add_health(-1)
                             if lolly.health == 0 and bestie.health != 0:
+                                hp_die.play()
                                 lolly.die()  # if the Lolly is eliminated, then the die function is called,
                                 # this function moves the car off screen and turns the can_move variable to False
                                 # also, it stores the position of the car, so that it can be respawned later
                             elif lolly.health <= 0 and bestie.health <= 0:  # if both players are eliminated, then the game is over
                                 game_over(road, difficulty, lolly, bestie)
+                            elif lolly.health != 0 and bestie.health != 0:
+                                hp_loss.play()
                         else:
+                            hp_diva.play()
                             pass
 
         elif difficulty == 'hard':
@@ -1105,10 +1125,14 @@ def multi_game(difficulty, lolly_car, bestie_car):
                         if lolly.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
                             lolly.add_health(-1)
                             if lolly.health == 0 and bestie.health != 0:
+                                hp_die.play()
                                 lolly.die()
                             elif lolly.health <= 0 and bestie.health <= 0:
                                 game_over(road, difficulty, lolly, bestie)
+                            elif lolly.health != 0 and bestie.health != 0:
+                                hp_loss.play()
                         else:
+                            hp_diva.play()
                             pass
 
             for traffic_car in incoming_cars_right:
@@ -1118,10 +1142,14 @@ def multi_game(difficulty, lolly_car, bestie_car):
                         if lolly.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
                             lolly.add_health(-1)
                             if lolly.health == 0 and bestie.health != 0:
+                                hp_die.play()
                                 lolly.die()
                             elif lolly.health <= 0 and bestie.health <= 0:
                                 game_over(road, difficulty, lolly, bestie)
+                            elif lolly.health != 0 and bestie.health != 0:
+                                hp_loss.play()
                         else:
+                            hp_diva.play()
                             pass
 
         if difficulty != 'hard':
@@ -1133,10 +1161,14 @@ def multi_game(difficulty, lolly_car, bestie_car):
                         if bestie.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
                             bestie.add_health(-1)
                             if bestie.health == 0 and lolly.health != 0:
+                                hp_die.play()
                                 bestie.die()
                             elif bestie.health <= 0 and lolly.health <= 0:
                                 game_over(road, difficulty, lolly, bestie)
+                            elif lolly.health != 0 and bestie.health != 0:
+                                hp_loss.play()
                         else:
+                            hp_diva.play()
                             pass
 
         elif difficulty == 'hard':
@@ -1148,10 +1180,14 @@ def multi_game(difficulty, lolly_car, bestie_car):
                         if bestie.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
                             bestie.add_health(-1)
                             if bestie.health == 0 and lolly.health != 0:
+                                hp_die.play()
                                 bestie.die()
                             elif bestie.health <= 0 and lolly.health <= 0:
                                 game_over(road, difficulty, lolly, bestie)
+                            elif lolly.health != 0 and bestie.health != 0:
+                                hp_loss.play()
                         else:
+                            hp_diva.play()
                             pass
 
             for traffic_car in incoming_cars_right:
@@ -1161,10 +1197,14 @@ def multi_game(difficulty, lolly_car, bestie_car):
                         if bestie.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
                             bestie.add_health(-1)	
                             if bestie.health == 0 and lolly.health != 0:
+                                hp_die.play()
                                 bestie.die()
                             elif bestie.health <= 0 and lolly.health <= 0:
                                 game_over(road, difficulty, lolly, bestie)
+                            elif lolly.health != 0 and bestie.health != 0:
+                                hp_loss.play()
                         else:
+                            hp_diva.play()
                             pass
 
         # collision between traffic cars
@@ -1222,6 +1262,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
             if pygame.sprite.collide_rect(lolly, power_up) or pygame.sprite.collide_rect(bestie, power_up):
                 if pygame.sprite.spritecollide(lolly, power_ups, False, pygame.sprite.collide_mask) or pygame.sprite.spritecollide(bestie, power_ups, False, pygame.sprite.collide_mask):
+                    powerup_sound.play()
                     if power_up == besties or power_up == galpal or power_up == tangled or power_up == sissy:
                         power_up.collision(lolly= lolly, bestie = bestie)
                     elif power_up == diva or power_up == growth:
@@ -1461,7 +1502,10 @@ def game_over(road, difficulty, lolly, bestie = None):
     icon = pygame.image.load("images/icon.png")
     pygame.display.set_icon(icon)
 
-    ''' Loading Images '''
+    # Loading Sounds
+    pygame.mixer.music.load("sounds/music/gameover.mp3")
+
+    # Loading Images
     game_over_image = pygame.image.load("images/game_over/game_over.png").convert_alpha()
     game_over_restart_image = pygame.image.load("images/game_over/game_over_restart.png").convert_alpha()
     game_over_exit_image = pygame.image.load("images/game_over/game_over_exit.png").convert_alpha()
@@ -1479,6 +1523,9 @@ def game_over(road, difficulty, lolly, bestie = None):
     event = pygame.event.Event(pygame.USEREVENT)
 
     while carry_on:
+
+        pygame.mixer.music.play(-1)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 carry_on = False
@@ -1762,6 +1809,8 @@ def victory(game_screen, difficulty, lolly, bestie = None):
     button_pressed.set_volume(0.5)
     exit_pressed = pygame.mixer.Sound("sounds/exit_button.mp3")
     exit_pressed.set_volume(0.2)
+    win_sound = pygame.mixer.Sound("sounds/victory/win_sound.mp3")
+    pygame.mixer.music.load("sounds/music/win.mp3")
 
     # Loading the images
     victory_question = pygame.image.load("images/victory/victory_question.png").convert_alpha()
@@ -1827,6 +1876,7 @@ def victory(game_screen, difficulty, lolly, bestie = None):
                     pygame.time.delay(4500)
 
                     #displaying the story
+                    win_sound.play()
                     screen.blit(victory_story_1, (0, 0))
                     pygame.display.flip()
                     pygame.time.delay(4000)
@@ -1842,6 +1892,8 @@ def victory(game_screen, difficulty, lolly, bestie = None):
                     carry_on = False
 
             if victory:
+
+                pygame.mixer.music.play(-1)
                 
                 # if the user hovers and clicks over the buttons
                 if restart_coord[0] <= mouse[0] <= restart_coord[1] and restart_coord[2] < mouse[1] < restart_coord[3]:
