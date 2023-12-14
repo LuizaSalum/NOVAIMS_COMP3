@@ -26,7 +26,7 @@ def single_game(difficulty, lolly_car):
     menu_open.set_volume(0.7)
     hp_loss = pygame.mixer.Sound("sounds/hp_loss.mpeg")
     hp_diva = pygame.mixer.Sound("sounds/hp_diva.mp3")
-    hp_diva.set_volume(1.3)
+    hp_diva.set_volume(1.4)
     powerup_sound = pygame.mixer.Sound("sounds/powerup_sound.mpeg")
 
     # Setting up the screen
@@ -141,7 +141,7 @@ def single_game(difficulty, lolly_car):
 
     # Creating, positioning and adding the cars that will be added over time to a group
 
-    if difficulty != 'easy':
+    if difficulty == 'easy':
 
         added_cars_list = []
 
@@ -794,7 +794,6 @@ def multi_game(difficulty, lolly_car, bestie_car):
         added_car2 = TrafficCar(random.randint(1, 32), 'left', 'hard')
         added_cars_list_left.append(added_car2)
 
-
     # Creating, positioning and adding the power ups to a group
 
     power_ups_list = []
@@ -1112,7 +1111,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
                                 # also, it stores the position of the car, so that it can be respawned later
                             elif lolly.health <= 0 and bestie.health <= 0:  # if both players are eliminated, then the game is over
                                 game_over(road, difficulty, lolly, bestie)
-                            elif lolly.health != 0 and bestie.health != 0:
+                            else:
                                 hp_loss.play()
                         else:
                             hp_diva.play()
@@ -1131,7 +1130,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
                                 lolly.die()
                             elif lolly.health <= 0 and bestie.health <= 0:
                                 game_over(road, difficulty, lolly, bestie)
-                            elif lolly.health != 0 and bestie.health != 0:
+                            else:
                                 hp_loss.play()
                         else:
                             hp_diva.play()
@@ -1148,7 +1147,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
                                 lolly.die()
                             elif lolly.health <= 0 and bestie.health <= 0:
                                 game_over(road, difficulty, lolly, bestie)
-                            elif lolly.health != 0 and bestie.health != 0:
+                            else:
                                 hp_loss.play()
                         else:
                             hp_diva.play()
@@ -1167,7 +1166,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
                                 bestie.die()
                             elif bestie.health <= 0 and lolly.health <= 0:
                                 game_over(road, difficulty, lolly, bestie)
-                            elif lolly.health != 0 and bestie.health != 0:
+                            else:
                                 hp_loss.play()
                         else:
                             hp_diva.play()
@@ -1186,7 +1185,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
                                 bestie.die()
                             elif bestie.health <= 0 and lolly.health <= 0:
                                 game_over(road, difficulty, lolly, bestie)
-                            elif lolly.health != 0 and bestie.health != 0:
+                            else:
                                 hp_loss.play()
                         else:
                             hp_diva.play()
@@ -1203,7 +1202,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
                                 bestie.die()
                             elif bestie.health <= 0 and lolly.health <= 0:
                                 game_over(road, difficulty, lolly, bestie)
-                            elif lolly.health != 0 and bestie.health != 0:
+                            else:
                                 hp_loss.play()
                         else:
                             hp_diva.play()
@@ -1226,7 +1225,6 @@ def multi_game(difficulty, lolly_car, bestie_car):
                                     traffic_car_2.rect.y = traffic_car_1.rect.y - 2*traffic_car_2.rect.height 
                             else:  # if both cars are on screen
                                 traffic_car_2.speed = traffic_car_1.speed # then the car behind will slow down
-
 
         elif difficulty == 'hard':  # same thing as above, but for cars on the left and right
 
@@ -1255,8 +1253,6 @@ def multi_game(difficulty, lolly_car, bestie_car):
                                 traffic_car_2.speed = traffic_car_1.speed
 
         # collision between players and power ups
-        print(bestie.speed)
-        print(lolly.speed)
 
         for power_up in power_ups:
             if not power_up.on_cooldown:
@@ -1386,7 +1382,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
         # Drawing the Power Ups Bar (on the left side of the screen)
 
         icon_position = 30  # the y position of the first icon
-        for icon in power_ups_bar(besties.active, diva.active, growth.active, tangled.active, sissy.active, frosty.active, toy.active):
+        for icon in power_ups_bar(diva.active, growth.active, sissy.active, frosty.active, toy.active, tangled.active, besties.active):
             icon_position += 80
             screen.blit(icon, (0, icon_position))
 
@@ -1816,6 +1812,7 @@ def victory(game_screen, difficulty, lolly, bestie = None):
     exit_pressed.set_volume(0.2)
     win_sound = pygame.mixer.Sound("sounds/victory/win_sound.mp3")
     pygame.mixer.music.load("sounds/music/win.mp3")
+    pygame.mixer.music.set_volume(1.3)
 
     # Loading the images
     victory_question = pygame.image.load("images/victory/victory_question.png").convert_alpha()
@@ -1891,8 +1888,7 @@ def victory(game_screen, difficulty, lolly, bestie = None):
                     pygame.display.flip()
                     pygame.time.delay(4000)
 
-                    screen.blit(victory_image, (0, 0))
-                    pygame.display.flip()
+                    carry_on = False
 
                 elif event.key == pygame.K_n:
                     phone_ring.stop()
@@ -1902,27 +1898,36 @@ def victory(game_screen, difficulty, lolly, bestie = None):
 
     if victory:
 
+        screen.blit(victory_image, (0, 0))
+        pygame.display.flip()
+
         pygame.mixer.music.play(-1)
 
         while carry_on_2:
-            
-            # if the user hovers and clicks over the buttons
-            if restart_coord[0] <= mouse[0] <= restart_coord[1] and restart_coord[2] < mouse[1] < restart_coord[3]:
-                screen.blit(victory_restart_image, (0, 0))
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    carry_on_2 = False
-                    if bestie == None:
-                        single_game(difficulty, lolly)
-                    else:
-                        multi_game(difficulty, lolly, bestie)
 
-            elif exit_coord[0] <= mouse[0] <= exit_coord[1] and exit_coord[2] < mouse[1] < exit_coord[3]:
-                screen.blit(victory_exit_image, (0, 0))
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    exit_pressed.play()
-                    pygame.time.delay(800)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
                     pygame.quit()
-            else:
-                screen.blit(victory_image, (0, 0))
+
+                mouse = pygame.mouse.get_pos()
+            
+                # if the user hovers and clicks over the buttons
+                if restart_coord[0] <= mouse[0] <= restart_coord[1] and restart_coord[2] < mouse[1] < restart_coord[3]:
+                    screen.blit(victory_restart_image, (0, 0))
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        carry_on_2 = False
+                        if bestie == None:
+                            single_game(difficulty, lolly)
+                        else:
+                            multi_game(difficulty, lolly, bestie)
+
+                elif exit_coord[0] <= mouse[0] <= exit_coord[1] and exit_coord[2] < mouse[1] < exit_coord[3]:
+                    screen.blit(victory_exit_image, (0, 0))
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        exit_pressed.play()
+                        pygame.time.delay(800)
+                        pygame.quit()
+                else:
+                    screen.blit(victory_image, (0, 0))
 
             pygame.display.flip()
