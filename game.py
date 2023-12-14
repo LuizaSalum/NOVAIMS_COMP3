@@ -445,16 +445,16 @@ def single_game(difficulty, lolly_car):
                 for traffic_car_2 in incoming_cars:
                     if traffic_car_1 != traffic_car_2:
                         if pygame.sprite.collide_rect(traffic_car_1, traffic_car_2):  # this time we're only checking for collision between the rectangles
-                            if traffic_car_1.rect.y < -800 or traffic_car_2.rect.y < -300:  # if one of the cars is off screen
+                            if traffic_car_1.rect.y < -800 or traffic_car_2.rect.y < -800:  # if one of the cars is off screen
                                 traffic_car_1.rect.y = random.randint(-2200, -800)  # then it is repositioned at the top of the screen
                                 traffic_car_1.rect.x = random.choice([285, 466, 643, 825])  # and given a new image
+                            else:
                                 if traffic_car_1.rect.y < traffic_car_2.rect.y: #prevent the cars from overlapping
-                                    traffic_car_1.rect.y = traffic_car_2.rect.y - 2*traffic_car_1.rect.height #then move the car 1 behind the car 2
+                                    traffic_car_1.rect.y = traffic_car_2.rect.y - traffic_car_1.rect.height #then move the car 1 behind the car 2
+                                    traffic_car_1.speed = traffic_car_2.speed # and give it the same speed as the car 2
                                 elif traffic_car_1.rect.y > traffic_car_2.rect.y: #check if the collision is happening when the traffic car 2 is behind
-                                    traffic_car_2.rect.y = traffic_car_1.rect.y - 2*traffic_car_2.rect.height 
-                            else:  # if both cars are on screen
-                                traffic_car_2.speed = traffic_car_1.speed # then the car behind will slow down
-
+                                    traffic_car_1.rect.y = traffic_car_2.rect.y + traffic_car_1.rect.height
+                                    traffic_car_1.speed = traffic_car_2.speed
 
         elif difficulty == 'hard':  # same thing as above, but for cars on the left and right
 
@@ -462,25 +462,83 @@ def single_game(difficulty, lolly_car):
                 for traffic_car_2 in incoming_cars_left:
                     if traffic_car_1 != traffic_car_2:
                         if pygame.sprite.collide_rect(traffic_car_1, traffic_car_2):
-                            if traffic_car_1.rect.y < -800 or traffic_car_2.rect.y < -300:
+                            if traffic_car_1.rect.y < -800 or traffic_car_2.rect.y < -800:
                                 traffic_car_1.rect.y = random.randint(-2200, -800)
                                 traffic_car_1.rect.x = random.choice([285, 466])
-                                if traffic_car_1.rect.y < traffic_car_2.rect.y: #prevent the cars from overlapping
-                                    traffic_car_1.rect.y = traffic_car_2.rect.y - 2*traffic_car_1.rect.height #then move the car 1 behind the car 2
-                                elif traffic_car_1.rect.y > traffic_car_2.rect.y: #check if the collision is happening when the traffic car 2 is behind
-                                    traffic_car_2.rect.y = traffic_car_1.rect.y - 2*traffic_car_2.rect.height 
                             else:
-                                traffic_car_2.speed = traffic_car_1.speed
+                                if traffic_car_1.rect.y < traffic_car_2.rect.y: #prevent the cars from overlapping
+                                    traffic_car_1.rect.y = traffic_car_2.rect.y - traffic_car_1.rect.height #then move the car 1 behind the car 2
+                                    traffic_car_1.speed = traffic_car_2.speed # and give it the same speed as the car 2
+                                elif traffic_car_1.rect.y > traffic_car_2.rect.y: #check if the collision is happening when the traffic car 2 is behind
+                                    traffic_car_1.rect.y = traffic_car_2.rect.y + traffic_car_1.rect.height
+                                    traffic_car_1.speed = traffic_car_2.speed
 
             for traffic_car_1 in incoming_cars_right:
                 for traffic_car_2 in incoming_cars_right:
                     if traffic_car_1 != traffic_car_2:
                         if pygame.sprite.collide_rect(traffic_car_1, traffic_car_2):
-                            if traffic_car_1.rect.y < 1550 or traffic_car_2.rect.y < 2050:
+                            if traffic_car_1.rect.y < 2050 or traffic_car_2.rect.y < 2050:
                                 traffic_car_1.rect.y = random.randint(1350, 2750)
                                 traffic_car_1.rect.x = random.choice([643, 825])
                             else:
-                                traffic_car_2.speed = traffic_car_1.speed
+                                if traffic_car_1.rect.y < traffic_car_2.rect.y: #prevent the cars from overlapping
+                                    traffic_car_1.rect.y = traffic_car_2.rect.y - traffic_car_1.rect.height #then move the car 1 behind the car 2
+                                    traffic_car_1.speed = traffic_car_2.speed # and give it the same speed as the car 2
+                                elif traffic_car_1.rect.y > traffic_car_2.rect.y: #check if the collision is happening when the traffic car 2 is behind
+                                    traffic_car_1.rect.y = traffic_car_2.rect.y + traffic_car_1.rect.height
+                                    traffic_car_1.speed = traffic_car_2.speed
+
+        # collision between traffic cars and power ups
+                                
+        if difficulty != 'hard':
+            
+            for traffic_car in incoming_cars:
+                for power_up in power_ups:
+                    if pygame.sprite.collide_rect(traffic_car, power_up):
+                        if pygame.sprite.spritecollide(traffic_car, power_ups, False, pygame.sprite.collide_mask):
+                            # if they are not on screen, we reposition them at random
+                            if traffic_car.rect.y < -800 or power_up.rect.y < -800:
+                                traffic_car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+                                power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+                            else:
+                                if traffic_car.rect.y < power_up.rect.y:
+                                    traffic_car.rect.y = power_up.rect.y - traffic_car.rect.height
+                                    power_up.speed = traffic_car.speed
+                                elif traffic_car.rect.y > power_up.rect.y:
+                                    traffic_car.rect.y = power_up.rect.y + traffic_car.rect.height
+                                    power_up.speed = traffic_car.speed
+
+        elif difficulty == 'hard':
+
+            for traffic_car in incoming_cars_left:
+                for power_up in power_ups:
+                    if pygame.sprite.collide_rect(traffic_car, power_up):
+                        if pygame.sprite.spritecollide(traffic_car, power_ups, False, pygame.sprite.collide_mask):
+                            if traffic_car.rect.y < -800 or power_up.rect.y < -800:
+                                traffic_car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
+                                power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+                            else:
+                                if traffic_car.rect.y < power_up.rect.y:
+                                    traffic_car.rect.y = power_up.rect.y - traffic_car.rect.height
+                                    power_up.speed = traffic_car.speed
+                                elif traffic_car.rect.y > power_up.rect.y:
+                                    traffic_car.rect.y = power_up.rect.y + traffic_car.rect.height
+                                    power_up.speed = traffic_car.speed
+
+            for traffic_car in incoming_cars_right:
+                for power_up in power_ups:
+                    if pygame.sprite.collide_rect(traffic_car, power_up):
+                        if pygame.sprite.spritecollide(traffic_car, power_ups, False, pygame.sprite.collide_mask):
+                            if traffic_car.rect.y < 2050 or power_up.rect.y < 2050:
+                                traffic_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                                power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+                            else:
+                                if traffic_car.rect.y < power_up.rect.y:
+                                    traffic_car.rect.y = power_up.rect.y - traffic_car.rect.height
+                                    power_up.speed = traffic_car.speed
+                                elif traffic_car.rect.y > power_up.rect.y:
+                                    traffic_car.rect.y = power_up.rect.y + traffic_car.rect.height
+                                    power_up.speed = traffic_car.speed
 
         # collision between players and power ups
 
@@ -1216,15 +1274,16 @@ def multi_game(difficulty, lolly_car, bestie_car):
                 for traffic_car_2 in incoming_cars:
                     if traffic_car_1 != traffic_car_2:
                         if pygame.sprite.collide_rect(traffic_car_1, traffic_car_2):  # this time we're only checking for collision between the rectangles
-                            if traffic_car_1.rect.y < -800 or traffic_car_2.rect.y < -300:  # if one of the cars is off screen
+                            if traffic_car_1.rect.y < -800 or traffic_car_2.rect.y < -800:  # if one of the cars is off screen
                                 traffic_car_1.rect.y = random.randint(-2200, -800)  # then it is repositioned at the top of the screen
                                 traffic_car_1.rect.x = random.choice([285, 466, 643, 825])  # and given a new image
+                            else:
                                 if traffic_car_1.rect.y < traffic_car_2.rect.y: #prevent the cars from overlapping
-                                    traffic_car_1.rect.y = traffic_car_2.rect.y - 2*traffic_car_1.rect.height #then move the car 1 behind the car 2
+                                    traffic_car_1.rect.y = traffic_car_2.rect.y - traffic_car_1.rect.height #then move the car 1 behind the car 2
+                                    traffic_car_1.speed = traffic_car_2.speed # and give it the same speed as the car 2
                                 elif traffic_car_1.rect.y > traffic_car_2.rect.y: #check if the collision is happening when the traffic car 2 is behind
-                                    traffic_car_2.rect.y = traffic_car_1.rect.y - 2*traffic_car_2.rect.height 
-                            else:  # if both cars are on screen
-                                traffic_car_2.speed = traffic_car_1.speed # then the car behind will slow down
+                                    traffic_car_1.rect.y = traffic_car_2.rect.y + traffic_car_1.rect.height
+                                    traffic_car_1.speed = traffic_car_2.speed
 
         elif difficulty == 'hard':  # same thing as above, but for cars on the left and right
 
@@ -1232,25 +1291,83 @@ def multi_game(difficulty, lolly_car, bestie_car):
                 for traffic_car_2 in incoming_cars_left:
                     if traffic_car_1 != traffic_car_2:
                         if pygame.sprite.collide_rect(traffic_car_1, traffic_car_2):
-                            if traffic_car_1.rect.y < -800 or traffic_car_2.rect.y < -300:
+                            if traffic_car_1.rect.y < -800 or traffic_car_2.rect.y < -800:
                                 traffic_car_1.rect.y = random.randint(-2200, -800)
                                 traffic_car_1.rect.x = random.choice([285, 466])
-                                if traffic_car_1.rect.y < traffic_car_2.rect.y: #prevent the cars from overlapping
-                                    traffic_car_1.rect.y = traffic_car_2.rect.y - 2*traffic_car_1.rect.height #then move the car 1 behind the car 2
-                                elif traffic_car_1.rect.y > traffic_car_2.rect.y: #check if the collision is happening when the traffic car 2 is behind
-                                    traffic_car_2.rect.y = traffic_car_1.rect.y - 2*traffic_car_2.rect.height 
                             else:
-                                traffic_car_2.speed = traffic_car_1.speed
+                                if traffic_car_1.rect.y < traffic_car_2.rect.y: #prevent the cars from overlapping
+                                    traffic_car_1.rect.y = traffic_car_2.rect.y - traffic_car_1.rect.height #then move the car 1 behind the car 2
+                                    traffic_car_1.speed = traffic_car_2.speed # and give it the same speed as the car 2
+                                elif traffic_car_1.rect.y > traffic_car_2.rect.y: #check if the collision is happening when the traffic car 2 is behind
+                                    traffic_car_1.rect.y = traffic_car_2.rect.y + traffic_car_1.rect.height
+                                    traffic_car_1.speed = traffic_car_2.speed
 
             for traffic_car_1 in incoming_cars_right:
                 for traffic_car_2 in incoming_cars_right:
                     if traffic_car_1 != traffic_car_2:
                         if pygame.sprite.collide_rect(traffic_car_1, traffic_car_2):
-                            if traffic_car_1.rect.y < 1550 or traffic_car_2.rect.y < 2050:
+                            if traffic_car_1.rect.y < 2050 or traffic_car_2.rect.y < 2050:
                                 traffic_car_1.rect.y = random.randint(1350, 2750)
                                 traffic_car_1.rect.x = random.choice([643, 825])
                             else:
-                                traffic_car_2.speed = traffic_car_1.speed
+                                if traffic_car_1.rect.y < traffic_car_2.rect.y: #prevent the cars from overlapping
+                                    traffic_car_1.rect.y = traffic_car_2.rect.y - traffic_car_1.rect.height #then move the car 1 behind the car 2
+                                    traffic_car_1.speed = traffic_car_2.speed # and give it the same speed as the car 2
+                                elif traffic_car_1.rect.y > traffic_car_2.rect.y: #check if the collision is happening when the traffic car 2 is behind
+                                    traffic_car_1.rect.y = traffic_car_2.rect.y + traffic_car_1.rect.height
+                                    traffic_car_1.speed = traffic_car_2.speed
+
+        # collision between traffic cars and power ups
+                                
+        if difficulty != 'hard':
+            
+            for traffic_car in incoming_cars:
+                for power_up in power_ups:
+                    if pygame.sprite.collide_rect(traffic_car, power_up):
+                        if pygame.sprite.spritecollide(traffic_car, power_ups, False, pygame.sprite.collide_mask):
+                            # if they are not on screen, we reposition them at random
+                            if traffic_car.rect.y < -800 or power_up.rect.y < -800:
+                                traffic_car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
+                                power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+                            else:
+                                if traffic_car.rect.y < power_up.rect.y:
+                                    traffic_car.rect.y = power_up.rect.y - traffic_car.rect.height
+                                    power_up.speed = traffic_car.speed
+                                elif traffic_car.rect.y > power_up.rect.y:
+                                    traffic_car.rect.y = power_up.rect.y + traffic_car.rect.height
+                                    power_up.speed = traffic_car.speed
+
+        elif difficulty == 'hard':
+
+            for traffic_car in incoming_cars_left:
+                for power_up in power_ups:
+                    if pygame.sprite.collide_rect(traffic_car, power_up):
+                        if pygame.sprite.spritecollide(traffic_car, power_ups, False, pygame.sprite.collide_mask):
+                            if traffic_car.rect.y < -800 or power_up.rect.y < -800:
+                                traffic_car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
+                                power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+                            else:
+                                if traffic_car.rect.y < power_up.rect.y:
+                                    traffic_car.rect.y = power_up.rect.y - traffic_car.rect.height
+                                    power_up.speed = traffic_car.speed
+                                elif traffic_car.rect.y > power_up.rect.y:
+                                    traffic_car.rect.y = power_up.rect.y + traffic_car.rect.height
+                                    power_up.speed = traffic_car.speed
+
+            for traffic_car in incoming_cars_right:
+                for power_up in power_ups:
+                    if pygame.sprite.collide_rect(traffic_car, power_up):
+                        if pygame.sprite.spritecollide(traffic_car, power_ups, False, pygame.sprite.collide_mask):
+                            if traffic_car.rect.y < 2050 or power_up.rect.y < 2050:
+                                traffic_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                                power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+                            else:
+                                if traffic_car.rect.y < power_up.rect.y:
+                                    traffic_car.rect.y = power_up.rect.y - traffic_car.rect.height
+                                    power_up.speed = traffic_car.speed
+                                elif traffic_car.rect.y > power_up.rect.y:
+                                    traffic_car.rect.y = power_up.rect.y + traffic_car.rect.height
+                                    power_up.speed = traffic_car.speed
 
         # collision between players and power ups
 
@@ -1812,7 +1929,6 @@ def victory(game_screen, difficulty, lolly, bestie = None):
     exit_pressed.set_volume(0.2)
     win_sound = pygame.mixer.Sound("sounds/victory/win_sound.mp3")
     pygame.mixer.music.load("sounds/music/win.mp3")
-    pygame.mixer.music.set_volume(1.3)
 
     # Loading the images
     victory_question = pygame.image.load("images/victory/victory_question.png").convert_alpha()
@@ -1840,7 +1956,7 @@ def victory(game_screen, difficulty, lolly, bestie = None):
     pygame.display.flip()
 
     carry_on = True
-    corry_on_2 = False
+    carry_on_2 = False
 
     phone_ring.play(-1)  # playing the phone ring sound on a loop
 
@@ -1915,6 +2031,7 @@ def victory(game_screen, difficulty, lolly, bestie = None):
                 if restart_coord[0] <= mouse[0] <= restart_coord[1] and restart_coord[2] < mouse[1] < restart_coord[3]:
                     screen.blit(victory_restart_image, (0, 0))
                     if event.type == pygame.MOUSEBUTTONDOWN:
+                        button_pressed.play()
                         carry_on_2 = False
                         if bestie == None:
                             single_game(difficulty, lolly)
