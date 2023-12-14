@@ -24,9 +24,10 @@ def single_game(difficulty, lolly_car):
 
     menu_open = pygame.mixer.Sound("sounds/menu_open.mp3")  # sound for when the menu opens
     menu_open.set_volume(0.7)
-    hp_loss = pygame.mixer.Sound("sounds/hp_loss.mp3")
+    hp_loss = pygame.mixer.Sound("sounds/hp_loss.mpeg")
     hp_diva = pygame.mixer.Sound("sounds/hp_diva.mp3")
-    powerup_sound = pygame.mixer.Sound("sounds/powerup_sound.mp3")
+    hp_diva.set_volume(1.3)
+    powerup_sound = pygame.mixer.Sound("sounds/powerup_sound.mpeg")
 
     # Setting up the screen
 
@@ -641,10 +642,11 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
     menu_open = pygame.mixer.Sound("sounds/menu_open.mp3")  # sound for when the menu opens
     menu_open.set_volume(0.7)
-    hp_loss = pygame.mixer.Sound("sounds/hp_loss.mp3")
-    hp_die = pygame.mixer.Sound("sounds/hp_die.mp3")
+    hp_loss = pygame.mixer.Sound("sounds/hp_loss.mpeg")
+    hp_die = pygame.mixer.Sound("sounds/hp_die.mpeg")
     hp_diva = pygame.mixer.Sound("sounds/hp_diva.mp3")
-    powerup_sound = pygame.mixer.Sound("sounds/powerup_sound.mp3")
+    powerup_sound = pygame.mixer.Sound("sounds/powerup_sound.mpeg")
+    galpal_sound = pygame.mixer.Sound("sounds/galpal.mp3")
 
     # Setting up the screen
 
@@ -1263,8 +1265,11 @@ def multi_game(difficulty, lolly_car, bestie_car):
             if pygame.sprite.collide_rect(lolly, power_up) or pygame.sprite.collide_rect(bestie, power_up):
                 if pygame.sprite.spritecollide(lolly, power_ups, False, pygame.sprite.collide_mask) or pygame.sprite.spritecollide(bestie, power_ups, False, pygame.sprite.collide_mask):
                     powerup_sound.play()
-                    if power_up == besties or power_up == galpal or power_up == tangled or power_up == sissy:
-                        power_up.collision(lolly= lolly, bestie = bestie)
+                    if power_up == galpal:
+                        galpal_sound.play()
+                        power_up.collision(lolly=lolly, bestie=bestie)
+                    if power_up == besties or power_up == tangled or power_up == sissy:
+                        power_up.collision(lolly=lolly, bestie=bestie)
                     elif power_up == diva or power_up == growth:
                         if pygame.sprite.spritecollide(lolly, power_ups, False, pygame.sprite.collide_mask):
                             power_up.collision('lolly', lolly)
@@ -1768,7 +1773,7 @@ def power_ups_bar(diva, growth, sissy, frosty, toy, tangled=None, besties=None):
         power_ups_names = ["diva_defiance", "glamorous_growth", "sissy_that_walk", "frosty_frenzy", "toy_transforminator"]
         power_ups_boolean_list = [diva, growth, sissy, frosty, toy]
     else:  # if it's the multiplayer game
-        power_ups_names = ["besties_in_harmony", "diva_defiance", "frosty_frenzy", "gal_pal_rebirth", "tangled_twist", "glamorous_growth", "sissy_that_walk", "toy_transforminator"]
+        power_ups_names = ["diva_defiance", "glamorous_growth", "sissy_that_walk", "frosty_frenzy", "toy_transforminator", "tangled_twist", "besties_in_harmony"]
         power_ups_boolean_list = [diva, growth, sissy, frosty, toy, tangled, besties]
 
     for number in range(len(power_ups_boolean_list)):  # this for loop adds the power ups to the list, according to the boolean values
@@ -1838,6 +1843,7 @@ def victory(game_screen, difficulty, lolly, bestie = None):
     pygame.display.flip()
 
     carry_on = True
+    corry_on_2 = False
 
     phone_ring.play(-1)  # playing the phone ring sound on a loop
 
@@ -1857,7 +1863,8 @@ def victory(game_screen, difficulty, lolly, bestie = None):
 
                     phone_ring.stop()  # stopping the phone ring sound
                     button_pressed.play()
-                    victory = True  # the victory variable is set to True, so that the victory image is displayed
+                    carry_on_2 = True
+                    victory = True
                     pygame.mixer.music.stop()  # stopping the music
                     phone_pickup.play()  # playing the phone pickup sound
                     pygame.time.delay(1000)
@@ -1891,27 +1898,31 @@ def victory(game_screen, difficulty, lolly, bestie = None):
                     phone_ring.stop()
                     carry_on = False
 
-            if victory:
-
-                pygame.mixer.music.play(-1)
-                
-                # if the user hovers and clicks over the buttons
-                if restart_coord[0] <= mouse[0] <= restart_coord[1] and restart_coord[2] < mouse[1] < restart_coord[3]:
-                    screen.blit(victory_restart_image, (0, 0))
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        carry_on = False
-                        if bestie == None:
-                            single_game(difficulty, lolly)
-                        else:
-                            multi_game(difficulty, lolly, bestie)
-
-                elif exit_coord[0] <= mouse[0] <= exit_coord[1] and exit_coord[2] < mouse[1] < exit_coord[3]:
-                    screen.blit(victory_exit_image, (0, 0))
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        exit_pressed.play()
-                        pygame.time.delay(800)
-                        pygame.quit()
-                else:
-                    screen.blit(victory_image, (0, 0))
-
         pygame.display.flip()
+
+    if victory:
+
+        pygame.mixer.music.play(-1)
+
+        while carry_on_2:
+            
+            # if the user hovers and clicks over the buttons
+            if restart_coord[0] <= mouse[0] <= restart_coord[1] and restart_coord[2] < mouse[1] < restart_coord[3]:
+                screen.blit(victory_restart_image, (0, 0))
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    carry_on_2 = False
+                    if bestie == None:
+                        single_game(difficulty, lolly)
+                    else:
+                        multi_game(difficulty, lolly, bestie)
+
+            elif exit_coord[0] <= mouse[0] <= exit_coord[1] and exit_coord[2] < mouse[1] < exit_coord[3]:
+                screen.blit(victory_exit_image, (0, 0))
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    exit_pressed.play()
+                    pygame.time.delay(800)
+                    pygame.quit()
+            else:
+                screen.blit(victory_image, (0, 0))
+
+            pygame.display.flip()
