@@ -132,5 +132,3 @@ Maria Luiza Salum Alves Corrêa - 20221902
 <hr>
 <h2>Unresolved Issues</h2>
 <p>Sometimes the victory story is not displayed; The game freezes in the "..." part and unfreezes in the victory screen. We tried changing the delay to clock tick and things like that, but nothing seemed to work.</p>
-<p>There are rare occasions where two traffic cars scroll down on top of each other. We have NO IDEA why that's happening, and we've spent a good amount of time trying to find our mistake to no avail.</p>
-<p>There are moments where a traffic car gets its position reset after already being a few pixels in (so the player can see the car disappearing out of nowhere). We couldn't find where the problem lies haha.</p>
