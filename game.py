@@ -184,8 +184,17 @@ def single_game(difficulty, lolly_car):
     power_ups_list.append(toy)
 
     for power_up in power_ups_list:
-        power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
-        power_ups.add(power_up)
+        if difficulty != 'hard':
+            power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+            power_ups.add(power_up)
+        elif difficulty == 'hard':
+            x_position = random.choice([317, 496, 675, 853])
+            if x_position == 317 or x_position == 496:
+                power_up.set_position(x_position, random.randint(-1500, -100))
+                power_ups.add(power_up)
+            elif x_position == 675 or x_position == 853:
+                power_up.set_position(x_position, random.randint(1500, 2750))
+                power_ups.add(power_up)
 
     # Adding sprites to the all_sprites group
 
@@ -255,6 +264,18 @@ def single_game(difficulty, lolly_car):
             lolly.move_left()
         if keys[pygame.K_d]:
             lolly.move_right()
+
+        # Power Up Movement
+            
+        for power_up in power_ups:
+            if not power_up.on_cooldown:
+                if difficulty == 'hard':
+                    if power_up.rect.x == 317 or power_up.rect.x == 496:
+                        power_up.move_down()
+                    elif power_up.rect.x == 675 or power_up.rect.x == 853:
+                        power_up.move_up()
+                else:
+                    power_up.move_down()
 
         # Updating the sprites so that they move on the screen after the player presses a key to move
 
@@ -337,10 +358,10 @@ def single_game(difficulty, lolly_car):
                 all_sprites.add(added_car)
             if score > 1000 and score % 1000 == 0 and len(added_cars_list_right) != 0:
                 added_car = added_cars_list_right.pop()
-                added_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                added_car.set_position(random.choice([643, 825]), random.randint(1500, 2750))
                 for car in incoming_cars_right:
                     if added_car.rect.x == car.rect.x and ((car.rect.y - added_car.rect.y) < 400 or (car.rect.y - added_car.rect.y) > -400):
-                        added_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                        added_car.set_position(random.choice([643, 825]), random.randint(1500, 2750))
                 incoming_cars_right.add(added_car)
                 cars_list_right.append(added_car)
                 all_sprites.add(added_car)
@@ -373,10 +394,10 @@ def single_game(difficulty, lolly_car):
                             if car.rect.x == car2.rect.x and ((car2.rect.y - car.rect.y) < 400 or (car2.rect.y - car.rect.y) > -400):
                                 car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
                     elif random_side == 'right':
-                        car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                        car.set_position(random.choice([643, 825]), random.randint(1500, 2750))
                         for car2 in cars_list_right:
                             if car.rect.x == car2.rect.x and ((car2.rect.y - car.rect.y) < 400 or (car2.rect.y - car.rect.y) > -400):
-                                car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                                car.set_position(random.choice([643, 825]), random.randint(1500, 2750))
             for car in cars_list_right:
                 car.move_up()
                 if car.rect.y < -100:
@@ -390,10 +411,10 @@ def single_game(difficulty, lolly_car):
                             if car.rect.x == car2.rect.x and ((car2.rect.y - car.rect.y) < 400 or (car2.rect.y - car.rect.y) > -400):
                                 car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
                     elif random_side == 'right':
-                        car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                        car.set_position(random.choice([643, 825]), random.randint(1500, 2750))
                         for car2 in cars_list_right:
                             if car.rect.x == car2.rect.x and ((car2.rect.y - car.rect.y) < 400 or (car2.rect.y - car.rect.y) > -400):
-                                car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                                car.set_position(random.choice([643, 825]), random.randint(1500, 2750))
 
         # Collision Detection
 
@@ -434,7 +455,7 @@ def single_game(difficulty, lolly_car):
             for traffic_car in incoming_cars_right:
                 if pygame.sprite.collide_rect(lolly, traffic_car):
                     if pygame.sprite.spritecollide(lolly, incoming_cars_right, False, pygame.sprite.collide_mask):
-                        traffic_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                        traffic_car.set_position(random.choice([643, 825]), random.randint(1500, 2750))
                         if lolly.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
                             lolly.add_health(-1)
                             if lolly.health == 0:
@@ -484,7 +505,7 @@ def single_game(difficulty, lolly_car):
                     if traffic_car_1 != traffic_car_2:
                         if pygame.sprite.collide_rect(traffic_car_1, traffic_car_2):
                             if traffic_car_1.rect.y < 2050 or traffic_car_2.rect.y < 2050:
-                                traffic_car_1.rect.y = random.randint(1350, 2750)
+                                traffic_car_1.rect.y = random.randint(1500, 2750)
                                 traffic_car_1.rect.x = random.choice([643, 825])
                             elif traffic_car_1.rect.y < traffic_car_2.rect.y: #prevent the cars from overlapping
                                 traffic_car_1.rect.y = traffic_car_2.rect.y - traffic_car_1.rect.height #then move the car 1 behind the car 2
@@ -505,12 +526,12 @@ def single_game(difficulty, lolly_car):
                             if traffic_car.rect.y < -800 or power_up.rect.y < -800:
                                 traffic_car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
                                 power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
-                            elif traffic_car.rect.y < power_up.rect.y:
+                            elif traffic_car.rect.y < power_up.rect.y:  # if the traffic car is behind the power up
                                 traffic_car.rect.y = power_up.rect.y - traffic_car.rect.height
-                                power_up.speed = traffic_car.speed
-                            elif traffic_car.rect.y > power_up.rect.y:
-                                traffic_car.rect.y = power_up.rect.y + traffic_car.rect.height
                                 traffic_car.speed = power_up.speed
+                            elif traffic_car.rect.y > power_up.rect.y:
+                                power_up.rect.y = traffic_car.rect.y - power_up.rect.height
+                                power_up.speed = traffic_car.speed
 
         elif difficulty == 'hard':
 
@@ -520,31 +541,31 @@ def single_game(difficulty, lolly_car):
                         if pygame.sprite.spritecollide(traffic_car, power_ups, False, pygame.sprite.collide_mask):
                             if traffic_car.rect.y < -800 or power_up.rect.y < -800:
                                 traffic_car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
-                                power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
-                            elif traffic_car.rect.y < power_up.rect.y:
+                                power_up.set_position(random.choice([317, 496]), random.randint(-1500, -100))
+                            elif traffic_car.rect.y < power_up.rect.y:  # if the traffic car is behind the power up
                                 traffic_car.rect.y = power_up.rect.y - traffic_car.rect.height
-                                power_up.speed = traffic_car.speed
-                            elif traffic_car.rect.y > power_up.rect.y:
-                                traffic_car.rect.y = power_up.rect.y + traffic_car.rect.height
                                 traffic_car.speed = power_up.speed
+                            elif traffic_car.rect.y > power_up.rect.y:
+                                power_up.rect.y = traffic_car.rect.y - power_up.rect.height
+                                power_up.speed = traffic_car.speed
 
             for traffic_car in incoming_cars_right:
                 for power_up in power_ups:
                     if pygame.sprite.collide_rect(traffic_car, power_up):
                         if pygame.sprite.spritecollide(traffic_car, power_ups, False, pygame.sprite.collide_mask):
                             if 1500 < traffic_car.rect.y < 2050 or 1500 < power_up.rect.y < 2050:
-                                traffic_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
-                                power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
-                            elif traffic_car.rect.y < power_up.rect.y:
+                                traffic_car.set_position(random.choice([643, 825]), random.randint(1500, 2750))
+                                power_up.set_position(random.choice([675, 853]), random.randint(1500, 2750))
+                            elif traffic_car.rect.y < power_up.rect.y:  # if the traffic car is behind the power up
+                                power_up.rect.y = traffic_car.rect.y - power_up.rect.height
+                                power_up.speed = traffic_car.speed 
+                            elif traffic_car.rect.y > power_up.rect.y:
                                 traffic_car.rect.y = power_up.rect.y - traffic_car.rect.height
-                                power_up.speed = traffic_car.speed
+                                traffic_car.speed = power_up.speed
 
         # collision between players and power ups
 
         for power_up in power_ups:
-            if not power_up.on_cooldown:
-                power_up.move_down()
-
             if pygame.sprite.collide_rect(lolly, power_up):
                 if pygame.sprite.spritecollide(lolly, power_ups, False, pygame.sprite.collide_mask):
                     powerup_sound.play()
@@ -559,8 +580,16 @@ def single_game(difficulty, lolly_car):
                             power_up.collision(lolly, traffic_group_left=incoming_cars_left, traffic_group_right=incoming_cars_right) 
             
             # if the power up goes off the screen, it is repositioned at the top of the screen
-            if power_up.rect.y > 950:
-                power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+            if difficulty != 'hard':
+                if power_up.rect.y > 950:
+                    power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+            else:
+                if power_up.rect.y > 2750 or power_up.rect.y < -1500:
+                    x_position = random.choice([317, 496, 675, 853])
+                    if x_position == 317 or x_position == 496:
+                        power_up.set_position(x_position, random.randint(-1500, -100))
+                    elif x_position == 675 or x_position == 853:
+                        power_up.set_position(x_position, random.randint(1500, 2750))
 
             if power_up.active:  # if the power up is active, then the duration timer decreases by 1 every frame
                 power_up.duration -= 1
@@ -583,7 +612,14 @@ def single_game(difficulty, lolly_car):
                 if power_up.cooldown == 0:
                     power_up.on_cooldown = False
                     power_up.add_cooldown(60)
-                    power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+                    if difficulty != 'hard':
+                        power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+                    else:
+                        x_position = random.choice([317, 496, 675, 853])
+                        if x_position == 317 or x_position == 496:
+                            power_up.set_position(x_position, random.randint(-1500, -100))
+                        elif x_position == 675 or x_position == 853:
+                            power_up.set_position(x_position, random.randint(1500, 2750))
                     power_up.can_move = True
                                     
         # Drawing the Sprites
@@ -867,8 +903,17 @@ def multi_game(difficulty, lolly_car, bestie_car):
     power_ups_list.append(toy)
 
     for power_up in power_ups_list:
-        power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
-        power_ups.add(power_up)
+        if difficulty != 'hard':
+            power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+            power_ups.add(power_up)
+        elif difficulty == 'hard':
+            x_position = random.choice([317, 496, 675, 853])
+            if x_position == 317 or x_position == 496:
+                power_up.set_position(x_position, random.randint(-1500, -100))
+                power_ups.add(power_up)
+            elif x_position == 675 or x_position == 853:
+                power_up.set_position(x_position, random.randint(1500, 2750))
+                power_ups.add(power_up)
 
     # Adding sprites to the all_sprites group
 
@@ -969,6 +1014,18 @@ def multi_game(difficulty, lolly_car, bestie_car):
             if keys[pygame.K_d]:
                 bestie.move_right()
 
+        # Power Up Movement
+            
+        for power_up in power_ups:
+            if not power_up.on_cooldown:
+                if difficulty == 'hard':
+                    if power_up.rect.x == 317 or power_up.rect.x == 496:
+                        power_up.move_down()
+                    elif power_up.rect.x == 675 or power_up.rect.x == 853:
+                        power_up.move_up()
+                else:
+                    power_up.move_down()
+
         # Updating the sprites so that they move on the screen after the player presses a key to move
 
         all_sprites.update()
@@ -1050,10 +1107,10 @@ def multi_game(difficulty, lolly_car, bestie_car):
                 all_sprites.add(added_car)
             if score > 1000 and score % 1000 == 0 and len(added_cars_list_right) != 0:
                 added_car = added_cars_list_right.pop()
-                added_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                added_car.set_position(random.choice([643, 825]), random.randint(1500, 2750))
                 for car in incoming_cars_right:
                     if added_car.rect.x == car.rect.x and ((car.rect.y - added_car.rect.y) < 400 or (car.rect.y - added_car.rect.y) > -400):
-                        added_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                        added_car.set_position(random.choice([643, 825]), random.randint(1500, 2750))
                 incoming_cars_right.add(added_car)
                 cars_list_right.append(added_car)
                 all_sprites.add(added_car)
@@ -1086,10 +1143,10 @@ def multi_game(difficulty, lolly_car, bestie_car):
                             if car.rect.x == car2.rect.x and ((car2.rect.y - car.rect.y) < 400 or (car2.rect.y - car.rect.y) > -400):
                                 car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
                     elif random_side == 'right':
-                        car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                        car.set_position(random.choice([643, 825]), random.randint(1500, 2750))
                         for car2 in cars_list_right:
                             if car.rect.x == car2.rect.x and ((car2.rect.y - car.rect.y) < 400 or (car2.rect.y - car.rect.y) > -400):
-                                car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                                car.set_position(random.choice([643, 825]), random.randint(1500, 2750))
             for car in cars_list_right:
                 car.move_up()
                 if car.rect.y < -100:
@@ -1103,10 +1160,10 @@ def multi_game(difficulty, lolly_car, bestie_car):
                             if car.rect.x == car2.rect.x and ((car2.rect.y - car.rect.y) < 400 or (car2.rect.y - car.rect.y) > -400):
                                 car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
                     elif random_side == 'right':
-                        car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                        car.set_position(random.choice([643, 825]), random.randint(1500, 2750))
                         for car2 in cars_list_right:
                             if car.rect.x == car2.rect.x and ((car2.rect.y - car.rect.y) < 400 or (car2.rect.y - car.rect.y) > -400):
-                                car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                                car.set_position(random.choice([643, 825]), random.randint(1500, 2750))
 
         # Collision Detection
 
@@ -1197,7 +1254,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
             for traffic_car in incoming_cars_right:
                 if pygame.sprite.collide_rect(lolly, traffic_car):
                     if pygame.sprite.spritecollide(lolly, incoming_cars_right, False, pygame.sprite.collide_mask):
-                        traffic_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                        traffic_car.set_position(random.choice([643, 825]), random.randint(1500, 2750))
                         if lolly.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
                             lolly.add_health(-1)
                             if lolly.health == 0 and bestie.health != 0:
@@ -1252,7 +1309,7 @@ def multi_game(difficulty, lolly_car, bestie_car):
             for traffic_car in incoming_cars_right:
                 if pygame.sprite.collide_rect(bestie, traffic_car):
                     if pygame.sprite.spritecollide(bestie, incoming_cars_right, False, pygame.sprite.collide_mask):
-                        traffic_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
+                        traffic_car.set_position(random.choice([643, 825]), random.randint(1500, 2750))
                         if bestie.can_crash:  # if diva defiance is active, the player is invincible, so can_crash is False
                             bestie.add_health(-1)	
                             if bestie.health == 0 and lolly.health != 0:
@@ -1304,8 +1361,8 @@ def multi_game(difficulty, lolly_car, bestie_car):
                 for traffic_car_2 in incoming_cars_right:
                     if traffic_car_1 != traffic_car_2:
                         if pygame.sprite.collide_rect(traffic_car_1, traffic_car_2):
-                            if traffic_car_1.rect.y < 2050 or traffic_car_2.rect.y < 2050:
-                                traffic_car_1.rect.y = random.randint(1350, 2750)
+                            if 1500 < traffic_car_1.rect.y < 2050 or 1500 < traffic_car_2.rect.y < 2050:
+                                traffic_car_1.rect.y = random.randint(1500, 2750)
                                 traffic_car_1.rect.x = random.choice([643, 825])
                             elif traffic_car_1.rect.y < traffic_car_2.rect.y: #prevent the cars from overlapping
                                 traffic_car_1.rect.y = traffic_car_2.rect.y - traffic_car_1.rect.height #then move the car 1 behind the car 2
@@ -1326,12 +1383,12 @@ def multi_game(difficulty, lolly_car, bestie_car):
                             if traffic_car.rect.y < -800 or power_up.rect.y < -800:
                                 traffic_car.set_position(random.choice([285, 466, 643, 825]), random.randint(-1500, -100))
                                 power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
-                            elif traffic_car.rect.y < power_up.rect.y:
+                            elif traffic_car.rect.y < power_up.rect.y:  # if the traffic car is behind the power up
                                 traffic_car.rect.y = power_up.rect.y - traffic_car.rect.height
-                                power_up.speed = traffic_car.speed
-                            elif traffic_car.rect.y > power_up.rect.y:
-                                traffic_car.rect.y = power_up.rect.y + traffic_car.rect.height
                                 traffic_car.speed = power_up.speed
+                            elif traffic_car.rect.y > power_up.rect.y:
+                                power_up.rect.y = traffic_car.rect.y - power_up.rect.height
+                                power_up.speed = traffic_car.speed
 
         elif difficulty == 'hard':
 
@@ -1341,31 +1398,31 @@ def multi_game(difficulty, lolly_car, bestie_car):
                         if pygame.sprite.spritecollide(traffic_car, power_ups, False, pygame.sprite.collide_mask):
                             if traffic_car.rect.y < -800 or power_up.rect.y < -800:
                                 traffic_car.set_position(random.choice([285, 466]), random.randint(-1500, -100))
-                                power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
-                            elif traffic_car.rect.y < power_up.rect.y:
+                                power_up.set_position(random.choice([317, 496]), random.randint(-1500, -100))
+                            elif traffic_car.rect.y < power_up.rect.y:  # if the traffic car is behind the power up
                                 traffic_car.rect.y = power_up.rect.y - traffic_car.rect.height
-                                power_up.speed = traffic_car.speed
-                            elif traffic_car.rect.y > power_up.rect.y:
-                                traffic_car.rect.y = power_up.rect.y + traffic_car.rect.height
                                 traffic_car.speed = power_up.speed
+                            elif traffic_car.rect.y > power_up.rect.y:
+                                power_up.rect.y = traffic_car.rect.y - power_up.rect.height
+                                power_up.speed = traffic_car.speed
 
             for traffic_car in incoming_cars_right:
                 for power_up in power_ups:
                     if pygame.sprite.collide_rect(traffic_car, power_up):
                         if pygame.sprite.spritecollide(traffic_car, power_ups, False, pygame.sprite.collide_mask):
                             if 1500 < traffic_car.rect.y < 2050 or 1500 < power_up.rect.y < 2050:
-                                traffic_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
-                                power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
-                            elif traffic_car.rect.y < power_up.rect.y:
+                                traffic_car.set_position(random.choice([643, 825]), random.randint(1500, 2750))
+                                power_up.set_position(random.choice([675, 853]), random.randint(1500, 2750))
+                            elif traffic_car.rect.y < power_up.rect.y:  # if the traffic car is behind the power up
+                                power_up.rect.y = traffic_car.rect.y - power_up.rect.height
+                                power_up.speed = traffic_car.speed 
+                            elif traffic_car.rect.y > power_up.rect.y:
                                 traffic_car.rect.y = power_up.rect.y - traffic_car.rect.height
-                                power_up.speed = traffic_car.speed
+                                traffic_car.speed = power_up.speed
 
         # collision between players and power ups
 
         for power_up in power_ups:
-            if not power_up.on_cooldown:
-                power_up.move_down()
-
             if pygame.sprite.collide_rect(lolly, power_up) or pygame.sprite.collide_rect(bestie, power_up):
                 if pygame.sprite.spritecollide(lolly, power_ups, False, pygame.sprite.collide_mask) or pygame.sprite.spritecollide(bestie, power_ups, False, pygame.sprite.collide_mask):
                     if power_up == galpal:
@@ -1392,8 +1449,16 @@ def multi_game(difficulty, lolly_car, bestie_car):
                             power_up.collision(lolly, bestie, traffic_group_left=incoming_cars_left, traffic_group_right=incoming_cars_right) 
             
             # if the power up goes off the screen, it is repositioned at the top of the screen
-            if power_up.rect.y > 950:
-                power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-5000, -200))
+            if difficulty != 'hard':
+                if power_up.rect.y > 950:
+                    power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+            else:
+                if power_up.rect.y > 2750 or power_up.rect.y < -1500:
+                    x_position = random.choice([317, 496, 675, 853])
+                    if x_position == 317 or x_position == 496:
+                        power_up.set_position(x_position, random.randint(-1500, -100))
+                    elif x_position == 675 or x_position == 853:
+                        power_up.set_position(x_position, random.randint(1500, 2750))
 
             if power_up.active:  # if the power up is active, then the duration timer decreases by 1 every frame
                 power_up.duration -= 1
@@ -1416,10 +1481,17 @@ def multi_game(difficulty, lolly_car, bestie_car):
                 power_up.cooldown -= 1
                 if power_up.cooldown == 0:
                     power_up.on_cooldown = False
-                    power_up.add_cooldown(random.randint(60, 120)) # the cooldown is reset to a random number between 1000 and 3000
-                    power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+                    power_up.add_cooldown(60)
+                    if difficulty != 'hard':
+                        power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+                    else:
+                        x_position = random.choice([317, 496, 675, 853])
+                        if x_position == 317 or x_position == 496:
+                            power_up.set_position(x_position, random.randint(-1500, -100))
+                        elif x_position == 675 or x_position == 853:
+                            power_up.set_position(x_position, random.randint(1500, 2750))
                     power_up.can_move = True
-                    # the power up is repositioned at the top of the screen and can move again
+                    # the power up is repositioned and can move again
                                     
         if lolly.eliminated or bestie.eliminated:
             galpal.can_move = True
