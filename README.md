@@ -132,3 +132,4 @@ Maria Luiza Salum Alves Corrêa - 20221902
 <hr>
 <h2>Unresolved Issues</h2>
 <p>Sometimes the victory story is not displayed; The game freezes in the "..." part and unfreezes in the victory screen. We tried changing the delay to clock tick and things like that, but nothing seemed to work.</p>
+<p>Sometimes the "Besties In Harmony" power-up stops moving out of nowhere and disappears after a while. We don't know why or how this is happening.</p>
