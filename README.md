@@ -1,6 +1,6 @@
 <h1>NOVAIMS COMP 3 Final Project: Lolly Locket's Dog Chase</h1>
 <p><img alt="Lolly Locket's Dog Chase Start Screen" src="https://github.com/LuizaSalum/NOVAIMS_COMP3/blob/main/images/interface/start.png"/></p>
-<p>Every element of the game was drawn using Clip Studio Pro. No AI tool was used for any image. We strongly oppose the use of AI-generated images since most of these generators are fed with human-created art without proper authorisation (To learn more about it, watch: <a href="https://youtu.be/9xJCzKdPyCo?si=QRO3VLsTQcFZI51N">The AI Art Apocalypse</a> by Hello Future Me). Everything was based on the "Polly Party Pickup" game from 2007 <a href="https://pollypocket.fandom.com/wiki/Polly_Party_Pickup">(Wiki)</a> and we have no interest in commercializing this project.</p>
+<p>Every game element was drawn using Clip Studio Pro. No AI tool was used for any image. We strongly oppose the use of AI-generated images since most of these generators are fed with human-created art without proper authorisation (To learn more about it, watch: <a href="https://youtu.be/9xJCzKdPyCo?si=QRO3VLsTQcFZI51N">The AI Art Apocalypse</a> by Hello Future Me). Everything was based on the "Polly Party Pickup" game from 2007 <a href="https://pollypocket.fandom.com/wiki/Polly_Party_Pickup">(Wiki)</a> and we have no interest in commercializing this project.</p>
 <h2>Group Members</h2>
 António Manuel Ferreira dos Santos - 20221966<br>
 Brenda Montenegro Pontremoli Lima - 20221865<br>
@@ -8,6 +8,7 @@ Maria Luiza Salum Alves Corrêa - 20221902
 <hr>
 <h2>Project Description</h2>
 <p>As our final assignment for our Computation 3 Course, we were asked to use the obtained knowledge about Object-oriented Programming (OOP) to complete the implementation of a Car Racer game using Pygame. The base requirements were to implement two mandatory power-ups, one that slows down traffic and another that makes the player(s) invincible, two optional power-ups of our choice, and a multiplayer option. Also, we were requested to improve the UI, add instructions explaining how to play and how each power-up works, and add functional limitations to make the game operational.</p>
+<p>It is preferable that you use the normal (1250x950) size. The smaller version was done in consideration of users whose screens can't handle the normal size, but it is not the best version of the project. The images have less quality and some positions are not 100% correct.</p>
 <h3>Technologies Used</h3>
 <ul>
     <li>Python Language</li>
@@ -87,7 +88,7 @@ Maria Luiza Salum Alves Corrêa - 20221902
 <p>The code is divided into five files:
 <ul>
     <li>main.py: Where you can run the game</li>
-    <li>interface.py: Where you can find the code for the interface before the actual race</li>
+    <li>interface.py: Where you can find the code for the interface before the actual race (has a _small version)</li>
     <ul>
         <li>Start/Home Screen</li>
         <li>Credits</li>
@@ -99,7 +100,7 @@ Maria Luiza Salum Alves Corrêa - 20221902
         <li>Power-Ups List</li>
         <li>Menu</li>
     </ul>
-    <li>game.py: Where you can find the code for everything that happens in the race</li>
+    <li>game.py: Where you can find the code for everything that happens in the race (has a _small version)</li>
     <ul>
         <li>Single-player Race</li>
         <li>Multiplayer Race</li>
@@ -110,13 +111,13 @@ Maria Luiza Salum Alves Corrêa - 20221902
         <li>Active Power-Ups Bar</li>
         <li>Victory</li>
     </ul>
-    <li>car.py: Where you can find the code for the different cars in the game</li>
+    <li>car.py: Where you can find the code for the different cars in the game (has a _small version)</li>
     <ul>
         <li>Car (Parent Class)</li>
         <li>PlayerCar</li>
         <li>TrafficCar</li>
     </ul>
-    <li>power_up.py: Where you can find the code for every power-up in the game</li>
+    <li>power_up.py: Where you can find the code for every power-up in the game (has a _small version)</li>
     <ul>
         <li>PowerUp (Parent Class)</li>
         <li>BestiesInHarmony</li>
@@ -132,4 +133,4 @@ Maria Luiza Salum Alves Corrêa - 20221902
 <hr>
 <h2>Unresolved Issues</h2>
 <p>Sometimes the victory story is not displayed; The game freezes in the "..." part and unfreezes in the victory screen. We tried changing the delay to clock tick and things like that, but nothing seemed to work.</p>
-<p>Sometimes the "Besties In Harmony" power-up stops moving out of nowhere and disappears after a while. We don't know why or how this is happening.</p>
+<p>When testing, there were moments where the "Besties In Harmony" power-up stopped moving out of nowhere and disappeared after a while. We don't know why or how this happens.</p>
