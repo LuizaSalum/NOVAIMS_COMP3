@@ -1114,20 +1114,20 @@ def multi_game(difficulty, lolly_car, bestie_car):
                 if pygame.sprite.spritecollide(lolly, sprite_bestie, False, pygame.sprite.collide_mask):
 
                     if lolly.rect.x < bestie.rect.x:  # if the Lolly is on the left side
-                        if not (bestie.rect.x >= (980 - bestie.rect.width) or lolly.rect.x <= 272):  # if the players are not in the corner
+                        if not (bestie.rect.x >= (784 - bestie.rect.width) or lolly.rect.x <= 218):  # if the players are not in the corner
                             lolly.rect.x -= lolly.speed # pull the Lolly more to the left side
                             bestie.rect.x += bestie.speed  # and the Bestie more to the right
-                        elif bestie.rect.x >= (980 - bestie.rect.width):  # if the bestie is in the right corner
+                        elif bestie.rect.x >= (784 - bestie.rect.width):  # if the bestie is in the right corner
                             lolly.rect.x -= lolly.speed  # the lolly won't be able to move to the right
-                        elif lolly.rect.x <= 272:  # if the lolly is in the left corner
+                        elif lolly.rect.x <= 218:  # if the lolly is in the left corner
                             bestie.rect.x += bestie.speed  # the bestie can't move to the left
                     else:  # the inverse if the Lolly is on the right side
-                        if not (lolly.rect.x >= (980 - lolly.rect.width) or bestie.rect.x <= 272):
+                        if not (lolly.rect.x >= (784 - lolly.rect.width) or bestie.rect.x <= 218):
                             lolly.rect.x += lolly.speed
                             bestie.rect.x -= bestie.speed
-                        elif lolly.rect.x >= (980 - lolly.rect.width):
+                        elif lolly.rect.x >= (784 - lolly.rect.width):
                             bestie.rect.x -= bestie.speed
-                        elif bestie.rect.x <= 272:
+                        elif bestie.rect.x <= 218:
                             lolly.rect.x += lolly.speed
 
                     if lolly.rect.y < bestie.rect.y:  # if the Lolly is on the top side
@@ -1481,21 +1481,21 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
         for HP in range(lolly.max_health):
             if HP < lolly.health:  # if the HP is less than the health, then the heart is drawn
-                screen.blit(lolly.heart_on, (480 + HP * 75, 5))  # the hearts are drawn at different x positions, so that they're not on top of each other
+                screen.blit(lolly.heart_on, (384 + HP * 60, 4))  # the hearts are drawn at different x positions, so that they're not on top of each other
             else:  # if the HP is greater or equal to the health, then the heart loss image is drawn, which is just a heart with less opacity
-                screen.blit(lolly.heart_off, (480 + HP * 75, 5))
+                screen.blit(lolly.heart_off, (384 + HP * 60, 4))
         
         for HP in range(bestie.max_health):
             if HP < bestie.health:
-                screen.blit(bestie.heart_on, (870 + HP * 75, 5))
+                screen.blit(bestie.heart_on, (696 + HP * 60, 4))
             else:
-                screen.blit(bestie.heart_off, (870 + HP * 75, 5))
+                screen.blit(bestie.heart_off, (696 + HP * 60, 4))
 
         # Drawing the Power Ups Bar (on the left side of the screen)
 
-        icon_position = 30  # the y position of the first icon
+        icon_position = 24  # the y position of the first icon
         for icon in power_ups_bar(diva.active, growth.active, sissy.active, frosty.active, toy.active, tangled.active, besties.active):
-            icon_position += 80
+            icon_position += 64
             screen.blit(icon, (0, icon_position))
 
         # Inserting the Victory Part
@@ -1626,9 +1626,8 @@ def game_over(road, difficulty, lolly, bestie = None):
     center_game_over_coord = ((938 - 634) // 2, (713 - 634) // 2)  # the center coordinates of the game over image
     pygame.display.flip()
 
-    restart_button_coor = 356, 295, 820, 400  # x1, x2, y1, y2
-    #same logic  bbuutt
-    exit_button_coor = 495, 420, 750, 520
+    restart_button_coor = 292, 236, 656, 320 # x1, x2, y1, y2
+    exit_button_coor = 396, 336, 600, 416
 
     clock = pygame.time.Clock()
     road_y = 0
@@ -1689,12 +1688,13 @@ def pause_menu(game_screen):
         The game screen surface.
     """
 
-    menu_position = [451, 799, 326, 624]  # x1, x2, y1, y2
+    menu_position = [361, 639, 261, 501]  # x1, x2, y1, y2
     buttons = (
-        ['done', 544, 709, 376, 447],
-        ['exit', 528, 723, 501, 572]
-        )  # name, x1, x2, y1, y2
-    
+         ['done', 435, 567, 301, 358],
+         ['exit', 422, 582, 401, 458]
+     )  # name, x1, x2, y1, y2
+
+
     # Initialising the game and setting the screen, done in the same way as the game function
     pygame.mixer.init()
     pygame.init()
@@ -1945,8 +1945,8 @@ def victory(game_screen, difficulty, lolly, bestie = None):
         victory_exit_image = pygame.image.load(f"images/victory/victory_end_exit_{dog}{lolly[-1]}.png").convert()
 
     # Loading the images for the buttons (restart and exit)
-    restart_coord = 1026, 1168, 325, 376
-    exit_coord = 1088, 1168, 238, 289
+    restart_coord = 821, 934, 260, 298
+    exit_coord = 870, 934, 190, 228
 
     screen.blit(game_screen, (0, 0))
     screen.blit(victory_question, (0, 0))
