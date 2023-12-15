@@ -1,5 +1,8 @@
 <h1>NOVAIMS COMP 3 Final Project: Lolly Locket's Dog Chase</h1>
-<p><img alt="Lolly Locket's Dog Chase Start Screen" src="https://github.com/LuizaSalum/NOVAIMS_COMP3/blob/main/images/interface/start.png"/></p>
+<p><em>Click on the image below to watch the <strong>Lolly Locket's Dog Chase - Video Showcase</strong></em></p>
+<a href="https://youtu.be/f64hhnPJ4D0?si=vzdbGJATFxRl3Fv2">
+    <img src="https://github.com/LuizaSalum/NOVAIMS_COMP3/blob/main/images/interface/start.png" alt="Alt text for your video">
+</a>
 <p>Every game element was drawn using Clip Studio Pro. No AI tool was used for any image. We strongly oppose the use of AI-generated images since most of these generators are fed with human-created art without proper authorisation (To learn more about it, watch: <a href="https://youtu.be/9xJCzKdPyCo?si=QRO3VLsTQcFZI51N">The AI Art Apocalypse</a> by Hello Future Me). Everything was based on the "Polly Party Pickup" game from 2007 <a href="https://pollypocket.fandom.com/wiki/Polly_Party_Pickup">(Wiki)</a> and we have no interest in commercializing this project.</p>
 <h2>Group Members</h2>
 António Manuel Ferreira dos Santos - 20221966<br>
