@@ -264,21 +264,29 @@ def single_game(difficulty, lolly_car):
 
         # defining the road image
 
-        if score < 2000:
-            road = normal_road
-        elif 2000 < score < 4000:
-            road = normal_road2
+        if not frosty.active:
+            if score < 2000:
+                road = normal_road
+            elif 2000 < score < 4000:
+                road = normal_road2
+            else:
+                road = normal_road3
         else:
-            road = normal_road3
+            if score < 2000:
+                road = frozen_road
+            elif score < 4000:
+                road = frozen_road2
+            else:
+                road = frozen_road3
 
         # scrolling the road according to the active power ups
 
         if sissy.active:
-            scroll_speed = 5000
+            scroll_speed = 6000
         elif frosty.active:
-            scroll_speed = 2000
-        else:
             scroll_speed = 3000
+        else:
+            scroll_speed = 4000
         
         road_y += scroll_speed * clock.tick(60) / 1000  # we're multiplying the scroll speed by the clock tick to make the scrolling speed independent of the frame rate
 
@@ -524,15 +532,12 @@ def single_game(difficulty, lolly_car):
                 for power_up in power_ups:
                     if pygame.sprite.collide_rect(traffic_car, power_up):
                         if pygame.sprite.spritecollide(traffic_car, power_ups, False, pygame.sprite.collide_mask):
-                            if traffic_car.rect.y < 2050 or power_up.rect.y < 2050:
+                            if 1500 < traffic_car.rect.y < 2050 or 1500 < power_up.rect.y < 2050:
                                 traffic_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
                                 power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
                             elif traffic_car.rect.y < power_up.rect.y:
                                 traffic_car.rect.y = power_up.rect.y - traffic_car.rect.height
                                 power_up.speed = traffic_car.speed
-                            elif traffic_car.rect.y > power_up.rect.y:
-                                traffic_car.rect.y = power_up.rect.y + traffic_car.rect.height
-                                traffic_car.speed = power_up.speed
 
         # collision between players and power ups
 
@@ -582,14 +587,6 @@ def single_game(difficulty, lolly_car):
                     power_up.can_move = True
                                     
         # Drawing the Sprites
-
-        if frosty.active:
-            if score < 2000:
-                road = frozen_road
-            elif score < 4000:
-                road = frozen_road2
-            else:
-                road = frozen_road3
 
         lolly.change_image(active_power_ups('lolly', diva, growth))
 
@@ -980,21 +977,29 @@ def multi_game(difficulty, lolly_car, bestie_car):
 
         # defining the road image
 
-        if score < 2000:
-            road = normal_road
-        elif 2000 < score < 4000:
-            road = normal_road2
+        if not frosty.active:
+            if score < 2000:
+                road = normal_road
+            elif 2000 < score < 4000:
+                road = normal_road2
+            else:
+                road = normal_road3
         else:
-            road = normal_road3
+            if score < 2000:
+                road = frozen_road
+            elif score < 4000:
+                road = frozen_road2
+            else:
+                road = frozen_road3
 
         # scrolling the road according to the active power ups
 
         if sissy.active:
-            scroll_speed = 5000
+            scroll_speed = 6000
         elif frosty.active:
-            scroll_speed = 2000
-        else:
             scroll_speed = 3000
+        else:
+            scroll_speed = 4000
         
         road_y += scroll_speed * clock.tick(60) / 1000  # we're multiplying the scroll speed by the clock tick to make the scrolling speed independent of the frame rate
 
@@ -1348,15 +1353,12 @@ def multi_game(difficulty, lolly_car, bestie_car):
                 for power_up in power_ups:
                     if pygame.sprite.collide_rect(traffic_car, power_up):
                         if pygame.sprite.spritecollide(traffic_car, power_ups, False, pygame.sprite.collide_mask):
-                            if traffic_car.rect.y < 2050 or power_up.rect.y < 2050:
+                            if 1500 < traffic_car.rect.y < 2050 or 1500 < power_up.rect.y < 2050:
                                 traffic_car.set_position(random.choice([643, 825]), random.randint(1350, 2750))
                                 power_up.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
                             elif traffic_car.rect.y < power_up.rect.y:
                                 traffic_car.rect.y = power_up.rect.y - traffic_car.rect.height
                                 power_up.speed = traffic_car.speed
-                            elif traffic_car.rect.y > power_up.rect.y:
-                                traffic_car.rect.y = power_up.rect.y + traffic_car.rect.height
-                                traffic_car.speed = power_up.speed
 
         # collision between players and power ups
 
@@ -1433,15 +1435,6 @@ def multi_game(difficulty, lolly_car, bestie_car):
             besties.can_move = True
 
         # Drawing the Sprites
-
-        if frosty.active:
-            if score < 2000:
-                road = frozen_road
-
-            elif score < 4000:
-                road = frozen_road2
-            else:
-                road = frozen_road3
 
         lolly.change_image(active_power_ups('lolly', diva=diva, growth=growth, tangled=tangled, besties=besties))  # changing the image of the player cars according to the active power ups
         bestie.change_image(active_power_ups('bestie', diva=diva, growth=growth, tangled=tangled, besties=besties))
@@ -1616,7 +1609,12 @@ def game_over(road, difficulty, lolly, bestie = None):
     pygame.display.set_icon(icon)
 
     # Loading Sounds
-    pygame.mixer.music.load("sounds/music/gameover.mp3")
+    pygame.mixer.music.stop()
+    gameover_music = pygame.mixer.Sound("sounds/music/gameover.mp3")
+    exit_pressed = pygame.mixer.Sound("sounds/exit_button.mp3")
+    exit_pressed.set_volume(0.2)
+    button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
+    button_pressed.set_volume(0.5)
 
     # Loading Images
     game_over_image = pygame.image.load("images/game_over/game_over.png").convert_alpha()
@@ -1635,9 +1633,9 @@ def game_over(road, difficulty, lolly, bestie = None):
     carry_on = True
     event = pygame.event.Event(pygame.USEREVENT)
 
-    while carry_on:
+    gameover_music.play(-1)
 
-        pygame.mixer.music.play(-1)
+    while carry_on:
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -1660,6 +1658,8 @@ def game_over(road, difficulty, lolly, bestie = None):
         if restart_button_coor[0] <= mouse[0] <= restart_button_coor[2] and restart_button_coor[1] < mouse[1] < restart_button_coor[3]:  # if the user hovers over the restart button
             screen.blit(game_over_restart_image, center_game_over_coord)  # the restart image is blitted
             if event.type == pygame.MOUSEBUTTONDOWN:  # if the user clicks on the restart button
+                gameover_music.stop()
+                button_pressed.play()
                 if bestie == None:
                     single_game(difficulty, lolly.car_type)  # calling the single_game function with the same difficulty and car types as before
                 else:
@@ -1668,6 +1668,8 @@ def game_over(road, difficulty, lolly, bestie = None):
         elif exit_button_coor[0] <= mouse[0] <= exit_button_coor[2] and exit_button_coor[1] < mouse[1] < exit_button_coor[3]:
             screen.blit(game_over_exit_image, center_game_over_coord)
             if event.type == pygame.MOUSEBUTTONDOWN:
+                exit_pressed.play()
+                pygame.time.delay(800)
                 carry_on = False
         
         else:

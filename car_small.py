@@ -33,6 +33,7 @@ class Car(pygame.sprite.Sprite):
         super().__init__()
 
         self.image = pygame.image.load(image_path).convert_alpha()  # loading the image
+        self.image = pygame.transform.scale(self.image, (int(self.image.get_width() * 0.8), int(self.image.get_height() * 0.8)))  # resizing the image
         self.rect = self.image.get_rect()  # getting the rectangle of the image
         self.mask = pygame.mask.from_surface(self.image)  # creating a mask for collision detection
         
@@ -45,6 +46,7 @@ class Car(pygame.sprite.Sprite):
     def change_image(self, image_path):
         current_position = [self.rect.x, self.rect.y]  # storing the current position of the player car
         self.image = pygame.image.load(image_path).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (int(self.image.get_width() * 0.8), int(self.image.get_height() * 0.8)))
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
 
@@ -138,26 +140,26 @@ class PlayerCar(Car):
     def move_up(self):
         if self.can_move:
             self.rect.y -= self.speed
-            if self.rect.y < 80:
-                self.rect.y = 80
+            if self.rect.y < 100:
+                self.rect.y = 100
 
     def move_down(self):
         if self.can_move:
             self.rect.y += self.speed
-            if self.rect.y > 938 - self.rect.height:
-                self.rect.y = 938 - self.rect.height
+            if self.rect.y > 713 - self.rect.height:
+                self.rect.y = 713 - self.rect.height
 
     def move_left(self):
         if self.can_move:
             self.rect.x -= self.speed
-            if self.rect.x < 218:
-                self.rect.x = 218
+            if self.rect.x < 204:
+                self.rect.x = 204
 
     def move_right(self):
         if self.can_move:
             self.rect.x += self.speed
-            if self.rect.x > 784 - self.rect.width:
-                self.rect.x = 784 - self.rect.width
+            if self.rect.x > 735 - self.rect.width:
+                self.rect.x = 735 - self.rect.width
 
     # Other functions
 
@@ -206,7 +208,7 @@ class PlayerCar(Car):
     def respawn(self):  # this function will be called when the player car respawns (used for the Gal Pal Rebirth Power Up)
         self.health = self.max_health - 1  # the player car will have one less health point than the maximum
         self.can_move = True  # the player car can move again
-        self.set_position(228, (938 - self.rect.height))
+        self.set_position(214, (713 - self.rect.height))
         self.eliminated = False  # the player car has not been eliminated anymore
     
     def resize_car(self, multiplier):
