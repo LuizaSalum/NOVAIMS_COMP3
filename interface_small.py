@@ -7,57 +7,57 @@ from game_small import *
 
 buttons = {
     'start': [
-        ('singleplayer', 955, 1163, 460, 505),
-        ('multiplayer', 965, 1163, 568, 618),
-        ('credits', 1040, 1163, 678, 727),
-        ('exit', 1090, 1163, 787, 838)
-        ],
+        ('singleplayer', 717, 873, 345, 379),
+        ('multiplayer', 724, 873, 426, 464),
+        ('credits', 780, 873, 509, 546),
+        ('exit', 818, 873, 591, 629)
+    ],
     'singleplayer': [
-        ('back', 80, 203, 860, 910),
-        ('start', 238, 465, 860, 910),
-        ('lolly', 250, 531, 250, 425),
-        ('dog', 667, 948, 250, 425),
-        ('power_ups', 250, 531, 515, 700),
-        ('reset', 568, 630, 442, 509)
-        ],
+        ('back', 60, 152, 645, 683),
+        ('start', 179, 349, 645, 683),
+        ('lolly', 188, 398, 188, 319),
+        ('dog', 501, 711, 188, 319),
+        ('power_ups', 188, 398, 387, 525),
+        ('reset', 426, 473, 332, 382)
+    ],
     'multiplayer': [
-        ('back', 80, 203, 860, 910),
-        ('start', 238, 465, 860, 910),
-        ('lolly', 250, 531, 250, 425),
-        ('dog', 667, 948, 250, 425),
-        ('power_ups', 250, 531, 515, 700),
-        ('bestie', 667, 948, 515, 700),
-        ('reset', 568, 630, 442, 509)
-        ],
+        ('back', 60, 152, 645, 683),
+        ('start', 179, 349, 645, 683),
+        ('lolly', 188, 398, 188, 319),
+        ('dog', 501, 711, 188, 319),
+        ('power_ups', 188, 398, 387, 525),
+        ('bestie', 501, 711, 387, 525),
+        ('reset', 426, 473, 332, 382)
+    ],
     'select_dog': [
-        ('easy', 154, 365, 364, 450),
-        ('normal', 492, 702, 364, 450),
-        ('hard', 836, 1046, 364, 450),
-        ('choose', 273, 927, 168, 274),
-        ('info', 113, 169, 156, 213),
-        ('back', 77, 207, 859, 912),
-        ('return', 230, 359, 859, 912)
-        ],
+        ('easy', 116, 274, 273, 338),
+        ('normal', 369, 527, 273, 338),
+        ('hard', 627, 785, 273, 338),
+        ('choose', 205, 696, 126, 206),
+        ('info', 85, 127, 117, 160),
+        ('back', 58, 155, 645, 684),
+        ('return', 173, 269, 645, 684)
+    ],
     'select_character': [
-        ('car1', 170, 363, 357, 763),
-        ('car2', 501, 707, 357, 763),
-        ('car3', 833, 1028, 357, 763),
-        ('choose', 273, 927, 168, 274),
-        ('info', 113, 169, 156, 213),
-        ('back', 77, 207, 859, 912),
-        ('return', 230, 359, 859, 912)
-        ],
+        ('car1', 128, 272, 268, 573),
+        ('car2', 376, 531, 268, 573),
+        ('car3', 625, 771, 268, 573),
+        ('choose', 205, 696, 126, 206),
+        ('info', 85, 127, 117, 160),
+        ('back', 58, 155, 645, 684),
+        ('return', 173, 269, 645, 684)
+    ],
     'power_ups_list': [
-        ('back', 77, 207, 859, 912),
-        ('return', 230, 359, 859, 912)
-        ],
+        ('back', 58, 155, 645, 684),
+        ('return', 173, 269, 645, 684)
+    ],
     'menu': [
-        ('done', 543, 708, 251, 320),
-        ('credits', 500, 750, 375, 445),
-        ('back', 508, 738, 503, 575),
-        ('exit', 528, 722, 626, 696)
-        ]
-    }
+        ('done', 407, 531, 188, 240),
+        ('credits', 375, 563, 281, 334),
+        ('back', 381, 554, 378, 432),
+        ('exit', 396, 542, 470, 522)
+    ]
+}
 
 
 def start_screen_small(music_started=True):  # Start/Home Screen - the first screen the user sees when they open the game.
@@ -65,7 +65,7 @@ def start_screen_small(music_started=True):  # Start/Home Screen - the first scr
 
     pygame.mixer.init()
     pygame.init()
-    size = (1250, 950)
+    size = (938, 713)
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Lolly Locket's Dog Chase")
     icon = pygame.image.load("images/icon.png")
@@ -85,6 +85,7 @@ def start_screen_small(music_started=True):  # Start/Home Screen - the first scr
     menu_open.set_volume(0.7)
 
     start_image = pygame.image.load("images/interface/start.png").convert_alpha()
+    start_image = pygame.transform.scale(start_image, (938, 713))
     screen.blit(start_image, (0, 0))
     pygame.display.flip()
 
@@ -115,8 +116,10 @@ def start_screen_small(music_started=True):  # Start/Home Screen - the first scr
 
             if button == None:
                 start_image = pygame.image.load("images/interface/start.png").convert_alpha()
+                start_image = pygame.transform.scale(start_image, (938, 713))
             else:
                 start_image = pygame.image.load(f"images/interface/start_{button}.png").convert_alpha()
+                start_image = pygame.transform.scale(start_image, (938, 713))
 
             screen.blit(start_image, (0, 0))
             pygame.display.flip()
@@ -149,7 +152,7 @@ def credits_screen():  # Credits Screen - the screen that displays the credits o
 
     pygame.mixer.init()
     pygame.init()
-    size = (1250, 950)
+    size = (938, 713)
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Lolly Locket's Dog Chase")
     icon = pygame.image.load("images/icon.png")
@@ -161,10 +164,11 @@ def credits_screen():  # Credits Screen - the screen that displays the credits o
     menu_open.set_volume(0.7)
 
     credits_image = pygame.image.load("images/interface/credits.png").convert_alpha()
+    credits_image = pygame.transform.scale(credits_image, (938, 713))
     screen.blit(credits_image, (0, 0))
     pygame.display.flip()
 
-    back_button_position = (1055, 1183, 370, 420)  # (min_x, max_x,mix_y, max_y)
+    back_button_position = (792, 888, 278, 315)  # (min_x, max_x,mix_y, max_y)
 
     while True:
 
@@ -186,11 +190,13 @@ def credits_screen():  # Credits Screen - the screen that displays the credits o
 
             if back_button_position[0] <= mouse[0] <= back_button_position[1] and back_button_position[2] <= mouse[1] <= back_button_position[3]:
                 credits_image = pygame.image.load("images/interface/credits_back.png").convert_alpha()
+                credits_image = pygame.transform.scale(credits_image, (938, 713))
                 screen.blit(credits_image, (0, 0))
                 pygame.display.flip()
 
             else:
                 credits_image = pygame.image.load("images/interface/credits.png").convert_alpha()
+                credits_image = pygame.transform.scale(credits_image, (938, 713))
                 screen.blit(credits_image, (0, 0))
                 pygame.display.flip()
 
@@ -207,7 +213,7 @@ def single_customisation_screen(lolly, difficulty):  # Singleplayer Customisatio
 
     pygame.mixer.init()
     pygame.init()
-    size = (1250, 950)
+    size = (938, 713)
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Lolly Locket's Dog Chase")
     icon = pygame.image.load("images/icon.png")
@@ -219,6 +225,7 @@ def single_customisation_screen(lolly, difficulty):  # Singleplayer Customisatio
     menu_open.set_volume(0.7)
 
     single_customisation_image = pygame.image.load("images/interface/singleplayer.png").convert_alpha()
+    single_customisation_image = pygame.transform.scale(single_customisation_image, (938, 713))
     screen.blit(single_customisation_image, (0, 0))
     pygame.display.flip()
 
@@ -249,8 +256,10 @@ def single_customisation_screen(lolly, difficulty):  # Singleplayer Customisatio
 
             if button == None:
                 single_customisation_image = pygame.image.load("images/interface/singleplayer.png").convert_alpha()
+                single_customisation_image = pygame.transform.scale(single_customisation_image, (938, 713))
             else:
                 single_customisation_image = pygame.image.load(f"images/interface/singleplayer_{button}.png").convert_alpha()
+                single_customisation_image = pygame.transform.scale(single_customisation_image, (938, 713))
 
             screen.blit(single_customisation_image, (0, 0))
             pygame.display.flip()
@@ -263,10 +272,9 @@ def single_customisation_screen(lolly, difficulty):  # Singleplayer Customisatio
                     if buttons['singleplayer'][number][1] <= user_input.pos[0] <= buttons['singleplayer'][number][2] and buttons['singleplayer'][number][3] <= user_input.pos[1] <= buttons['singleplayer'][number][4]:
                         if buttons['singleplayer'][number][0] == 'back':
                             button_pressed.play()
-                            pygame.mixer.music.stop()
-                            multi_game(lolly_car=lolly, difficulty=difficulty)
+                            start_screen_small()
                         elif buttons['singleplayer'][number][0] == 'start':
-                            # pygame.mixer.music.stop()
+                            pygame.mixer.music.stop()
                             single_game(lolly_car=lolly, difficulty=difficulty)
                         elif buttons['singleplayer'][number][0] == 'lolly':
                             button_pressed.play()
@@ -287,7 +295,7 @@ def multi_customisation_screen(lolly, bestie, difficulty):  # Multiplayer Custom
     # Can be accessed from the start, dog, lolly, bestie and power ups list screens.
 
     pygame.init()
-    size = (1250, 950)
+    size = (938, 713)
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Lolly Locket's Dog Chase")
     icon = pygame.image.load("images/icon.png")
@@ -299,6 +307,7 @@ def multi_customisation_screen(lolly, bestie, difficulty):  # Multiplayer Custom
     menu_open.set_volume(0.7)
 
     multi_customisation_image = pygame.image.load("images/interface/multiplayer.png").convert_alpha()
+    multi_customisation_image = pygame.transform.scale(multi_customisation_image, (938, 713))
     screen.blit(multi_customisation_image, (0, 0))
     pygame.display.flip()
 
@@ -329,8 +338,10 @@ def multi_customisation_screen(lolly, bestie, difficulty):  # Multiplayer Custom
 
             if button == None:
                 multi_customisation_image = pygame.image.load("images/interface/multiplayer.png").convert_alpha()
+                multi_customisation_image = pygame.transform.scale(multi_customisation_image, (938, 713))
             else:
                 multi_customisation_image = pygame.image.load(f"images/interface/multiplayer_{button}.png").convert_alpha()
+                multi_customisation_image = pygame.transform.scale(multi_customisation_image, (938, 713))
 
             screen.blit(multi_customisation_image, (0, 0))
             pygame.display.flip()
@@ -374,7 +385,7 @@ def dog_customisation_screen(lolly, mode, difficulty, bestie=None):  # Dog Custo
 
     pygame.mixer.init()
     pygame.init()
-    size = (1250, 950)
+    size = (938, 713)
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Lolly Locket's Dog Chase")
     icon = pygame.image.load("images/icon.png")
@@ -390,6 +401,7 @@ def dog_customisation_screen(lolly, mode, difficulty, bestie=None):  # Dog Custo
     hard_bark = pygame.mixer.Sound("sounds/dogs/hard.mp3")
 
     dog_customisation_image = pygame.image.load(f"images/interface/select_dog_{difficulty}.png").convert_alpha()
+    dog_customisation_image = pygame.transform.scale(dog_customisation_image, (938, 713))
     screen.blit(dog_customisation_image, (0, 0))
     pygame.display.flip()
 
@@ -420,8 +432,10 @@ def dog_customisation_screen(lolly, mode, difficulty, bestie=None):  # Dog Custo
 
             if button == None:
                 dog_customisation_image = pygame.image.load(f"images/interface/select_dog_{difficulty}.png").convert_alpha()
+                dog_customisation_image = pygame.transform.scale(dog_customisation_image, (938, 713))
             else:
                 dog_customisation_image = pygame.image.load(f"images/interface/select_dog_{difficulty}_{button}.png").convert_alpha()
+                dog_customisation_image = pygame.transform.scale(dog_customisation_image, (938, 713))
 
             screen.blit(dog_customisation_image, (0, 0))
             pygame.display.flip()
@@ -441,6 +455,7 @@ def dog_customisation_screen(lolly, mode, difficulty, bestie=None):  # Dog Custo
                             easy_bark.play()
                             # display the easy dog
                             dog_customisation_image = pygame.image.load(f"images/interface/select_dog_{difficulty}.png").convert_alpha()
+                            dog_customisation_image = pygame.transform.scale(dog_customisation_image, (938, 713))
 
                         elif buttons['select_dog'][number][0] == 'normal':
                             difficulty = 'normal'
@@ -449,6 +464,7 @@ def dog_customisation_screen(lolly, mode, difficulty, bestie=None):  # Dog Custo
                             normal_bark.play()
                             # display the normal dog
                             dog_customisation_image = pygame.image.load(f"images/interface/select_dog_{difficulty}.png").convert_alpha()
+                            dog_customisation_image = pygame.transform.scale(dog_customisation_image, (938, 713))
 
                         elif buttons['select_dog'][number][0] == 'hard':
                             difficulty = 'hard'
@@ -457,6 +473,7 @@ def dog_customisation_screen(lolly, mode, difficulty, bestie=None):  # Dog Custo
                             hard_bark.play()
                             # display the hard dog
                             dog_customisation_image = pygame.image.load(f"images/interface/select_dog_{difficulty}.png").convert_alpha()
+                            dog_customisation_image = pygame.transform.scale(dog_customisation_image, (938, 713))
 
                         elif buttons['select_dog'][number][0] == 'choose':
                             button_pressed.play()
@@ -486,7 +503,7 @@ def lolly_customisation_screen(mode, lolly, difficulty, bestie=None):  # Lolly C
     selected_lolly = lolly  # storing the lolly selected before the customisation screen is opened
 
     pygame.init()
-    size = (1250, 950)
+    size = (938, 713)
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Lolly Locket's Dog Chase")
     icon = pygame.image.load("images/icon.png")
@@ -500,6 +517,7 @@ def lolly_customisation_screen(mode, lolly, difficulty, bestie=None):  # Lolly C
     error.set_volume(0.5)
 
     lolly_customisation_image = pygame.image.load(f"images/interface/select_character_{lolly}.png").convert_alpha()
+    lolly_customisation_image = pygame.transform.scale(lolly_customisation_image, (938, 713))
     screen.blit(lolly_customisation_image, (0, 0))
     pygame.display.flip()
 
@@ -532,8 +550,10 @@ def lolly_customisation_screen(mode, lolly, difficulty, bestie=None):  # Lolly C
 
             if button == None:
                 lolly_customisation_image = pygame.image.load(f"images/interface/select_character_{lolly}.png").convert_alpha()
+                lolly_customisation_image = pygame.transform.scale(lolly_customisation_image, (938, 713))
             else:
                 lolly_customisation_image = pygame.image.load(f"images/interface/select_character_{lolly}_{button}.png").convert_alpha()
+                lolly_customisation_image = pygame.transform.scale(lolly_customisation_image, (938, 713))
 
             screen.blit(lolly_customisation_image, (0, 0))
             pygame.display.flip()
@@ -552,6 +572,7 @@ def lolly_customisation_screen(mode, lolly, difficulty, bestie=None):  # Lolly C
                                 button_pressed.play()
                                 # display the car1
                                 lolly_customisation_image = pygame.image.load(f"images/interface/select_character_{lolly}.png").convert_alpha()
+                                lolly_customisation_image = pygame.transform.scale(lolly_customisation_image, (938, 713))
                             else:
                                 error.play()
 
@@ -561,6 +582,7 @@ def lolly_customisation_screen(mode, lolly, difficulty, bestie=None):  # Lolly C
                                 button_pressed.play()
                                 # display the car2
                                 lolly_customisation_image = pygame.image.load(f"images/interface/select_character_{lolly}.png").convert_alpha()
+                                lolly_customisation_image = pygame.transform.scale(lolly_customisation_image, (938, 713))
                             else:
                                 error.play()
 
@@ -570,6 +592,7 @@ def lolly_customisation_screen(mode, lolly, difficulty, bestie=None):  # Lolly C
                                 button_pressed.play()
                                 # display the car3
                                 lolly_customisation_image = pygame.image.load(f"images/interface/select_character_{lolly}.png").convert_alpha()
+                                lolly_customisation_image = pygame.transform.scale(lolly_customisation_image, (938, 713))
                             else:
                                 error.play()
 
@@ -601,7 +624,7 @@ def bestie_customisation_screen(lolly, bestie, difficulty):  # Bestie Customisat
     selected_bestie = bestie  # storing the bestie selected before the customisation screen is opened
 
     pygame.init()
-    size = (1250, 950)
+    size = (938, 713)
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Lolly Locket's Dog Chase")
     icon = pygame.image.load("images/icon.png")
@@ -615,6 +638,7 @@ def bestie_customisation_screen(lolly, bestie, difficulty):  # Bestie Customisat
     error.set_volume(0.5)
 
     bestie_customisation_image = pygame.image.load(f"images/interface/select_character_{bestie}.png").convert_alpha()
+    bestie_customisation_image = pygame.transform.scale(bestie_customisation_image, (938, 713))
     screen.blit(bestie_customisation_image, (0, 0))
     pygame.display.flip()
 
@@ -647,8 +671,10 @@ def bestie_customisation_screen(lolly, bestie, difficulty):  # Bestie Customisat
 
             if button == None:
                 bestie_customisation_image = pygame.image.load(f"images/interface/select_character_{bestie}.png").convert_alpha()
+                bestie_customisation_image = pygame.transform.scale(bestie_customisation_image, (938, 713))
             else:
                 bestie_customisation_image = pygame.image.load(f"images/interface/select_character_{bestie}_{button}.png").convert_alpha()
+                bestie_customisation_image = pygame.transform.scale(bestie_customisation_image, (938, 713))
 
             screen.blit(bestie_customisation_image, (0, 0))
             pygame.display.flip()
@@ -667,6 +693,7 @@ def bestie_customisation_screen(lolly, bestie, difficulty):  # Bestie Customisat
                                 button_pressed.play()
                                 # display the car1
                                 bestie_customisation_image = pygame.image.load(f"images/interface/select_character_{bestie}.png").convert_alpha()
+                                bestie_customisation_image = pygame.transform.scale(bestie_customisation_image, (938, 713))
                             else:
                                 error.play()
 
@@ -676,6 +703,7 @@ def bestie_customisation_screen(lolly, bestie, difficulty):  # Bestie Customisat
                                 button_pressed.play()
                                 # display the car2
                                 bestie_customisation_image = pygame.image.load(f"images/interface/select_character_{bestie}.png").convert_alpha()
+                                bestie_customisation_image = pygame.transform.scale(bestie_customisation_image, (938, 713))
                             else:
                                 error.play()
 
@@ -685,6 +713,7 @@ def bestie_customisation_screen(lolly, bestie, difficulty):  # Bestie Customisat
                                 button_pressed.play()
                                 # display the car3
                                 bestie_customisation_image = pygame.image.load(f"images/interface/select_character_{bestie}.png").convert_alpha()
+                                bestie_customisation_image = pygame.transform.scale(bestie_customisation_image, (938, 713))
                             else:
                                 error.play()
 
@@ -706,7 +735,7 @@ def power_ups_list_screen(mode, lolly, difficulty, bestie=None):  # Power Ups Li
     # Can be accessed from the singleplayer or multiplayer screen.
 
     pygame.init()
-    size = (1250, 950)
+    size = (938, 713)
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Lolly Locket's Dog Chase")
     icon = pygame.image.load("images/icon.png")
@@ -719,8 +748,10 @@ def power_ups_list_screen(mode, lolly, difficulty, bestie=None):  # Power Ups Li
 
     if mode == 'single':
         power_ups_list_image = pygame.image.load("images/interface/singleplayer_power_ups_list.png").convert_alpha()
+        power_ups_list_image = pygame.transform.scale(power_ups_list_image, (938, 713))
     else:
         power_ups_list_image = pygame.image.load("images/interface/multiplayer_power_ups_list.png").convert_alpha()
+        power_ups_list_image = pygame.transform.scale(power_ups_list_image, (938, 713))
     screen.blit(power_ups_list_image, (0, 0))
     pygame.display.flip()
 
@@ -752,14 +783,18 @@ def power_ups_list_screen(mode, lolly, difficulty, bestie=None):  # Power Ups Li
             if mode == 'single':
                 if button == None:
                     power_ups_list_image = pygame.image.load("images/interface/singleplayer_power_ups_list.png").convert_alpha()
+                    power_ups_list_image = pygame.transform.scale(power_ups_list_image, (938, 713))
                 else:
                     power_ups_list_image = pygame.image.load(f"images/interface/singleplayer_power_ups_list_{button}.png").convert_alpha()
+                    power_ups_list_image = pygame.transform.scale(power_ups_list_image, (938, 713))
 
             else:
                 if button == None:
                     power_ups_list_image = pygame.image.load("images/interface/multiplayer_power_ups_list.png").convert_alpha()
+                    power_ups_list_image = pygame.transform.scale(power_ups_list_image, (938, 713))
                 else:
                     power_ups_list_image = pygame.image.load(f"images/interface/multiplayer_power_ups_list_{button}.png").convert_alpha()
+                    power_ups_list_image = pygame.transform.scale(power_ups_list_image, (938, 713))
 
             screen.blit(power_ups_list_image, (0, 0))
             pygame.display.flip()
@@ -788,7 +823,7 @@ def power_ups_list_screen(mode, lolly, difficulty, bestie=None):  # Power Ups Li
 def menu(screen_image):  # Menu - the screen that displays the menu on top of the current screen.
     # Can be accessed from the start, credits, singleplayer, multiplayer, dog, lolly, bestie and power ups list screens.
 
-    menu_position = (451, 799, 201, 749)  # (min_x, max_x, mix_y, max_y)
+    menu_position = (338, 600, 151, 562)  # (min_x, max_x, mix_y, max_y)
 
     button_pressed = pygame.mixer.Sound("sounds/button_pressed.mp3")
     button_pressed.set_volume(0.5)
@@ -798,7 +833,7 @@ def menu(screen_image):  # Menu - the screen that displays the menu on top of th
     menu_open.set_volume(0.7)
 
     pygame.init()
-    size = (1250, 950)
+    size = (938, 713)
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Lolly Locket's Dog Chase")
     icon = pygame.image.load("images/icon.png")
@@ -808,6 +843,8 @@ def menu(screen_image):  # Menu - the screen that displays the menu on top of th
 
     screen.blit(screen_image, (0, 0))
     menu_image = pygame.image.load("images/interface/menu.png").convert_alpha()
+    # scale to be 80% of the original image size
+    menu_image = pygame.transform.scale(menu_image, (int(0.8 * (menu_position[1] - menu_position[0])), int(0.8 * (menu_position[3] - menu_position[2]))))
     screen.blit(menu_image, (menu_position[0], menu_position[2]))
     pygame.display.flip()
 
@@ -838,8 +875,10 @@ def menu(screen_image):  # Menu - the screen that displays the menu on top of th
 
             if button == None:
                 menu_image = pygame.image.load("images/interface/menu.png").convert_alpha()
+                menu_image = pygame.transform.scale(menu_image, (int(0.8 * (menu_position[1] - menu_position[0])), int(0.8 * (menu_position[3] - menu_position[2]))))
             else:
                 menu_image = pygame.image.load(f"images/interface/menu_{button}.png").convert_alpha()
+                menu_image = pygame.transform.scale(menu_image, (int(0.8 * (menu_position[1] - menu_position[0])), int(0.8 * (menu_position[3] - menu_position[2]))))
 
             screen.blit(screen_image, (0, 0))
             screen.blit(menu_image, (menu_position[0], menu_position[2]))

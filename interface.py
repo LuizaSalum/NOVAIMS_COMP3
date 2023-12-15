@@ -263,10 +263,9 @@ def single_customisation_screen(lolly, difficulty):  # Singleplayer Customisatio
                     if buttons['singleplayer'][number][1] <= user_input.pos[0] <= buttons['singleplayer'][number][2] and buttons['singleplayer'][number][3] <= user_input.pos[1] <= buttons['singleplayer'][number][4]:
                         if buttons['singleplayer'][number][0] == 'back':
                             button_pressed.play()
-                            pygame.mixer.music.stop()
-                            multi_game(lolly_car=lolly, difficulty=difficulty)
+                            start_screen()
                         elif buttons['singleplayer'][number][0] == 'start':
-                            # pygame.mixer.music.stop()
+                            pygame.mixer.music.stop()
                             single_game(lolly_car=lolly, difficulty=difficulty)
                         elif buttons['singleplayer'][number][0] == 'lolly':
                             button_pressed.play()

@@ -76,6 +76,7 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         self.difficulty = difficulty
 
         self.image = pygame.image.load(image_path).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (60, 60))
         self.rect = self.image.get_rect()
         self.mask = pygame.mask.from_surface(self.image)
 
@@ -118,7 +119,7 @@ class PowerUp(ABC, pygame.sprite.Sprite):
         if self.active or self.on_cooldown:  # if the power up is on cooldown, it will be hidden
             self.hide()
         else:  # if the power up is not on cooldown, it will be placed in a random lane
-            self.set_position(random.choice([317, 496, 675, 853]), random.randint(-1500, -100))
+            self.set_position(random.choice([238, 372, 507, 640]), random.randint(-1500, -100))
 
         '''
         We will do customised cooldowns and durations according to the player car
@@ -147,7 +148,7 @@ class PowerUp(ABC, pygame.sprite.Sprite):
 class BestiesInHarmony(PowerUp):  # Players can't collide with each other
 
     def __init__(self, difficulty):
-        super().__init__('images/power_ups/besties_in_harmony.png', difficulty, 10, 120, random.randint(100, 500))  # speed, duration and cooldown of the power up. for the last two, 60 = 1 second because of the FPS
+        super().__init__('images/power_ups/besties_in_harmony.png', difficulty, 10, 120, random.randint(100, 500))
 
         if difficulty == 'easy':
             self.add_speed(-1)
